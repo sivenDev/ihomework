@@ -44,40 +44,69 @@ async function openFlash(page: Page) {
   await page.goto('/#/flash')
 }
 
-test('voice mode advances after each spoken character and lets the child listen back', async ({ page }) => {
+/** 模拟孩子读一个字：开口 0.4 秒后停下，等进入“对一对” */
+async function readAloud(page: Page) {
+  await voice(page, true)
+  await expect(page.getByTestId('mic-meter')).toHaveAttribute('data-speaking', 'true')
+  await page.waitForTimeout(400)
+  await voice(page, false)
+  await expect(page.getByTestId('check-panel')).toBeVisible({ timeout: 3000 })
+}
+
+const currentChar = async (page: Page) => (await page.getByTestId('kai-char').first().getAttribute('aria-label'))!
+
+test('voice mode: each reading is checked on the spot, mistakes are read again', async ({ page }) => {
+  test.setTimeout(90_000)
   await fakeMicrophone(page)
   await openFlash(page)
   await page.getByRole('button', { name: '🎤 用声音闯关' }).tap()
   await expect(page.getByTestId('mic-meter')).toBeVisible()
   await page.waitForTimeout(700) // 先让开口检测估计环境噪音
 
-  const read: string[] = []
-  for (let i = 0; i < 3; i++) {
-    const char = (await page.getByTestId('kai-char').getAttribute('aria-label'))!
-    read.push(char)
-    await voice(page, true)
-    await expect(page.getByTestId('mic-meter')).toHaveAttribute('data-speaking', 'true')
-    await page.waitForTimeout(400)
-    await voice(page, false)
-    // 停顿约 0.6 秒后自动换下一个字
-    await expect(page.getByTestId('kai-char')).not.toHaveAttribute('aria-label', char, { timeout: 3000 })
-  }
-  await expect(page.getByTestId('flash-timer')).toContainText('已读 3 个')
+  // 第 1 个字：读完马上对一对；播放完之前不能判断；对照期间倒计时不走
+  const first = await currentChar(page)
+  await readAloud(page)
+  const same = page.getByRole('button', { name: '✓ 一样' })
+  await expect(same).toBeDisabled()
+  const timer = await page.getByTestId('flash-timer').textContent()
+  await expect(same).toBeEnabled({ timeout: 6000 })
+  await page.waitForTimeout(1200)
+  await expect(page.getByTestId('flash-timer')).toHaveText(timer!)
+  await same.tap()
+  await expect(page.getByTestId('check-panel')).toBeHidden()
+  await expect.poll(() => currentChar(page)).not.toBe(first)
 
-  await page.getByRole('button', { name: '跳过' }).tap()
+  // 第 2 个字：两次都“不一样”→ 提示后放弃，进入下一个字
+  const second = await currentChar(page)
+  await readAloud(page)
+  await page.getByRole('button', { name: '✗ 不一样' }).tap({ timeout: 6000 })
+  await expect(page.getByRole('status').filter({ hasText: '再读一遍' })).toBeVisible()
+  expect(await currentChar(page)).toBe(second)
+  await expect(page.getByTestId('mic-meter')).toBeVisible()
+  await page.waitForTimeout(1500) // 等标准读音播完，回到听读
+  await readAloud(page)
+  await page.getByRole('button', { name: '✗ 不一样' }).tap({ timeout: 6000 })
+  await expect(page.getByTestId('check-panel')).toContainText('没关系，记住它')
+  await expect.poll(() => currentChar(page), { timeout: 6000 }).not.toBe(second)
+  await expect(page.getByTestId('check-panel')).toBeHidden()
+
+  // 第 3 个字：第一次不一样，重读后一样（改正）
+  const third = await currentChar(page)
+  await readAloud(page)
+  await page.getByRole('button', { name: '✗ 不一样' }).tap({ timeout: 6000 })
+  await page.waitForTimeout(1500)
+  await readAloud(page)
+  await page.getByRole('button', { name: '✓ 一样' }).tap({ timeout: 6000 })
+  await expect.poll(() => currentChar(page)).not.toBe(third)
+
   await page.getByRole('button', { name: '提前结束' }).tap()
-  await expect(page.getByRole('heading', { name: /听一听自己读的/ })).toBeVisible()
-
-  // 每个读过的字都有自己的录音
-  for (const c of read) await expect(page.getByRole('button', { name: `听我读的“${c}”` })).toBeEnabled()
-  const cell = page.locator('.review-cell').first()
-  await page.getByRole('button', { name: `听我读的“${read[0]}”` }).tap()
-  await expect(cell).toHaveAttribute('data-playing', 'true')
-  await expect(cell).toHaveAttribute('data-playing', 'false', { timeout: 5000 })
-
-  await page.locator('.review-item').first().tap()
-  await page.getByRole('button', { name: '完成，看成绩' }).tap()
-  await expect(page.getByTestId('round-score')).toHaveText('2 个字')
+  await page.getByRole('button', { name: '看成绩' }).tap()
+  // 只有第一次就读对的字得分；放弃和改正的字需要多练
+  await expect(page.getByTestId('round-score')).toHaveText('1 个字')
+  const practice = page.getByLabel('需要多练的字')
+  await expect(practice).toContainText(second)
+  await expect(practice).toContainText(third)
+  await expect(practice).not.toContainText(first)
 })
 
 test('voice mode ignores a short bump and keeps waiting', async ({ page }) => {

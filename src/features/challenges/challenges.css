@@ -437,3 +437,49 @@
 .review-char {
   font-size: 32px;
 }
+
+/* 生字闪认：当场纠错（F006） */
+.check-panel {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+}
+
+.check-panel .pinyin-big,
+.practice-list .pinyin-big {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.check-title {
+  font-size: 22px;
+  margin: 0;
+}
+
+.retry-hint {
+  margin: 0;
+  padding: var(--space-2) var(--space-5);
+  border-radius: 999px;
+  background: var(--color-warning-bg);
+  color: var(--color-warning-ink);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.practice-list {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.practice-char {
+  display: inline-grid;
+  justify-items: center;
+  min-width: 64px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--color-warning-bg);
+  font-size: 32px;
+}

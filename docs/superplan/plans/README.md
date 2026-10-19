@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | `required` | 8 | 3 | 5 |
 | `future` | 2 | 2 | 0 |
-| `feature` | 5 | 0 | 5 |
+| `feature` | 6 | 0 | 6 |
 | `bugfix` | 1 | 0 | 1 |
 
 ## Execution Order
@@ -55,6 +55,7 @@
 | `F003` | [孩子界面的题目和说明加注拼音](features/F003-pinyin-annotations.md) | `complete` | 2026-10-19 |
 | `F004` | [闯关界面调整：部首侦探间距、去掉字族收藏入口](features/F004-challenge-ui-tweaks.md) | `complete` | 2026-10-19 |
 | `F005` | [生字闪认：读出声自动翻页与录音回听](features/F005-flash-voice-mode.md) | `complete` | 2026-10-19 |
+| `F006` | [生字闪认读错当场纠正](features/F006-flash-immediate-check.md) | `complete` | 2026-10-19 |
 
 ### Bugfix Plans
 

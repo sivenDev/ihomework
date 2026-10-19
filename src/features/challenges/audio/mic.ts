@@ -15,6 +15,8 @@ export interface MicSession {
   /** 当前音量（0～1 左右）和是否正在说话，用于界面提示 */
   level: () => number
   speaking: () => boolean
+  /** 从开始录音到现在的毫秒数（与读音区间同一时间轴） */
+  now: () => number
   stop: () => void
 }
 
@@ -86,6 +88,7 @@ export async function startMic(): Promise<MicSession> {
     },
     level: () => currentLevel,
     speaking: () => vad.speaking,
+    now: () => (stored * 1000) / STORE_RATE,
     stop: () => {
       processor.onaudioprocess = null
       processor.disconnect()

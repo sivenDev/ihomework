@@ -9,6 +9,8 @@ export type SpeechStatus = 'checking' | 'available' | 'unavailable' | 'unsupport
 export interface Speaker {
   status(): SpeechStatus
   speak(text: string): void
+  /** 朗读并在读完（或出错、超时）后返回，用于按顺序播放 */
+  speakAndWait(text: string): Promise<void>
   subscribe(listener: () => void): () => void
 }
 
@@ -47,17 +49,32 @@ export function createWebSpeaker(): Speaker {
     }, CHECK_TIMEOUT_MS)
   }
 
+  const speakAndWait = (text: string): Promise<void> => {
+    if (!synth) return Promise.resolve()
+    synth.cancel()
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'zh-CN'
+    utterance.rate = 0.8
+    if (voice) utterance.voice = voice
+    return new Promise<void>((resolve) => {
+      // 有的设备不触发 onend，按文字长度估一个上限
+      const timer = window.setTimeout(resolve, 800 + [...text].length * 450)
+      const done = () => {
+        window.clearTimeout(timer)
+        resolve()
+      }
+      utterance.onend = done
+      utterance.onerror = done
+      synth.speak(utterance)
+    })
+  }
+
   return {
     status: () => status,
-    speak(text) {
-      if (!synth) return
-      synth.cancel()
-      const utterance = new SpeechSynthesisUtterance(text)
-      utterance.lang = 'zh-CN'
-      utterance.rate = 0.8
-      if (voice) utterance.voice = voice
-      synth.speak(utterance)
+    speak: (text) => {
+      void speakAndWait(text)
     },
+    speakAndWait,
     subscribe(listener) {
       listeners.add(listener)
       return () => listeners.delete(listener)
