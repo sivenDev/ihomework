@@ -2,7 +2,7 @@
 id: "01"
 title: "应用骨架、本地数据层与儿童交互基础"
 type: "required"
-status: "in_progress"
+status: "complete"
 summary: "搭建可在安卓平板运行的 React PWA 骨架，包含孩子/家长双模式、IndexedDB 数据层、JSON 导入导出、汉字点读与统一验证命令。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"
@@ -54,7 +54,7 @@ parent: ""
 - `npm run test:e2e`
 - 推送后 `gh run watch` 显示部署成功，Pages 地址可访问
 
-- [ ] 脚手架可启动，验证命令全部通过，GitHub Pages 自动部署可用
+- [x] 脚手架可启动，验证命令全部通过，GitHub Pages 自动部署可用
 
 ## Task 2: 版本化本地数据层与导入导出
 
@@ -67,7 +67,7 @@ parent: ""
 **Verification:**
 - `npx vitest run src/db`
 
-- [ ] 导出 → 清空 → 导入 后数据一致；导入格式错误的文件时报错且不破坏现有数据
+- [x] 导出 → 清空 → 导入 后数据一致；导入格式错误的文件时报错且不破坏现有数据
 
 ## Task 3: 双模式、点读与时长提醒
 
@@ -81,7 +81,14 @@ parent: ""
 - `npm run verify`
 - `npm run test:e2e`
 
-- [ ] PIN 设置与校验、点读、时长提醒在平板视口下可用
+- [x] PIN 设置与校验、点读、时长提醒在平板视口下可用
 
 ## References
 - `docs/superplan/human/prd.md`（第 3、4.9、5、6 节）
+
+## Evidence（2026-10-19）
+- `npm run verify`：ESLint、`tsc --noEmit`、Vitest（4 个文件 12 个测试）、生产构建全部通过。
+- `npm run test:e2e`：6 个 Playwright 测试在安卓平板横屏视口（1280×800，触控）通过：首次设置 PIN、PIN 不一致重设、错误 PIN 拒绝、点读显示拼音、导出 → 删除数据库 → 导入恢复设置和 PIN、无效备份文件报错、10 分钟休息提醒（模拟时钟）。
+- GitHub Actions 运行 39239661168：verify（含端到端测试）和 deploy 通过；`https://sivendev.github.io/ihomework/` 在线冒烟测试通过（子路径资源加载、点读、家长入口、刷新不 404、无页面错误）。
+- 待人工确认：在真实安卓平板 Chrome 上打开在线地址完成上述操作。
+- 已知事项：主包约 658 KB（gzip 264 KB），主要来自 pinyin-pro 词典；计划 02 引入字库自带拼音后再评估是否拆分。
