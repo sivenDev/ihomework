@@ -1,17 +1,35 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { PinyinText } from '../../components/PinyinText'
 import { getSpeaker } from '../../lib/speech'
 import { KaiChar } from '../handwriting/KaiChar'
+import { FocusBreak } from './FocusBreak'
 import { LEVEL_NAMES } from './logic/difficulty'
+import { needsFocusBreak, THINK_MS, type Answer } from './logic/focus'
 import { detectiveRound, poolForLevel, type DetectiveQuestion } from './logic/generators'
 import { RoundSummary } from './RoundSummary'
 import { recordRound, useChallengeStat, type RoundAnswer, type RoundOutcome } from './store'
 import { useChallenge } from './useChallenge'
+import { useThinkDelay } from './useThinkDelay'
 import './challenges.css'
 
-const QUESTIONS = 8
+/** 一关的案子数（F002：缩短到 6 个，避免注意力分散） */
+const DETECTIVE_QUESTIONS = 6
 
 type Phase = 'reading' | 'meaning' | 'reveal'
+
+/** 思考时间进度条：选项还不能点时显示。 */
+function ThinkBar({ ready }: { ready: boolean }) {
+  if (ready) return null
+  return (
+    <div className="think-bar" aria-hidden="true">
+      <div className="think-fill" style={{ animationDuration: `${THINK_MS}ms` }} />
+      <span>
+        <PinyinText text="想一想…" />
+      </span>
+    </div>
+  )
+}
 
 /** 部首侦探：看形旁猜意思，看声旁猜读音。 */
 export function RadicalDetective() {
@@ -20,9 +38,12 @@ export function RadicalDetective() {
   const [round, setRound] = useState<{ level: number; questions: DetectiveQuestion[] } | null>(null)
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>('reading')
-  const [picked, setPicked] = useState<{ reading?: string; meaning?: string }>({})
+  const [picked, setPicked] = useState<{ reading?: string; meaning?: string; ms: number[] }>({ ms: [] })
   const [answers, setAnswers] = useState<RoundAnswer[]>([])
+  const [focusHistory, setFocusHistory] = useState<Answer[]>([])
+  const [onBreak, setOnBreak] = useState(false)
   const [outcome, setOutcome] = useState<RoundOutcome | null>(null)
+  const think = useThinkDelay(`${index}-${phase}-${round ? 'on' : 'off'}`, THINK_MS, onBreak)
 
   if (!ctx || !stat) return <div className="page muted">正在加载…</div>
   const { ds, progress, learned } = ctx
@@ -30,14 +51,15 @@ export function RadicalDetective() {
   const start = () => {
     // 范围内可出题的字太少时，扩大到更宽的范围
     let questions: DetectiveQuestion[] = []
-    for (let lv = stat.level; lv <= 5 && questions.length < QUESTIONS; lv++) {
-      questions = detectiveRound(ds, poolForLevel(ds, progress, lv), QUESTIONS)
+    for (let lv = stat.level; lv <= 5 && questions.length < DETECTIVE_QUESTIONS; lv++) {
+      questions = detectiveRound(ds, poolForLevel(ds, progress, lv), DETECTIVE_QUESTIONS)
     }
     setRound({ level: stat.level, questions })
     setIndex(0)
     setPhase('reading')
-    setPicked({})
+    setPicked({ ms: [] })
     setAnswers([])
+    setFocusHistory([])
     setOutcome(null)
   }
 
@@ -45,14 +67,14 @@ export function RadicalDetective() {
     <div className="topbar">
       <h1>🔍 部首侦探</h1>
       <Link className="btn btn-quiet" to="/">
-        回首页
+        <PinyinText text="回首页" />
       </Link>
     </div>
   )
 
   if (!progress) return <div className="page">{header}<p className="card">请家长先在“课本与字库”里设置当前学到的课。</p></div>
 
-  if (!round || (outcome && round)) {
+  if (!round || outcome) {
     return (
       <div className="page">
         {header}
@@ -60,12 +82,14 @@ export function RadicalDetective() {
           <RoundSummary title="破案完成！" score={answers.filter((a) => a.correct).length} unit={`/ ${answers.length} 个案子`} outcome={outcome} onAgain={start} />
         ) : (
           <section className="card game-intro">
-            <p>每个字都藏着两条线索：<strong>形旁</strong>告诉你意思，<strong>声旁</strong>告诉你读音。</p>
+            <p className="intro-text">
+              <PinyinText text="每个字都藏着两条线索：形旁告诉你意思，声旁告诉你读音。" speak />
+            </p>
             <p className="muted">
-              难度 {stat.level}：{LEVEL_NAMES[stat.level]} · 一关 {QUESTIONS} 个案子
+              难度 {stat.level}：{LEVEL_NAMES[stat.level]} · 一关 {DETECTIVE_QUESTIONS} 个案子
             </p>
             <button type="button" className="btn btn-primary big-btn" onClick={start}>
-              开始破案
+              <PinyinText text="开始破案" />
             </button>
           </section>
         )}
@@ -77,7 +101,9 @@ export function RadicalDetective() {
     return (
       <div className="page">
         {header}
-        <p className="card">这个范围里还没有适合推理的形声字，过几课再来吧！</p>
+        <p className="card">
+          <PinyinText text="这个范围里还没有适合推理的形声字，过几课再来吧！" />
+        </p>
       </div>
     )
   }
@@ -85,27 +111,30 @@ export function RadicalDetective() {
   const q = round.questions[index]
   const readingRight = picked.reading === q.reading
   const meaningRight = picked.meaning === q.meaning
-
-  const chooseReading = (option: string) => {
-    if (phase !== 'reading') return
-    setPicked({ reading: option })
+  const chooseReading = (option: string, at: number) => {
+    if (phase !== 'reading' || !think.ready) return
+    setPicked({ reading: option, ms: [at - think.readyAt] })
     setPhase('meaning')
   }
 
-  const chooseMeaning = (option: string) => {
-    if (phase !== 'meaning') return
-    setPicked((p) => ({ ...p, meaning: option }))
+  const chooseMeaning = (option: string, at: number) => {
+    if (phase !== 'meaning' || !think.ready) return
+    setPicked((p) => ({ ...p, meaning: option, ms: [...p.ms, at - think.readyAt] }))
     setPhase('reveal')
     getSpeaker().speak(q.char)
   }
 
   const next = async () => {
-    const all = [...answers, { char: q.char, correct: readingRight && meaningRight, learned: learned.has(q.char) }]
+    const correct = readingRight && meaningRight
+    const all = [...answers, { char: q.char, correct, learned: learned.has(q.char) }]
+    const history = [...focusHistory, { correct, ms: Math.min(...picked.ms) }]
     setAnswers(all)
+    setFocusHistory(history)
     if (index + 1 < round.questions.length) {
+      if (needsFocusBreak(history)) setOnBreak(true)
       setIndex(index + 1)
       setPhase('reading')
-      setPicked({})
+      setPicked({ ms: [] })
       return
     }
     setOutcome(await recordRound({ activity: 'detective', level: round.level, score: all.filter((a) => a.correct).length, answers: all }))
@@ -129,7 +158,10 @@ export function RadicalDetective() {
         </div>
 
         <div className="question">
-          <h2>① 它可能读什么？</h2>
+          <h2>
+            <PinyinText text="① 它可能读什么？" speak />
+          </h2>
+          {phase === 'reading' && <ThinkBar ready={think.ready} />}
           <div className="option-row">
             {q.readingOptions.map((o) => (
               <button
@@ -137,8 +169,8 @@ export function RadicalDetective() {
                 key={o}
                 className="btn option"
                 data-state={optionState(o, q.reading, picked.reading)}
-                disabled={phase !== 'reading'}
-                onClick={() => chooseReading(o)}
+                disabled={phase !== 'reading' || !think.ready}
+                onClick={() => chooseReading(o, Date.now())}
               >
                 {o}
               </button>
@@ -148,18 +180,21 @@ export function RadicalDetective() {
 
         {phase !== 'reading' && (
           <div className="question">
-            <h2>② 它可能和什么有关？</h2>
+            <h2>
+              <PinyinText text="② 它可能和什么有关？" speak />
+            </h2>
+            {phase === 'meaning' && <ThinkBar ready={think.ready} />}
             <div className="option-row">
               {q.meaningOptions.map((o) => (
                 <button
                   type="button"
                   key={o}
-                  className="btn option"
+                  className="btn option option-text"
                   data-state={optionState(o, q.meaning, picked.meaning)}
-                  disabled={phase !== 'meaning'}
-                  onClick={() => chooseMeaning(o)}
+                  disabled={phase !== 'meaning' || !think.ready}
+                  onClick={() => chooseMeaning(o, Date.now())}
                 >
-                  {o}
+                  <PinyinText text={o} />
                 </button>
               ))}
             </div>
@@ -168,17 +203,30 @@ export function RadicalDetective() {
 
         {phase === 'reveal' && (
           <div className="reveal" role="status">
-            <p className="reveal-title">{readingRight && meaningRight ? '推理正确！' : '真相是：'}</p>
-            <p>
-              <strong>{q.semantic}</strong> 表示意思：{q.meaning}；<strong>{q.phonetic}</strong> 提示读音
-              {q.phoneticReading ? `（${q.phonetic} 读 ${q.phoneticReading}）` : ''}，所以“{q.char}”读 <strong>{q.reading}</strong>。
+            <p className="reveal-title">
+              <PinyinText text={readingRight && meaningRight ? '推理正确！' : '真相是：'} />
+            </p>
+            <p className="reveal-text">
+              <strong>{q.semantic}</strong> <PinyinText text={`表示意思：${q.meaning}；`} />
+              <strong>{q.phonetic}</strong> <PinyinText text="提示读音" />
+              {q.phoneticReading ? `（${q.phonetic} 读 ${q.phoneticReading}）` : ''}，<PinyinText text="所以" />“{q.char}”
+              <PinyinText text="读" /> <strong>{q.reading}</strong>。
             </p>
             <button type="button" className="btn btn-primary big-btn" onClick={next}>
-              {index + 1 < round.questions.length ? '下一个案子' : '结案'}
+              <PinyinText text={index + 1 < round.questions.length ? '下一个案子' : '结案'} />
             </button>
           </div>
         )}
       </section>
+      {onBreak && (
+        <FocusBreak
+          message="慢一点，先看清题目再选哦"
+          onResume={() => {
+            setOnBreak(false)
+            setFocusHistory([])
+          }}
+        />
+      )}
     </div>
   )
 }

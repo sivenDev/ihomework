@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | `required` | 8 | 3 | 5 |
 | `future` | 2 | 2 | 0 |
-| `feature` | 1 | 0 | 1 |
+| `feature` | 4 | 0 | 4 |
 | `bugfix` | 1 | 0 | 1 |
 
 ## Execution Order
@@ -51,6 +51,9 @@
 | ID | Plan | Status | Created |
 | --- | --- | --- | --- |
 | `F001` | [错字 Boss 打败后第 7、15 天复查](features/F001-boss-post-defeat-checks.md) | `complete` | 2026-10-19 |
+| `F002` | [闯关防乱点：思考时间与专注提醒](features/F002-focus-guard.md) | `complete` | 2026-10-19 |
+| `F003` | [孩子界面的题目和说明加注拼音](features/F003-pinyin-annotations.md) | `complete` | 2026-10-19 |
+| `F004` | [闯关界面调整：部首侦探间距、去掉字族收藏入口](features/F004-challenge-ui-tweaks.md) | `complete` | 2026-10-19 |
 
 ### Bugfix Plans
 

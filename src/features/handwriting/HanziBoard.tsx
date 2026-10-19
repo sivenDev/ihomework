@@ -1,4 +1,5 @@
 import HanziWriter from 'hanzi-writer'
+import { PinyinText } from '../../components/PinyinText'
 import { useEffect, useRef, useState } from 'react'
 import { judgeWriting, type WritingResult } from './logic/judge'
 import { strokeLoader } from './strokes'
@@ -129,12 +130,12 @@ export function HanziBoard({
       <div className="button-row board-actions">
         {mode === 'trace' && state !== 'loading' && (
           <button type="button" className="btn btn-quiet" onClick={replay}>
-            再看一遍笔顺
+            <PinyinText text="再看一遍笔顺" />
           </button>
         )}
         {mode === 'dictation' && state === 'quiz' && (
           <button type="button" className="btn btn-quiet" onClick={giveUp}>
-            写不出，看答案
+            <PinyinText text="写不出，看答案" />
           </button>
         )}
       </div>

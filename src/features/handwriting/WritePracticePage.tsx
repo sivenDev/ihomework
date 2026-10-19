@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSettings } from '../../app/useSettings'
+import { PinyinText } from '../../components/PinyinText'
 import { getSpeaker } from '../../lib/speech'
 import { addMistakes } from '../boss/api'
 import { currentLesson } from '../textbook/logic/scope'
@@ -38,7 +39,7 @@ export function WritePracticePage() {
       <div className="topbar">
         <h1>写字练习</h1>
         <Link className="btn btn-quiet" to="/">
-          回首页
+          <PinyinText text="回首页" />
         </Link>
       </div>
 
@@ -69,7 +70,9 @@ export function WritePracticePage() {
 
           <section className="card write-board">
             {!char ? (
-              <p className="muted">选一个字开始练习：先描红，再默写。</p>
+              <p className="prompt">
+                <PinyinText text="选一个字开始练习：先描红，再默写。" speak />
+              </p>
             ) : (
               <>
                 <div className="write-head">
@@ -77,7 +80,9 @@ export function WritePracticePage() {
                   <button type="button" className="btn btn-quiet" onClick={() => getSpeaker().speak(char)}>
                     🔊
                   </button>
-                  <span className="muted">{phase === 'trace' ? '第 1 步：描红' : phase === 'dictation' ? '第 2 步：默写' : '完成'}</span>
+                  <span className="write-step" data-testid="write-step">
+                    <PinyinText text={phase === 'trace' ? '第 1 步：描红' : phase === 'dictation' ? '第 2 步：默写' : '完成'} />
+                  </span>
                 </div>
                 {phase === 'trace' && (
                   <HanziBoard key={`${char}-trace`} char={char} mode="trace" onDone={() => setPhase('dictation')} />
@@ -96,9 +101,11 @@ export function WritePracticePage() {
                 )}
                 {phase === 'done' && results[char] && (
                   <div className="write-result" role="status">
-                    <h3>{RESULT_TEXT[results[char]]}</h3>
+                    <h3>
+                      <PinyinText text={RESULT_TEXT[results[char]]} />
+                    </h3>
                     <button type="button" className="btn" onClick={() => setPhase('trace')}>
-                      再练一次
+                      <PinyinText text="再练一次" />
                     </button>
                   </div>
                 )}

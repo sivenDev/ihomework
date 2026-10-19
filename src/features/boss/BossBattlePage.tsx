@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSettings } from '../../app/useSettings'
+import { PinyinText } from '../../components/PinyinText'
 import { localDate } from '../../lib/date'
 import { getSpeaker } from '../../lib/speech'
 import { HanziBoard } from '../handwriting/HanziBoard'
@@ -64,7 +65,7 @@ export function BossBattlePage() {
       <div className="topbar">
         <h1>错字 Boss</h1>
         <Link className="btn btn-quiet" to="/">
-          回首页
+          <PinyinText text="回首页" />
         </Link>
       </div>
 
@@ -73,8 +74,12 @@ export function BossBattlePage() {
           <div className="boss-emoji" aria-hidden="true">
             {list.length ? '🏆' : '😴'}
           </div>
-          <h2>{list.length ? '今天的 Boss 被你打败了！' : '今天没有要打的 Boss'}</h2>
-          <p className="muted">错字会在第 1、2、4 天回来找你，连续答对 3 次就能打败它；打败后第 7 天、第 15 天还会回来复查，都答对就彻底记住了。</p>
+          <h2>
+            <PinyinText text={list.length ? '今天的 Boss 被你打败了！' : '今天没有要打的 Boss'} />
+          </h2>
+          <p className="muted">
+            <PinyinText text="错字会在第 1、2、4 天回来找你，连续答对 3 次就能打败它；打败后第 7 天、第 15 天还会回来复查，都答对就彻底记住了。" />
+          </p>
           <TrophyShelf mastered={mastered} checking={checking} />
         </section>
       ) : (
@@ -94,12 +99,14 @@ export function BossBattlePage() {
           <section className="card boss-card">
             {card && isCheck(card) && step !== 'result' && (
               <span className="check-badge" data-testid="check-badge">
-                复查：打败过的字，看看还记得吗
+                <PinyinText text="复查：打败过的字，看看还记得吗" />
               </span>
             )}
             {step === 'read' && (
               <>
-                <p className="muted">这个字怎么读？</p>
+                <p className="prompt">
+                  <PinyinText text="这个字怎么读？" speak />
+                </p>
                 <KaiChar char={char} size={200} />
                 <div className="mark-row">
                   <button
@@ -110,7 +117,7 @@ export function BossBattlePage() {
                       setStep('check')
                     }}
                   >
-                    我会读
+                    <PinyinText text="我会读" />
                   </button>
                   <button
                     type="button"
@@ -120,7 +127,7 @@ export function BossBattlePage() {
                       void settle(false)
                     }}
                   >
-                    不认识
+                    <PinyinText text="不认识" />
                   </button>
                 </div>
               </>
@@ -130,17 +137,19 @@ export function BossBattlePage() {
               <>
                 <div className="pinyin-big">{info?.py[0]}</div>
                 <KaiChar char={char} size={200} />
-                <p className="muted">听一听，你读对了吗？</p>
+                <p className="prompt">
+                  <PinyinText text="听一听，你读对了吗？" />
+                </p>
                 <div className="mark-row">
                   <button
                     type="button"
                     className="btn btn-primary big-btn"
                     onClick={() => (writeSet.has(char) ? setStep('write') : void settle(true))}
                   >
-                    读对了
+                    <PinyinText text="读对了" />
                   </button>
                   <button type="button" className="btn big-btn" onClick={() => void settle(false)}>
-                    读错了
+                    <PinyinText text="读错了" />
                   </button>
                 </div>
               </>
@@ -149,7 +158,8 @@ export function BossBattlePage() {
             {step === 'write' && (
               <>
                 <p className="write-prompt">
-                  写一写：<strong>{info?.py[0]}</strong>（{word}）
+                  <PinyinText text="写一写：" />
+                  <strong>{info?.py[0]}</strong>（{word}）
                   <button type="button" className="btn btn-quiet" onClick={() => getSpeaker().speak(word === char ? char : `${char}，${word}的${char}`)}>
                     🔊
                   </button>
@@ -172,11 +182,13 @@ export function BossBattlePage() {
                 <div className="boss-emoji" aria-hidden="true">
                   {won ? '⚔️' : '💪'}
                 </div>
-                <h2>{won ? '打中了！' : '没关系，明天再来打它'}</h2>
+                <h2>
+                  <PinyinText text={won ? '打中了！' : '没关系，明天再来打它'} />
+                </h2>
                 <div className="pinyin-big">{info?.py[0]}</div>
                 <KaiChar char={char} size={140} />
                 <button type="button" className="btn btn-primary big-btn" onClick={next}>
-                  {remaining > 1 ? '下一个' : '完成'}
+                  <PinyinText text={remaining > 1 ? '下一个' : '完成'} />
                 </button>
               </div>
             )}
@@ -191,7 +203,9 @@ function TrophyShelf({ mastered, checking }: { mastered: string[]; checking: str
   if (!mastered.length && !checking.length) return null
   return (
     <div className="trophies">
-      <h3>战利品</h3>
+      <h3>
+        <PinyinText text="战利品" />
+      </h3>
       {mastered.length > 0 && (
         <>
           <p className="muted">已牢记 {mastered.length} 个</p>

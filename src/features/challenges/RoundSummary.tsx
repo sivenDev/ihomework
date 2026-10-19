@@ -1,3 +1,4 @@
+import { PinyinText } from '../../components/PinyinText'
 import { LEVEL_NAMES } from './logic/difficulty'
 import type { RoundOutcome } from './store'
 
@@ -26,15 +27,27 @@ export function RoundSummary({
       <div className="summary-emoji" aria-hidden="true">
         {outcome.newBest ? '🏅' : outcome.accuracy >= 0.85 ? '🎉' : '💪'}
       </div>
-      <h2>{title}</h2>
+      <h2>
+        <PinyinText text={title} />
+      </h2>
       <div className="summary-score" data-testid="round-score">
         {score} {unit}
       </div>
-      {outcome.newBest && outcome.previousBest > 0 && <p className="summary-best">新纪录！比之前的 {outcome.previousBest} 多了 {score - outcome.previousBest}</p>}
-      {outcome.newBest && outcome.previousBest === 0 && <p className="summary-best">第一次挑战这个难度，纪录就是你的！</p>}
-      <p data-testid="level-change">{levelText}</p>
+      {outcome.newBest && outcome.previousBest > 0 && (
+        <p className="summary-best" data-testid="new-best">
+          <PinyinText text={`新纪录！比之前的 ${outcome.previousBest} 多了 ${score - outcome.previousBest}`} />
+        </p>
+      )}
+      {outcome.newBest && outcome.previousBest === 0 && (
+        <p className="summary-best" data-testid="new-best">
+          <PinyinText text="第一次挑战这个难度，纪录就是你的！" />
+        </p>
+      )}
+      <p data-testid="level-change" data-text={levelText}>
+        <PinyinText text={levelText} />
+      </p>
       <button type="button" className="btn btn-primary big-btn" onClick={onAgain}>
-        再来一关
+        <PinyinText text="再来一关" />
       </button>
     </section>
   )

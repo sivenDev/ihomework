@@ -120,11 +120,49 @@ h3 {
   color: var(--color-danger);
 }
 
+/* 视觉隐藏、但保留给辅助技术的文字。用 !important 防止被组件里的 span 样式覆盖 */
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* 注音（F003） */
+.pinyin-text {
+  line-height: 2;
+}
+
+.pinyin-text ruby {
+  ruby-position: over;
+  ruby-align: center;
+}
+
+.pinyin-text rt {
+  font-size: max(0.5em, 11px);
+  font-weight: 400;
+  color: var(--color-ink-muted);
+  letter-spacing: 0;
+}
+
+.btn .pinyin-text rt,
+.btn-primary .pinyin-text rt {
+  color: inherit;
+  opacity: 0.85;
+}
+
+.speak-inline {
+  margin-left: 6px;
+  min-width: 40px;
+  min-height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  font-size: 18px;
+  vertical-align: middle;
 }

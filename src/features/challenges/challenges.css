@@ -54,9 +54,93 @@
   color: var(--color-accent);
 }
 
+.detective-card {
+  gap: var(--space-5);
+}
+
+.question {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+}
+
+.question + .question {
+  border-top: 1px dashed var(--color-border);
+  padding-top: var(--space-5);
+}
+
 .question h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.reveal {
+  margin-top: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--color-border);
+}
+
+.reveal-text {
+  font-size: 20px;
+}
+
+.intro-text {
   font-size: 22px;
-  margin-bottom: var(--space-2);
+  max-width: 720px;
+}
+
+.btn.option-text {
+  min-width: 180px;
+  font-size: 22px;
+}
+
+.think-bar {
+  position: relative;
+  width: 200px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--color-surface-muted);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+
+.think-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--color-accent-soft);
+  animation: think-grow linear forwards;
+}
+
+.think-bar > span {
+  position: relative;
+}
+
+@keyframes think-grow {
+  to {
+    width: 100%;
+  }
+}
+
+.tray-hint {
+  margin: 0;
+  color: var(--color-ink-muted);
+}
+
+.focus-card {
+  max-width: 560px;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.focus-hint {
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .option-row {
@@ -256,7 +340,7 @@
   transition: width 0.2s linear;
 }
 
-.flash-timer span {
+.flash-timer > span {
   position: relative;
 }
 

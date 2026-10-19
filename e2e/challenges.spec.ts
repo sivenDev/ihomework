@@ -28,22 +28,24 @@ async function setProgress(page: Page, book: string, lesson: string) {
 }
 
 test('radical detective: solving every case levels up and records the round', async ({ page }) => {
+  // 每一步有 1.5 秒思考时间，一关 12 步
+  test.setTimeout(60_000)
   await setProgress(page, '二年级上册', '寒号鸟')
   await page.getByRole('link', { name: /部首侦探/ }).tap()
   await expect(page.getByText('难度 1：当前课')).toBeVisible()
   await page.getByRole('button', { name: '开始破案' }).tap()
 
-  for (let i = 0; i < 8; i++) {
-    await expect(page.getByText(`案子 ${i + 1} / 8`)).toBeVisible()
+  for (let i = 0; i < 6; i++) {
+    await expect(page.getByText(`案子 ${i + 1} / 6`)).toBeVisible()
     const char = (await page.getByTestId('kai-char').getAttribute('aria-label'))!
     const info = chars[char]
     await page.getByRole('button', { name: info.py[0], exact: true }).tap()
     await page.getByRole('button', { name: radicals[info.semantic!].meaning, exact: true }).tap()
     await expect(page.getByRole('status').filter({ hasText: '推理正确！' })).toBeVisible()
-    await page.getByRole('button', { name: i < 7 ? '下一个案子' : '结案' }).tap()
+    await page.getByRole('button', { name: i < 5 ? '下一个案子' : '结案' }).tap()
   }
-  await expect(page.getByTestId('round-score')).toHaveText('8 / 8 个案子')
-  await expect(page.getByTestId('level-change')).toHaveText('升级啦！下一关难度 2：本册')
+  await expect(page.getByTestId('round-score')).toHaveText('6 / 6 个案子')
+  await expect(page.getByTestId('level-change')).toHaveAttribute('data-text', '升级啦！下一关难度 2：本册')
   await page.getByRole('button', { name: '再来一关' }).tap()
   await expect(page.getByText('难度 2', { exact: false }).first()).toBeVisible()
 })
@@ -52,6 +54,8 @@ test('radical detective: a wrong reading reveals the answer and the explanation'
   await setProgress(page, '二年级上册', '寒号鸟')
   await page.getByRole('link', { name: /部首侦探/ }).tap()
   await page.getByRole('button', { name: '开始破案' }).tap()
+  // F003：题目带拼音，例如“它可能读什么”的“读”注 dú
+  await expect(page.locator('.question h2 rt').filter({ hasText: 'dú' })).toBeVisible()
   const char = (await page.getByTestId('kai-char').getAttribute('aria-label'))!
   const info = chars[char]
   const wrong = page.locator('.option').filter({ hasNotText: info.py[0] }).first()
@@ -59,10 +63,11 @@ test('radical detective: a wrong reading reveals the answer and the explanation'
   await expect(wrong).toHaveAttribute('data-state', 'wrong')
   await expect(page.locator('.option[data-state="answer"]')).toHaveText(info.py[0])
   await page.locator('.question').nth(1).locator('.option').first().tap()
-  await expect(page.getByRole('status').filter({ hasText: '真相是：' })).toContainText(`读 ${info.py[0]}`)
+  await expect(page.getByRole('status').filter({ hasText: '真相是：' })).toBeVisible()
+  await expect(page.locator('.reveal-text strong').last()).toHaveText(info.py[0])
 })
 
-test('character family: placing radicals builds a family map that is saved', async ({ page }) => {
+test('character family: placing radicals builds a family map', async ({ page }) => {
   await setProgress(page, '二年级上册', '寒号鸟')
   await page.getByRole('link', { name: /字族网络/ }).tap()
   await page.getByRole('button', { name: '开始' }).tap()
@@ -79,8 +84,9 @@ test('character family: placing radicals builds a family map that is saved', asy
   }
   await expect(page.getByRole('status').filter({ hasText: '字族导图完成' })).toBeVisible()
   await expect(page.getByTestId('round-score')).toHaveText(`${total} 个字`)
-  await page.getByRole('button', { name: /我的收藏/ }).tap()
-  await expect(page.locator('.collection .family-map')).toHaveCount(1)
+  await expect(page.getByLabel(/字族导图/)).toBeVisible()
+  // F004：不再有“我的收藏”入口
+  await expect(page.getByRole('button', { name: /我的收藏/ })).toHaveCount(0)
 })
 
 test('character family: a card can be dragged onto the center', async ({ page }) => {
@@ -100,29 +106,45 @@ test('character family: a card can be dragged onto the center', async ({ page })
   await expect(page.getByTestId('found-char')).toHaveCount(1)
 })
 
-test('flash recall: timed round, honest review, personal best and boss', async ({ page }) => {
+test('flash recall: timed round, rush reminder, honest review, personal best and boss', async ({ page }) => {
   await page.clock.install({ time: new Date('2026-10-19T10:00:00') })
   await setProgress(page, '二年级上册', '寒号鸟')
   await page.getByRole('link', { name: /生字闪认/ }).tap()
-  await expect(page.getByText('90 秒')).toBeVisible()
+  await expect(page.getByTestId('flash-info')).toContainText('90 秒')
   await page.getByRole('button', { name: '开始' }).tap()
 
+  // 连续 4 个字一能点就点 → 提醒大声读出来，提醒期间倒计时暂停
   const seen: string[] = []
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 4; i++) {
     seen.push((await page.getByTestId('kai-char').getAttribute('aria-label'))!)
-    await page.getByRole('button', { name: i === 5 ? '跳过' : '认识' }).tap()
+    await page.getByRole('button', { name: '认识' }).tap()
+  }
+  const reminder = page.getByRole('dialog', { name: '专注提醒' })
+  await expect(reminder).toBeVisible()
+  const timerBefore = await page.getByTestId('flash-timer').textContent()
+  await expect(reminder.getByRole('button', { name: /准备中/ })).toBeDisabled()
+  await page.clock.runFor(5_500)
+  await expect(page.getByTestId('flash-timer')).toHaveText(timerBefore!)
+  await reminder.getByRole('button', { name: '我准备好了' }).tap()
+  await expect(reminder).toBeHidden()
+
+  // 之后放慢：每个字停留 1.2 秒再点
+  for (let i = 0; i < 2; i++) {
+    seen.push((await page.getByTestId('kai-char').getAttribute('aria-label'))!)
+    await page.clock.runFor(1_200)
+    await page.getByRole('button', { name: i === 1 ? '跳过' : '认识' }).tap()
   }
   await page.clock.runFor(91_000)
-  await expect(page.getByRole('heading', { name: '时间到！看看拼音，刚才读错的字点一下' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /时间到！看看拼音，刚才读错的字点一下/ })).toBeVisible()
   const items = page.locator('.review-item')
   await expect(items).toHaveCount(5)
   await items.first().tap()
   await expect(items.first()).toHaveAttribute('aria-pressed', 'true')
   await page.getByRole('button', { name: '完成，看成绩' }).tap()
   await expect(page.getByTestId('round-score')).toHaveText('4 个字')
-  await expect(page.getByText('第一次挑战这个难度，纪录就是你的！')).toBeVisible()
+  await expect(page.getByTestId('new-best')).toBeVisible()
   // 4/6 ≈ 67%：难度不变
-  await expect(page.getByTestId('level-change')).toHaveText('下一关还是难度 1：当前课')
+  await expect(page.getByTestId('level-change')).toHaveAttribute('data-text', '下一关还是难度 1：当前课')
 
   // 读错（第 1 个）和跳过（第 6 个）的字中，已学的第二天出现在错字 Boss；下一课预习的字不算
   const learned = learnedUpTo('g2a-k12')
@@ -132,4 +154,32 @@ test('flash recall: timed round, honest review, personal best and boss', async (
   await page.reload()
   if (expected) await expect(page.getByTestId('boss-remaining')).toHaveText(`还剩 ${expected} 个`)
   else await expect(page.getByRole('heading', { name: '今天没有要打的 Boss' })).toBeVisible()
+})
+
+test('radical detective: three wrong answers in a row bring up the focus reminder', async ({ page }) => {
+  test.setTimeout(60_000)
+  await page.clock.install({ time: new Date('2026-10-19T10:00:00') })
+  await setProgress(page, '二年级上册', '寒号鸟')
+  await page.getByRole('link', { name: /部首侦探/ }).tap()
+  await page.getByRole('button', { name: '开始破案' }).tap()
+
+  // 选项出现后要先想一想，不能马上点
+  await expect(page.locator('.option').first()).toBeDisabled()
+  await expect(page.locator('.think-bar')).toBeVisible()
+
+  for (let i = 0; i < 3; i++) {
+    const char = (await page.getByTestId('kai-char').getAttribute('aria-label'))!
+    const info = chars[char]
+    await page.locator('.option').filter({ hasNotText: info.py[0] }).first().tap()
+    const meaning = radicals[info.semantic!].meaning
+    await page.locator('.question').nth(1).locator('.option').filter({ hasNotText: meaning }).first().tap()
+    await page.getByRole('button', { name: '下一个案子' }).tap()
+  }
+  const reminder = page.getByRole('dialog', { name: '专注提醒' })
+  await expect(reminder).toBeVisible()
+  await expect(reminder.getByRole('button', { name: /准备中/ })).toBeDisabled()
+  await page.clock.runFor(5_500)
+  await reminder.getByRole('button', { name: '我准备好了' }).tap()
+  await expect(reminder).toBeHidden()
+  await expect(page.getByText('案子 4 / 6')).toBeVisible()
 })

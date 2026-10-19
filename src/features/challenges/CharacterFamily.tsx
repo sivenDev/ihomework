@@ -1,13 +1,18 @@
-import { useRef, useState, type PointerEvent } from 'react'
+import { useRef, useState, type PointerEvent, type RefObject } from 'react'
 import { Link } from 'react-router-dom'
+import { PinyinText } from '../../components/PinyinText'
 import { getSpeaker } from '../../lib/speech'
 import { KaiChar } from '../handwriting/KaiChar'
+import { FocusBreak } from './FocusBreak'
 import { LEVEL_NAMES } from './logic/difficulty'
 import { familyPuzzle, poolForLevel, type FamilyPuzzle } from './logic/generators'
 import { RoundSummary } from './RoundSummary'
 import { recordRound, saveFamily, useChallengeStat, useFamilyCollection, type RoundOutcome } from './store'
 import { useChallenge } from './useChallenge'
 import './challenges.css'
+
+/** 连续放错几次偏旁就提醒（F002） */
+const WRONG_STREAK = 3
 
 /** 可以拖到中心、也可以直接点的偏旁卡。 */
 function RadicalCard({
@@ -21,7 +26,7 @@ function RadicalCard({
   used: boolean
   shaking: boolean
   onPlace: () => void
-  dropTarget: React.RefObject<HTMLDivElement | null>
+  dropTarget: RefObject<HTMLDivElement | null>
 }) {
   const start = useRef<{ x: number; y: number } | null>(null)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
@@ -70,14 +75,15 @@ function RadicalCard({
 export function CharacterFamily() {
   const ctx = useChallenge()
   const stat = useChallengeStat('family')
+  // 拼过的字族只在后台记录，用来优先出新的字族（F004：不再显示收藏页）
   const collection = useFamilyCollection()
   const center = useRef<HTMLDivElement>(null)
   const [puzzle, setPuzzle] = useState<{ level: number; data: FamilyPuzzle | null } | null>(null)
   const [found, setFound] = useState<string[]>([])
   const [mistakes, setMistakes] = useState(0)
+  const [wrongStreak, setWrongStreak] = useState(0)
   const [shake, setShake] = useState<string | null>(null)
   const [outcome, setOutcome] = useState<RoundOutcome | null>(null)
-  const [showCollection, setShowCollection] = useState(false)
 
   if (!ctx || !stat || !collection) return <div className="page muted">正在加载…</div>
   const { ds, progress, learned } = ctx
@@ -89,39 +95,18 @@ export function CharacterFamily() {
     setPuzzle({ level: stat.level, data })
     setFound([])
     setMistakes(0)
+    setWrongStreak(0)
     setOutcome(null)
   }
 
   const header = (
     <div className="topbar">
       <h1>🕸️ 字族网络</h1>
-      <span className="button-row">
-        <button type="button" className="btn btn-quiet" aria-pressed={showCollection} onClick={() => setShowCollection((v) => !v)}>
-          我的收藏（{collection.length}）
-        </button>
-        <Link className="btn btn-quiet" to="/">
-          回首页
-        </Link>
-      </span>
+      <Link className="btn btn-quiet" to="/">
+        <PinyinText text="回首页" />
+      </Link>
     </div>
   )
-
-  if (showCollection) {
-    return (
-      <div className="page">
-        {header}
-        {collection.length === 0 ? (
-          <p className="card">还没有收藏。完成一张字族导图就会收进来。</p>
-        ) : (
-          <div className="collection">
-            {collection.map((f) => (
-              <FamilyMap key={f.phonetic} phonetic={f.phonetic} chars={f.chars} />
-            ))}
-          </div>
-        )}
-      </div>
-    )
-  }
 
   if (!progress) return <div className="page">{header}<p className="card">请家长先在“课本与字库”里设置当前学到的课。</p></div>
 
@@ -132,18 +117,18 @@ export function CharacterFamily() {
         {outcome && puzzle?.data ? (
           <>
             <FamilyMap phonetic={puzzle.data.phonetic} chars={found} />
-            <RoundSummary title="字族导图完成，已收进“我的收藏”！" score={found.length} unit="个字" outcome={outcome} onAgain={start} />
+            <RoundSummary title="字族导图完成！" score={found.length} unit="个字" outcome={outcome} onAgain={start} />
           </>
         ) : (
           <section className="card game-intro">
-            <p>
-              中间是一个<strong>声旁</strong>。把偏旁卡拖到它旁边（或者点一下），看看能组成哪些字——它们的读音都差不多！
+            <p className="intro-text">
+              <PinyinText text="中间是一个声旁。把偏旁卡拖到它旁边（或者点一下），看看能组成哪些字——它们的读音都差不多！" speak />
             </p>
             <p className="muted">
               难度 {stat.level}：{LEVEL_NAMES[stat.level]}
             </p>
             <button type="button" className="btn btn-primary big-btn" onClick={start}>
-              开始
+              <PinyinText text="开始" />
             </button>
           </section>
         )}
@@ -155,7 +140,9 @@ export function CharacterFamily() {
     return (
       <div className="page">
         {header}
-        <p className="card">这个范围里还没有能组成字族的字，过几课再来吧！</p>
+        <p className="card">
+          <PinyinText text="这个范围里还没有能组成字族的字，过几课再来吧！" />
+        </p>
       </div>
     )
   }
@@ -165,10 +152,12 @@ export function CharacterFamily() {
     const target = p.targets.find((t) => t.radical === radical && !found.includes(t.char))
     if (!target) {
       setMistakes((m) => m + 1)
+      setWrongStreak((n) => n + 1)
       setShake(radical)
       window.setTimeout(() => setShake(null), 500)
       return
     }
+    setWrongStreak(0)
     getSpeaker().speak(target.char)
     const all = [...found, target.char]
     setFound(all)
@@ -212,6 +201,9 @@ export function CharacterFamily() {
           <KaiChar char={p.phonetic} size={120} />
           {p.phoneticReading && <span className="slot-py">{p.phoneticReading}</span>}
         </div>
+        <p className="tray-hint">
+          <PinyinText text="把偏旁拖到中间，或者点一下" />
+        </p>
         <div className="radical-tray">
           {p.radicalOptions.map((r) => (
             <RadicalCard
@@ -225,6 +217,13 @@ export function CharacterFamily() {
           ))}
         </div>
       </section>
+      {wrongStreak >= WRONG_STREAK && (
+        <FocusBreak
+          message="慢一点，想一想再放哦"
+          hint={`中间的字读 ${p.phoneticReading ?? ''}，找一找哪个偏旁和它组成你认识的字。`}
+          onResume={() => setWrongStreak(0)}
+        />
+      )}
     </div>
   )
 }

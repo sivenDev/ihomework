@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { HanziSpeak } from '../components/HanziSpeak'
+import { PinyinText } from '../components/PinyinText'
 
 const ISLANDS: { name: string; icon: string; note: string; to?: string }[] = [
   { name: '错字 Boss', icon: '🐉', note: '打败没记住的字', to: '/boss' },
@@ -25,7 +26,7 @@ export function ChildHome() {
 
       <section aria-labelledby="map-title">
         <h2 id="map-title" className="section-title">
-          闯关地图
+          <PinyinText text="闯关地图" />
         </h2>
         <ul className="island-grid">
           {ISLANDS.map((island) =>
@@ -35,8 +36,12 @@ export function ChildHome() {
                   <span className="island-icon" aria-hidden="true">
                     {island.icon}
                   </span>
-                  <span className="island-name">{island.name}</span>
-                  <span className="muted">{island.note}</span>
+                  <span className="island-name">
+                    <PinyinText text={island.name} />
+                  </span>
+                  <span className="muted">
+                    <PinyinText text={island.note} />
+                  </span>
                 </Link>
               </li>
             ) : (

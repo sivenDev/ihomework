@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { PinyinText } from '../../components/PinyinText'
 import { sample } from '../assessment/logic/sampling'
 import { KaiChar } from '../handwriting/KaiChar'
 import { loadStrokes } from '../handwriting/strokes'
+import { FocusBreak } from './FocusBreak'
 import { FLASH_SECONDS, LEVEL_NAMES } from './logic/difficulty'
+import { FLASH_THINK_MS, flashRushing } from './logic/focus'
 import { poolForLevel } from './logic/generators'
 import { RoundSummary } from './RoundSummary'
 import { recordRound, useChallengeStat, type RoundOutcome } from './store'
 import { useChallenge } from './useChallenge'
+import { useThinkDelay } from './useThinkDelay'
 import './challenges.css'
 
 type Phase = 'intro' | 'play' | 'review' | 'done'
@@ -25,17 +29,20 @@ export function FlashRecall() {
   const [misread, setMisread] = useState<Set<string>>(new Set())
   const [endsAt, setEndsAt] = useState(0)
   const [now, setNow] = useState(0)
+  const [taps, setTaps] = useState<number[]>([])
+  const [pausedAt, setPausedAt] = useState<number | null>(null)
   const [outcome, setOutcome] = useState<RoundOutcome | null>(null)
+  const think = useThinkDelay(`${phase}-${index}`, FLASH_THINK_MS, pausedAt !== null)
 
   useEffect(() => {
-    if (phase !== 'play') return
+    if (phase !== 'play' || pausedAt !== null) return
     const id = window.setInterval(() => {
       const t = Date.now()
       setNow(t)
       if (t >= endsAt) setPhase('review')
     }, 200)
     return () => window.clearInterval(id)
-  }, [phase, endsAt])
+  }, [phase, endsAt, pausedAt])
 
   // 预先加载下一个字的字形，翻页更快
   useEffect(() => {
@@ -57,6 +64,8 @@ export function FlashRecall() {
     setKnown([])
     setUnknown([])
     setMisread(new Set())
+    setTaps([])
+    setPausedAt(null)
     setOutcome(null)
     setNow(t)
     setEndsAt(t + (FLASH_SECONDS[lv] ?? 60) * 1000)
@@ -64,11 +73,26 @@ export function FlashRecall() {
   }
 
   const answer = (isKnown: boolean) => {
+    if (!think.ready) return
     const char = deck[index]
+    // 从字出现到点按钮的时间，用来察觉“没读就点”
+    const shownFor = Date.now() - (think.readyAt - FLASH_THINK_MS)
+    const nextTaps = [...taps, shownFor]
+    setTaps(nextTaps)
     if (isKnown) setKnown((k) => [...k, char])
     else setUnknown((u) => [...u, char])
     if (index + 1 >= deck.length) setPhase('review')
     else setIndex(index + 1)
+    if (flashRushing(nextTaps)) setPausedAt(Date.now())
+  }
+
+  const resume = () => {
+    // 提醒期间倒计时暂停
+    const t = Date.now()
+    setEndsAt((e) => e + (t - (pausedAt ?? t)))
+    setNow(t)
+    setPausedAt(null)
+    setTaps([])
   }
 
   const finish = async () => {
@@ -85,7 +109,7 @@ export function FlashRecall() {
     <div className="topbar">
       <h1>⚡ 生字闪认</h1>
       <Link className="btn btn-quiet" to="/">
-        回首页
+        <PinyinText text="回首页" />
       </Link>
     </div>
   )
@@ -100,14 +124,14 @@ export function FlashRecall() {
           <RoundSummary title="时间到！" score={known.length - misread.size} unit="个字" outcome={outcome} onAgain={start} />
         ) : (
           <section className="card game-intro">
-            <p>
-              在 <strong>{FLASH_SECONDS[stat.level]} 秒</strong>内大声读出尽量多的字，认识就点“认识”，不认识点“跳过”。
+            <p className="intro-text">
+              <PinyinText text={`在 ${FLASH_SECONDS[stat.level]} 秒内大声读出尽量多的字。读出来了点“认识”，不认识点“跳过”。`} speak />
             </p>
-            <p className="muted">
-              难度 {stat.level}：{LEVEL_NAMES[stat.level]} · 最好成绩 {stat.best[stat.level] ?? 0} 个
+            <p className="muted" data-testid="flash-info">
+              难度 {stat.level}：{LEVEL_NAMES[stat.level]} · {FLASH_SECONDS[stat.level]} 秒 · 最好成绩 {stat.best[stat.level] ?? 0} 个
             </p>
             <button type="button" className="btn btn-primary big-btn" onClick={start}>
-              开始
+              <PinyinText text="开始" />
             </button>
           </section>
         )}
@@ -120,7 +144,9 @@ export function FlashRecall() {
       <div className="page">
         {header}
         <section className="card review-card">
-          <h2>时间到！看看拼音，刚才读错的字点一下</h2>
+          <h2>
+            <PinyinText text="时间到！看看拼音，刚才读错的字点一下" speak />
+          </h2>
           <div className="review-grid">
             {known.map((c) => (
               <button
@@ -145,7 +171,7 @@ export function FlashRecall() {
           </div>
           {unknown.length > 0 && <p className="muted">跳过的字：{unknown.join('、')}（会进入错字 Boss 的是学过的字）</p>}
           <button type="button" className="btn btn-primary big-btn" onClick={finish}>
-            完成，看成绩
+            <PinyinText text="完成，看成绩" />
           </button>
         </section>
       </div>
@@ -165,14 +191,15 @@ export function FlashRecall() {
       <section className="card flash-card">
         <KaiChar char={deck[index]} size={220} />
         <div className="option-row">
-          <button type="button" className="btn btn-primary big-btn" onClick={() => answer(true)}>
-            认识
+          <button type="button" className="btn btn-primary big-btn" disabled={!think.ready} onClick={() => answer(true)}>
+            <PinyinText text="认识" />
           </button>
-          <button type="button" className="btn big-btn" onClick={() => answer(false)}>
-            跳过
+          <button type="button" className="btn big-btn" disabled={!think.ready} onClick={() => answer(false)}>
+            <PinyinText text="跳过" />
           </button>
         </div>
       </section>
+      {pausedAt !== null && <FocusBreak message="要大声读出来再点哦" onResume={resume} />}
     </div>
   )
 }
