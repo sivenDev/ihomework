@@ -4,9 +4,9 @@ import { HanziSpeak } from '../components/HanziSpeak'
 const ISLANDS: { name: string; icon: string; note: string; to?: string }[] = [
   { name: '错字 Boss', icon: '🐉', note: '打败没记住的字', to: '/boss' },
   { name: '写字练习', icon: '✍️', note: '描红、默写本课的字', to: '/write' },
-  { name: '部首侦探', icon: '🔍', note: '推理汉字的读音和意思' },
-  { name: '字族网络', icon: '🕸️', note: '一个声旁，带出一串字' },
-  { name: '生字闪认', icon: '⚡', note: '挑战你的最快纪录' },
+  { name: '部首侦探', icon: '🔍', note: '推理汉字的读音和意思', to: '/detective' },
+  { name: '字族网络', icon: '🕸️', note: '一个声旁，带出一串字', to: '/family' },
+  { name: '生字闪认', icon: '⚡', note: '挑战你的最快纪录', to: '/flash' },
 ]
 
 export function ChildHome() {

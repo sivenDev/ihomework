@@ -53,6 +53,12 @@ export interface CharInfo {
   level1: number
 }
 
+/** 形旁：卡片上显示的偏旁和意思提示 */
+export interface SemanticRadical {
+  label: string
+  meaning: string
+}
+
 export interface Dataset {
   books: Book[]
   chars: Record<string, CharInfo>
@@ -60,4 +66,6 @@ export interface Dataset {
   extension: string[]
   /** 字族：声旁 → 含有该声旁的字（课本字与一级字） */
   families: Record<string, string[]>
+  /** 形旁 → 偏旁写法与意思类别 */
+  radicals: Record<string, SemanticRadical>
 }

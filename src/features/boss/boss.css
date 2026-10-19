@@ -48,12 +48,6 @@
   justify-content: center;
 }
 
-.btn.big-btn {
-  min-width: 180px;
-  min-height: 72px;
-  font-size: 24px;
-}
-
 .pinyin-big {
   font-size: 40px;
   color: var(--color-accent);

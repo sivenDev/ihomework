@@ -58,6 +58,12 @@ h3 {
   outline-offset: 2px;
 }
 
+.btn.big-btn {
+  min-width: 180px;
+  min-height: 72px;
+  font-size: 24px;
+}
+
 .btn-primary {
   background: var(--color-primary);
   color: var(--color-primary-ink);

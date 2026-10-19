@@ -6,6 +6,9 @@ import { ParentHome } from './ParentHome'
 import { ParentTextbookPage } from '../features/textbook/ParentTextbookPage'
 import { BossBattlePage } from '../features/boss/BossBattlePage'
 import { WritePracticePage } from '../features/handwriting/WritePracticePage'
+import { CharacterFamily } from '../features/challenges/CharacterFamily'
+import { FlashRecall } from '../features/challenges/FlashRecall'
+import { RadicalDetective } from '../features/challenges/RadicalDetective'
 import { AssessmentHome } from '../features/assessment/AssessmentHome'
 import { DictationPage } from '../features/assessment/DictationPage'
 import { ReadingPage } from '../features/assessment/ReadingPage'
@@ -21,6 +24,9 @@ export function AppRoutes() {
         <Route index element={<ChildHome />} />
         <Route path="boss" element={<BossBattlePage />} />
         <Route path="write" element={<WritePracticePage />} />
+        <Route path="detective" element={<RadicalDetective />} />
+        <Route path="family" element={<CharacterFamily />} />
+        <Route path="flash" element={<FlashRecall />} />
       </Route>
       <Route path="parent" element={<ParentGate />}>
         <Route index element={<ParentHome />} />

@@ -42,8 +42,18 @@
 }
 
 .kai-char {
+  position: relative;
   display: grid;
   place-items: center;
+}
+
+.kai-char-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  font-family: 'KaiTi', 'STKaiti', var(--font-family);
 }
 
 .write-layout {

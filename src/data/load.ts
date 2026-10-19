@@ -1,4 +1,4 @@
-import type { Book, CharInfo, Dataset } from './types'
+import type { Book, CharInfo, Dataset, SemanticRadical } from './types'
 
 let cached: Promise<Dataset> | undefined
 
@@ -13,6 +13,7 @@ export function loadDataset(): Promise<Dataset> {
     chars: chars.default as unknown as Record<string, CharInfo>,
     extension: extension.default.extension,
     families: extension.default.families as Record<string, string[]>,
+    radicals: extension.default.radicals as Record<string, SemanticRadical>,
   }))
   return cached
 }

@@ -1,6 +1,7 @@
 import HanziWriter from 'hanzi-writer'
 import { useEffect, useRef, useState } from 'react'
 import { strokeLoader } from './strokes'
+import './handwriting.css'
 
 interface Props {
   char: string
@@ -34,8 +35,12 @@ function KaiCharInner({ char, size = 220, className = '' }: Props) {
 
   return (
     <div className={`kai-char ${className}`} style={{ width: size, height: size }} data-testid="kai-char" aria-label={char} role="img">
-      <div ref={host} />
-      {fallback && <span style={{ fontSize: size * 0.85, lineHeight: 1 }}>{char}</span>}
+      <div ref={host} hidden={fallback} />
+      {fallback && (
+        <span className="kai-char-fallback" style={{ fontSize: size * 0.8 }}>
+          {char}
+        </span>
+      )}
     </div>
   )
 }

@@ -48,6 +48,10 @@ export function validateDataset(ds: Dataset, level1: string[]): ValidationResult
     if (inTextbook.has(ch)) errors.push(`拓展字“${ch}”与课本字重复`)
     if (!ds.chars[ch]?.py.length) errors.push(`拓展字“${ch}”缺少拼音`)
   }
+  for (const [key, r] of Object.entries(ds.radicals)) {
+    if (!r?.label || !r?.meaning) errors.push(`形旁对照表“${key}”缺少 label 或 meaning`)
+  }
+
   const covered = new Set([...inTextbook, ...ds.extension])
   const uncovered = level1.filter((c) => !covered.has(c))
   if (uncovered.length) errors.push(`一级字表中有 ${uncovered.length} 字未被收录：${uncovered.slice(0, 20).join('')}`)

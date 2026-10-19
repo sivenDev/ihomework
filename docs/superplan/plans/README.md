@@ -6,7 +6,7 @@
 
 | Type | Plans | Approved | Complete |
 | --- | --- | --- | --- |
-| `required` | 8 | 4 | 4 |
+| `required` | 8 | 3 | 5 |
 | `future` | 2 | 2 | 0 |
 | `feature` | 1 | 0 | 1 |
 | `bugfix` | 1 | 0 | 1 |
@@ -17,7 +17,7 @@
 2. `02` [课本字库、拓展字库、课本进度与家长字词管理](02-textbook-character-library.md) - `complete` (2026-10-19)
 3. `03` [现状评估中心与评估报告](03-assessment-center.md) - `complete` (2026-10-19)
 4. `04` [错字 Boss 间隔复习与描红默写](04-error-boss-and-handwriting.md) - `complete` (2026-10-19)
-5. `05` [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) - `approved` (2026-10-19)
+5. `05` [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) - `complete` (2026-10-19)
 6. `06` [学习路线、三级练习量、每日任务与激励系统](06-daily-tasks-and-rewards.md) - `approved` (2026-10-19)
 7. `07` [侦探看图写作、写作等级与阅读打卡](07-picture-writing-and-reading.md) - `approved` (2026-10-19)
 8. `08` [家长看板、PWA 离线与 MVP 验收](08-parent-dashboard-and-offline-release.md) - `approved` (2026-10-19)
@@ -34,7 +34,7 @@
 | `02` | [课本字库、拓展字库、课本进度与家长字词管理](02-textbook-character-library.md) | `complete` | 2026-10-19 |
 | `03` | [现状评估中心与评估报告](03-assessment-center.md) | `complete` | 2026-10-19 |
 | `04` | [错字 Boss 间隔复习与描红默写](04-error-boss-and-handwriting.md) | `complete` | 2026-10-19 |
-| `05` | [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) | `approved` | 2026-10-19 |
+| `05` | [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) | `complete` | 2026-10-19 |
 | `06` | [学习路线、三级练习量、每日任务与激励系统](06-daily-tasks-and-rewards.md) | `approved` | 2026-10-19 |
 | `07` | [侦探看图写作、写作等级与阅读打卡](07-picture-writing-and-reading.md) | `approved` | 2026-10-19 |
 | `08` | [家长看板、PWA 离线与 MVP 验收](08-parent-dashboard-and-offline-release.md) | `approved` | 2026-10-19 |

@@ -45,5 +45,14 @@ export function fixtureDataset(): Dataset {
     chars,
     extension: ['清', '大', '小', '睛'],
     families: { 青: ['晴', '请', '情', '清', '睛', '蜻'] },
+    radicals: {
+      日: { label: '日', meaning: '和太阳、时间有关' },
+      讠: { label: '讠', meaning: '和说话有关' },
+      忄: { label: '忄', meaning: '和心情、想法有关' },
+      虫: { label: '虫', meaning: '和虫子、小动物有关' },
+      氵: { label: '氵', meaning: '和水有关' },
+      目: { label: '目', meaning: '和眼睛有关' },
+      木: { label: '木', meaning: '和树木、木头有关' },
+    },
   }
 }

@@ -5,9 +5,14 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSyn
 const SRC = 'node_modules/hanzi-writer-data'
 const OUT = 'public/strokes'
 
+const generated = JSON.parse(readFileSync('src/data/generated/extension.json', 'utf8')) as {
+  families: Record<string, string[]>
+}
 const chars = new Set([
   ...readFileSync('data/vendor/level1.txt', 'utf8').trim(),
   ...Object.keys(JSON.parse(readFileSync('src/data/generated/chars.json', 'utf8'))),
+  // 字族网络中间显示的声旁（如“隹”）不一定是常用字，也需要字形
+  ...Object.keys(generated.families),
 ])
 
 mkdirSync(OUT, { recursive: true })

@@ -72,6 +72,25 @@ export interface PendingMistakeRow {
   addedAt: number
 }
 
+export type ChallengeActivity = 'detective' | 'family' | 'flash'
+
+/** 每个闯关玩法的难度与个人纪录（计划 05） */
+export interface ChallengeStatRow {
+  activity: ChallengeActivity
+  level: number
+  /** 各难度的最好成绩 */
+  best: Record<number, number>
+  plays: number
+  lastAccuracy?: number
+}
+
+/** 字族网络中收集到的字族导图 */
+export interface FamilyCollectionRow {
+  phonetic: string
+  chars: string[]
+  date: string
+}
+
 export const DB_NAME = 'ihomework'
 
 export class AppDatabase extends Dexie {
@@ -86,6 +105,8 @@ export class AppDatabase extends Dexie {
   lessonEdits!: EntityTable<LessonEdit, 'lessonId'>
   charEdits!: EntityTable<CharEdit, 'char'>
   pendingMistakes!: EntityTable<PendingMistakeRow, 'char'>
+  challengeStats!: EntityTable<ChallengeStatRow, 'activity'>
+  familyCollection!: EntityTable<FamilyCollectionRow, 'phonetic'>
 
   constructor(name = DB_NAME) {
     super(name)
@@ -107,6 +128,11 @@ export class AppDatabase extends Dexie {
     // 计划 03：评估中出错、等待错字 Boss 导入的字
     this.version(3).stores({
       pendingMistakes: 'char',
+    })
+    // 计划 05：闯关难度、个人纪录、字族收藏
+    this.version(4).stores({
+      challengeStats: 'activity',
+      familyCollection: 'phonetic',
     })
   }
 }

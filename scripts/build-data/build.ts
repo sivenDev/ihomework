@@ -1,5 +1,5 @@
 import { pinyin } from 'pinyin-pro'
-import type { Book, CharInfo, Dataset, Formation, Structure } from '../../src/data/types'
+import type { Book, CharInfo, Dataset, Formation, SemanticRadical, Structure } from '../../src/data/types'
 
 export interface VendorChar {
   r: string
@@ -16,6 +16,7 @@ export interface BuildInput {
   level1: string[]
   words: { w: string; f: number }[]
   blocklist: Set<string>
+  radicals: Record<string, SemanticRadical>
 }
 
 const WORDS_PER_CHAR = 6
@@ -126,5 +127,5 @@ export function buildDataset(input: BuildInput): Dataset {
     if (list.length >= 2) families[p] = list.sort((a, b) => chars[a].rank - chars[b].rank)
   }
 
-  return { books, chars, extension, families }
+  return { books, chars, extension, families, radicals: input.radicals }
 }
