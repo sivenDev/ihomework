@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { HanziSpeak } from '../components/HanziSpeak'
 
-const ISLANDS = [
+const ISLANDS: { name: string; icon: string; note: string; to?: string }[] = [
+  { name: '错字 Boss', icon: '🐉', note: '打败没记住的字', to: '/boss' },
+  { name: '写字练习', icon: '✍️', note: '描红、默写本课的字', to: '/write' },
   { name: '部首侦探', icon: '🔍', note: '推理汉字的读音和意思' },
   { name: '字族网络', icon: '🕸️', note: '一个声旁，带出一串字' },
   { name: '生字闪认', icon: '⚡', note: '挑战你的最快纪录' },
-  { name: '错字 Boss', icon: '🐉', note: '打败没记住的字' },
 ]
 
 export function ChildHome() {
@@ -27,16 +28,28 @@ export function ChildHome() {
           闯关地图
         </h2>
         <ul className="island-grid">
-          {ISLANDS.map((island) => (
-            <li key={island.name} className="card island" aria-disabled="true">
-              <span className="island-icon" aria-hidden="true">
-                {island.icon}
-              </span>
-              <span className="island-name">{island.name}</span>
-              <span className="muted">{island.note}</span>
-              <span className="island-badge">即将开放</span>
-            </li>
-          ))}
+          {ISLANDS.map((island) =>
+            island.to ? (
+              <li key={island.name}>
+                <Link className="card island island-open" to={island.to}>
+                  <span className="island-icon" aria-hidden="true">
+                    {island.icon}
+                  </span>
+                  <span className="island-name">{island.name}</span>
+                  <span className="muted">{island.note}</span>
+                </Link>
+              </li>
+            ) : (
+              <li key={island.name} className="card island" aria-disabled="true">
+                <span className="island-icon" aria-hidden="true">
+                  {island.icon}
+                </span>
+                <span className="island-name">{island.name}</span>
+                <span className="muted">{island.note}</span>
+                <span className="island-badge">即将开放</span>
+              </li>
+            ),
+          )}
         </ul>
       </section>
     </div>

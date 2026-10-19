@@ -2,6 +2,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import type { Dataset } from '../../data/types'
 import { db, type AssessmentRow } from '../../db/schema'
 import { localDate } from '../../lib/date'
+import { addMistakes } from '../boss/api'
 import { newId } from '../../lib/id'
 import { computeReport } from './logic/report'
 import { sampleRecognition } from './logic/sampling'
@@ -56,23 +57,13 @@ export async function discardRun(id: number) {
   await db.assessments.delete(id)
 }
 
-/** 生成报告并保存；出错的字进入等待错字 Boss 导入的队列。 */
+/** 生成报告并保存；出错的字进入错字 Boss。 */
 export async function finishRun(ds: Dataset, id: number): Promise<void> {
-  await db.transaction('rw', db.assessments, db.pendingMistakes, async () => {
-    const run = (await db.assessments.get(id)) as Run | undefined
-    if (!run) return
-    const report = computeReport(ds, run.data, localDate())
-    await db.assessments.put({ ...run, data: { ...run.data, report } })
-    const now = Date.now()
-    for (const char of report.backlog) {
-      const existing = await db.pendingMistakes.get(char)
-      await db.pendingMistakes.put({
-        char,
-        sources: [...new Set([...(existing?.sources ?? []), 'assessment'])],
-        addedAt: existing?.addedAt ?? now,
-      })
-    }
-  })
+  const run = (await db.assessments.get(id)) as Run | undefined
+  if (!run) return
+  const report = computeReport(ds, run.data, localDate())
+  await db.assessments.put({ ...run, data: { ...run.data, report } })
+  await addMistakes(report.backlog, 'assessment')
 }
 
 export async function saveImage(file: Blob): Promise<string> {

@@ -21,6 +21,12 @@
 - 用途：`data/vendor/words.tsv` 组词候选和字频
 - 许可：MIT License，Copyright (c) 2013 Sun Junyi
 
+## Hanzi Writer 与 hanzi-writer-data
+
+- 项目：https://github.com/chanind/hanzi-writer 、https://github.com/chanind/hanzi-writer-data
+- 用途：描红、默写的逐笔判断（Hanzi Writer，MIT License）；笔顺和字形数据（hanzi-writer-data）
+- 许可：hanzi-writer-data 源自 Make Me a Hanzi 的 graphics.txt，以 Arphic Public License 发布（见 `node_modules/hanzi-writer-data/ARPHICPL.TXT`）。构建时把需要的字复制到 `public/strokes/`，随网站一同发布，不修改数据内容。
+
 ## 统编版语文教材字表
 
 - 来源：国家中小学智慧教育平台官方电子教材（人民教育出版社）

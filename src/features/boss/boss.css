@@ -1,0 +1,82 @@
+.boss-page {
+  max-width: 900px;
+}
+
+.boss-hp {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.boss-emoji {
+  font-size: 48px;
+}
+
+.hp-bar {
+  flex: 1;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--color-surface-muted);
+  overflow: hidden;
+}
+
+.hp-fill {
+  height: 100%;
+  background: var(--color-primary);
+  transition: width 0.4s ease;
+}
+
+.hp-text {
+  font-weight: 700;
+  min-width: 80px;
+}
+
+.boss-card,
+.boss-done,
+.boss-result {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  text-align: center;
+}
+
+.mark-row {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn.big-btn {
+  min-width: 180px;
+  min-height: 72px;
+  font-size: 24px;
+}
+
+.pinyin-big {
+  font-size: 40px;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.write-prompt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 24px;
+}
+
+.trophies h3 {
+  margin-bottom: var(--space-2);
+}
+
+.trophy {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: #fff3d6;
+  font-size: 26px;
+}

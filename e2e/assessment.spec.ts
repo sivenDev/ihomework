@@ -118,7 +118,7 @@ test('recognition can be paused, resumed and undone', async ({ page }) => {
   const third = await page.getByRole('button', { name: /撤销上一个/ }).textContent()
   await page.getByRole('button', { name: /撤销上一个/ }).tap()
   await expect(page.locator('.mark-progress')).toContainText('第 3 个')
-  await expect(page.getByTestId('flash-char')).toHaveText(third!.match(/（(.)）/)![1])
+  await expect(page.getByTestId('flash-char')).toHaveAttribute('aria-label', third!.match(/（(.)）/)![1])
 })
 
 test('words, reading and writing parts can be completed', async ({ page }) => {

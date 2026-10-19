@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { KaiChar } from '../handwriting/KaiChar'
 import { advanceExtension, extensionPool, startExtension } from './logic/sampling'
 import type { Mark } from './logic/types'
 import { updateRun } from './store'
@@ -88,8 +89,8 @@ export function RecognitionPage({ mode }: { mode: 'recognition' | 'extension' })
             第 {answered + 1} 个{mode === 'recognition' ? ` / 共 ${cards.length} 个` : `（第 ${run.data.parts.extension!.layers.length} 组）`}
             ——请孩子读出这个字
           </p>
-          <div className="flash-char" data-testid="flash-char">
-            {cards[index].char}
+          <div className="flash-char" data-testid="flash-char" aria-label={cards[index].char}>
+            <KaiChar char={cards[index].char} size={220} />
           </div>
           <div className="mark-buttons">
             <button type="button" className="btn mark-btn mark-correct" onClick={() => mark('correct', index)}>

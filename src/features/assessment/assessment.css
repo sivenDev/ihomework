@@ -81,10 +81,7 @@
 }
 
 .flash-char {
-  font-size: min(36vh, 220px);
-  line-height: 1.1;
   margin: var(--space-4) 0 var(--space-5);
-  font-family: 'KaiTi', 'STKaiti', var(--font-family);
 }
 
 .flash-word {
@@ -103,7 +100,7 @@
   justify-content: center;
 }
 
-.mark-btn {
+.btn.mark-btn {
   min-width: 180px;
   min-height: 72px;
   font-size: 24px;

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useSettings } from '../../app/useSettings'
 import type { BookId, Dataset, Lesson } from '../../data/types'
 import { updateSettings } from '../../db/settings'
+import { addMistakes } from '../boss/api'
 import { addShizi, addXiezi, removeShizi, removeXiezi, updateChar } from './edits'
 import { currentLesson } from './logic/scope'
 import { useCharEdits, useDataset } from './useDataset'
@@ -32,6 +33,7 @@ function CharEditor({
   const info = ds.chars[char]
   const [py, setPy] = useState(info?.py[0] ?? '')
   const [words, setWords] = useState((info?.words ?? []).join('、'))
+  const [bossAdded, setBossAdded] = useState(false)
   const panel = useRef<HTMLDivElement>(null)
   useEffect(() => {
     // 新版 Chrome 的 scrollIntoView 会返回 Promise，不能直接作为 effect 的返回值
@@ -78,6 +80,14 @@ function CharEditor({
           onClick={() => updateChar(char, { verified: !verified })}
         >
           {verified ? '已核对 ✓' : '标为已核对'}
+        </button>
+        <button
+          type="button"
+          className="btn"
+          disabled={bossAdded}
+          onClick={() => addMistakes([char], 'parent').then(() => setBossAdded(true))}
+        >
+          {bossAdded ? '已加入错字 Boss' : '加入错字 Boss'}
         </button>
         {inShizi && (
           <button type="button" className="btn btn-quiet" onClick={() => removeShizi(lesson.id, char).then(onClose)}>

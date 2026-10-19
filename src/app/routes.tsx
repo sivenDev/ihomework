@@ -4,6 +4,8 @@ import { ChildLayout } from './ChildLayout'
 import { ParentGate } from './ParentGate'
 import { ParentHome } from './ParentHome'
 import { ParentTextbookPage } from '../features/textbook/ParentTextbookPage'
+import { BossBattlePage } from '../features/boss/BossBattlePage'
+import { WritePracticePage } from '../features/handwriting/WritePracticePage'
 import { AssessmentHome } from '../features/assessment/AssessmentHome'
 import { DictationPage } from '../features/assessment/DictationPage'
 import { ReadingPage } from '../features/assessment/ReadingPage'
@@ -17,6 +19,8 @@ export function AppRoutes() {
     <Routes>
       <Route element={<ChildLayout />}>
         <Route index element={<ChildHome />} />
+        <Route path="boss" element={<BossBattlePage />} />
+        <Route path="write" element={<WritePracticePage />} />
       </Route>
       <Route path="parent" element={<ParentGate />}>
         <Route index element={<ParentHome />} />

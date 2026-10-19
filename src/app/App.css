@@ -48,6 +48,17 @@
   min-height: 180px;
 }
 
+.island-open {
+  color: inherit;
+  text-decoration: none;
+  height: 100%;
+  border: 3px solid var(--color-accent-soft);
+}
+
+.island-open:active {
+  transform: scale(0.98);
+}
+
 .island-icon {
   font-size: 44px;
 }

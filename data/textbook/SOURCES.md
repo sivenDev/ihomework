@@ -38,3 +38,7 @@
 npx tsx scripts/build-data/prepare-vendor.ts --unihan <Unihan 目录> --mmah <makemeahanzi/dictionary.txt> --jieba <jieba/dict.txt>
 npm run data:build
 ```
+
+## 笔顺数据（`public/strokes/`，构建时生成，不入库）
+
+`npm run data:strokes` 从 `hanzi-writer-data` 复制课本字和一级字表用到的字（3507 个，约 9.5 MB），一级字表中缺少笔顺数据时构建失败。许可见 `THIRD_PARTY_NOTICES.md`。
