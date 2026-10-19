@@ -3,7 +3,6 @@ import { ChildHome } from './ChildHome'
 import { ChildLayout } from './ChildLayout'
 import { ParentGate } from './ParentGate'
 import { ParentHome } from './ParentHome'
-import { AsrCheck } from './AsrCheck'
 import { ParentTextbookPage } from '../features/textbook/ParentTextbookPage'
 import { BossBattlePage } from '../features/boss/BossBattlePage'
 import { WritePracticePage } from '../features/handwriting/WritePracticePage'
@@ -41,7 +40,6 @@ export function AppRoutes() {
         <Route path="assessment/writing" element={<WritingPage />} />
         <Route path="assessment/report/:id" element={<ReportPage />} />
       </Route>
-      <Route path="asr-check" element={<AsrCheck />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

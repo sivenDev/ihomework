@@ -351,6 +351,74 @@
   gap: var(--space-2);
 }
 
+.review-cell {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.review-cell[data-playing='true'] {
+  background: var(--color-accent-soft);
+}
+
+.review-audio {
+  display: flex;
+  gap: 4px;
+}
+
+.audio-btn {
+  min-width: 40px;
+  min-height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-surface-muted);
+  font-size: 16px;
+}
+
+.audio-btn:disabled {
+  opacity: 0.3;
+}
+
+.mic-meter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  background: var(--color-surface-muted);
+}
+
+.mic-meter[data-speaking='true'] {
+  background: var(--color-accent-soft);
+}
+
+.mic-dot {
+  font-size: 24px;
+}
+
+.mic-bar {
+  width: 120px;
+  height: 10px;
+  border-radius: 999px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.mic-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  transition: width 0.1s linear;
+}
+
+.mic-notice {
+  margin-bottom: var(--space-3);
+  color: var(--color-warning-ink);
+  background: var(--color-warning-bg);
+}
+
 .review-item {
   display: grid;
   justify-items: center;

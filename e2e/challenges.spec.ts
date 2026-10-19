@@ -111,7 +111,7 @@ test('flash recall: timed round, rush reminder, honest review, personal best and
   await setProgress(page, '二年级上册', '寒号鸟')
   await page.getByRole('link', { name: /生字闪认/ }).tap()
   await expect(page.getByTestId('flash-info')).toContainText('90 秒')
-  await page.getByRole('button', { name: '开始' }).tap()
+  await page.getByRole('button', { name: '用按钮闯关' }).tap()
 
   // 连续 4 个字一能点就点 → 提醒大声读出来，提醒期间倒计时暂停。
   // 暂停模拟时钟、手动拨动时间：每个字精确停留 0.65 秒，结果与机器快慢无关。

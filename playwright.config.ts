@@ -20,6 +20,8 @@ export default defineConfig({
         isMobile: true,
         hasTouch: true,
         locale: 'zh-CN',
+        // 允许测试中的模拟麦克风（Web Audio）无需手势即可开始
+        launchOptions: { args: ['--autoplay-policy=no-user-gesture-required'] },
         userAgent:
           'Mozilla/5.0 (Linux; Android 14; SM-X710) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
       },
