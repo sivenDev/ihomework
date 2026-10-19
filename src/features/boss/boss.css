@@ -80,3 +80,16 @@
   background: #fff3d6;
   font-size: 26px;
 }
+
+.trophy-mastered {
+  background: var(--color-accent-soft);
+  outline: 2px solid var(--color-accent);
+}
+
+.check-badge {
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: #fff3d6;
+  color: var(--color-warning-ink);
+  font-weight: 700;
+}

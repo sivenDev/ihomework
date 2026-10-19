@@ -8,6 +8,7 @@
 | --- | --- | --- | --- |
 | `required` | 8 | 4 | 4 |
 | `future` | 2 | 2 | 0 |
+| `feature` | 1 | 0 | 1 |
 | `bugfix` | 1 | 0 | 1 |
 
 ## Execution Order
@@ -44,6 +45,12 @@
 | --- | --- | --- | --- |
 | `09` | [P1 扩展玩法：字理故事、汉字积木、找不同、字谜、漫画分镜、我的词库](09-p1-games-and-word-bank.md) | `approved` | 2026-10-19 |
 | `10` | [安卓 APK 打包（Capacitor）](10-android-apk-packaging.md) | `approved` | 2026-10-19 |
+
+### Feature Plans
+
+| ID | Plan | Status | Created |
+| --- | --- | --- | --- |
+| `F001` | [错字 Boss 打败后第 7、15 天复查](features/F001-boss-post-defeat-checks.md) | `complete` | 2026-10-19 |
 
 ### Bugfix Plans
 

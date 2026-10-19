@@ -8,7 +8,7 @@ import { KaiChar } from '../handwriting/KaiChar'
 import { learnedXiezi } from '../textbook/logic/scope'
 import { useDataset } from '../textbook/useDataset'
 import { addMistakes, answerCard, useBossCards } from './api'
-import { dueCards } from './logic/scheduler'
+import { dueCards, isCheck, isMastered } from './logic/scheduler'
 import './boss.css'
 
 type Step = 'read' | 'check' | 'write' | 'result'
@@ -35,8 +35,10 @@ export function BossBattlePage() {
   const list = roster ?? dueCards(cards, today).map((c) => c.char)
   if (!roster && list.length) setRoster(list)
 
-  const trophies = cards.filter((c) => c.status === 'defeated')
+  const mastered = cards.filter(isMastered).map((c) => c.char)
+  const checking = cards.filter(isCheck).map((c) => c.char)
   const char = list[index]
+  const card = cards.find((c) => c.char === char)
   const remaining = list.length - index
   const info = char ? ds.chars[char] : undefined
   const word = info?.words.find((w) => w.length === 2) ?? char
@@ -72,8 +74,8 @@ export function BossBattlePage() {
             {list.length ? '🏆' : '😴'}
           </div>
           <h2>{list.length ? '今天的 Boss 被你打败了！' : '今天没有要打的 Boss'}</h2>
-          <p className="muted">错字会在第 1、2、4 天回来找你，连续答对 3 次就能彻底打败它。</p>
-          <TrophyShelf chars={trophies.map((c) => c.char)} />
+          <p className="muted">错字会在第 1、2、4 天回来找你，连续答对 3 次就能打败它；打败后第 7 天、第 15 天还会回来复查，都答对就彻底记住了。</p>
+          <TrophyShelf mastered={mastered} checking={checking} />
         </section>
       ) : (
         <>
@@ -90,6 +92,11 @@ export function BossBattlePage() {
           </div>
 
           <section className="card boss-card">
+            {card && isCheck(card) && step !== 'result' && (
+              <span className="check-badge" data-testid="check-badge">
+                复查：打败过的字，看看还记得吗
+              </span>
+            )}
             {step === 'read' && (
               <>
                 <p className="muted">这个字怎么读？</p>
@@ -180,18 +187,35 @@ export function BossBattlePage() {
   )
 }
 
-function TrophyShelf({ chars }: { chars: string[] }) {
-  if (!chars.length) return null
+function TrophyShelf({ mastered, checking }: { mastered: string[]; checking: string[] }) {
+  if (!mastered.length && !checking.length) return null
   return (
     <div className="trophies">
-      <h3>战利品（已打败 {chars.length} 个）</h3>
-      <div className="chip-row">
-        {chars.map((c) => (
-          <span key={c} className="trophy">
-            {c}
-          </span>
-        ))}
-      </div>
+      <h3>战利品</h3>
+      {mastered.length > 0 && (
+        <>
+          <p className="muted">已牢记 {mastered.length} 个</p>
+          <div className="chip-row" data-testid="mastered">
+            {mastered.map((c) => (
+              <span key={c} className="trophy trophy-mastered">
+                {c}
+              </span>
+            ))}
+          </div>
+        </>
+      )}
+      {checking.length > 0 && (
+        <>
+          <p className="muted">已打败、等待复查 {checking.length} 个</p>
+          <div className="chip-row" data-testid="checking">
+            {checking.map((c) => (
+              <span key={c} className="trophy">
+                {c}
+              </span>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }

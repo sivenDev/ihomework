@@ -25,6 +25,8 @@ export interface BossCardRow {
   due: string
   streak: number
   status: 'active' | 'defeated'
+  /** 打败后已通过的复查次数（F001） */
+  checks?: number
   sources: string[]
   updatedAt: number
 }
