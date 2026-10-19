@@ -69,6 +69,16 @@ export function ParentHome() {
           </div>
         </section>
 
+        <section className="card" aria-labelledby="assessment-title">
+          <h2 id="assessment-title">现状评估</h2>
+          <p className="muted">认读、听写、组词、朗读、看图写作，生成识字量和建议。建议每 4 周一次。</p>
+          <div className="button-row">
+            <Link className="btn btn-primary" to="/parent/assessment">
+              打开现状评估
+            </Link>
+          </div>
+        </section>
+
         <section className="card" aria-labelledby="limit-title">
           <h2 id="limit-title">每段使用时长</h2>
           <p className="muted">到时间后会提醒孩子休息。</p>

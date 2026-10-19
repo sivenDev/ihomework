@@ -6,7 +6,7 @@
 
 | Type | Plans | Approved | Complete |
 | --- | --- | --- | --- |
-| `required` | 8 | 6 | 2 |
+| `required` | 8 | 5 | 3 |
 | `future` | 2 | 2 | 0 |
 | `bugfix` | 1 | 0 | 1 |
 
@@ -14,7 +14,7 @@
 
 1. `01` [应用骨架、本地数据层与儿童交互基础](01-app-shell-and-local-data.md) - `complete` (2026-10-19)
 2. `02` [课本字库、拓展字库、课本进度与家长字词管理](02-textbook-character-library.md) - `complete` (2026-10-19)
-3. `03` [现状评估中心与评估报告](03-assessment-center.md) - `approved` (2026-10-19)
+3. `03` [现状评估中心与评估报告](03-assessment-center.md) - `complete` (2026-10-19)
 4. `04` [错字 Boss 间隔复习与描红默写](04-error-boss-and-handwriting.md) - `approved` (2026-10-19)
 5. `05` [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) - `approved` (2026-10-19)
 6. `06` [学习路线、三级练习量、每日任务与激励系统](06-daily-tasks-and-rewards.md) - `approved` (2026-10-19)
@@ -31,7 +31,7 @@
 | --- | --- | --- | --- |
 | `01` | [应用骨架、本地数据层与儿童交互基础](01-app-shell-and-local-data.md) | `complete` | 2026-10-19 |
 | `02` | [课本字库、拓展字库、课本进度与家长字词管理](02-textbook-character-library.md) | `complete` | 2026-10-19 |
-| `03` | [现状评估中心与评估报告](03-assessment-center.md) | `approved` | 2026-10-19 |
+| `03` | [现状评估中心与评估报告](03-assessment-center.md) | `complete` | 2026-10-19 |
 | `04` | [错字 Boss 间隔复习与描红默写](04-error-boss-and-handwriting.md) | `approved` | 2026-10-19 |
 | `05` | [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) | `approved` | 2026-10-19 |
 | `06` | [学习路线、三级练习量、每日任务与激励系统](06-daily-tasks-and-rewards.md) | `approved` | 2026-10-19 |

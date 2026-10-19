@@ -63,6 +63,13 @@ export interface BlobRow {
   createdAt: number
 }
 
+/** 评估等处产生、等待错字 Boss（计划 04）导入的错字 */
+export interface PendingMistakeRow {
+  char: string
+  sources: string[]
+  addedAt: number
+}
+
 export const DB_NAME = 'ihomework'
 
 export class AppDatabase extends Dexie {
@@ -76,6 +83,7 @@ export class AppDatabase extends Dexie {
   blobs!: EntityTable<BlobRow, 'id'>
   lessonEdits!: EntityTable<LessonEdit, 'lessonId'>
   charEdits!: EntityTable<CharEdit, 'char'>
+  pendingMistakes!: EntityTable<PendingMistakeRow, 'char'>
 
   constructor(name = DB_NAME) {
     super(name)
@@ -93,6 +101,10 @@ export class AppDatabase extends Dexie {
     this.version(2).stores({
       lessonEdits: 'lessonId',
       charEdits: 'char',
+    })
+    // 计划 03：评估中出错、等待错字 Boss 导入的字
+    this.version(3).stores({
+      pendingMistakes: 'char',
     })
   }
 }

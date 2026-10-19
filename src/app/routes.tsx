@@ -4,6 +4,13 @@ import { ChildLayout } from './ChildLayout'
 import { ParentGate } from './ParentGate'
 import { ParentHome } from './ParentHome'
 import { ParentTextbookPage } from '../features/textbook/ParentTextbookPage'
+import { AssessmentHome } from '../features/assessment/AssessmentHome'
+import { DictationPage } from '../features/assessment/DictationPage'
+import { ReadingPage } from '../features/assessment/ReadingPage'
+import { RecognitionPage } from '../features/assessment/RecognitionPage'
+import { ReportPage } from '../features/assessment/ReportPage'
+import { WordsPage } from '../features/assessment/WordsPage'
+import { WritingPage } from '../features/assessment/WritingPage'
 
 export function AppRoutes() {
   return (
@@ -14,6 +21,14 @@ export function AppRoutes() {
       <Route path="parent" element={<ParentGate />}>
         <Route index element={<ParentHome />} />
         <Route path="textbook" element={<ParentTextbookPage />} />
+        <Route path="assessment" element={<AssessmentHome />} />
+        <Route path="assessment/recognition" element={<RecognitionPage key="recognition" mode="recognition" />} />
+        <Route path="assessment/extension" element={<RecognitionPage key="extension" mode="extension" />} />
+        <Route path="assessment/dictation" element={<DictationPage />} />
+        <Route path="assessment/words" element={<WordsPage />} />
+        <Route path="assessment/reading" element={<ReadingPage />} />
+        <Route path="assessment/writing" element={<WritingPage />} />
+        <Route path="assessment/report/:id" element={<ReportPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
