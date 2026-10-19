@@ -25,6 +25,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Textbook data is valid and up to date
+        run: |
+          npm run data:build
+          git diff --exit-code src/data/generated
       - run: npx playwright install --with-deps chromium
       - name: Lint, typecheck, unit tests, build
         run: npm run verify

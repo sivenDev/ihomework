@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
+import type { CharEdit, LessonEdit } from '../features/textbook/logic/merge'
 
 // 本地数据库。后续计划只追加表或字段：新增 this.version(n).stores({...})，不修改已发布的版本。
 
@@ -73,6 +74,8 @@ export class AppDatabase extends Dexie {
   readingLogs!: EntityTable<ReadingLogRow, 'id'>
   writings!: EntityTable<WritingRow, 'id'>
   blobs!: EntityTable<BlobRow, 'id'>
+  lessonEdits!: EntityTable<LessonEdit, 'lessonId'>
+  charEdits!: EntityTable<CharEdit, 'char'>
 
   constructor(name = DB_NAME) {
     super(name)
@@ -85,6 +88,11 @@ export class AppDatabase extends Dexie {
       readingLogs: '++id, date',
       writings: '++id, date',
       blobs: 'id',
+    })
+    // 计划 02：家长对课本字库的修改
+    this.version(2).stores({
+      lessonEdits: 'lessonId',
+      charEdits: 'char',
     })
   }
 }

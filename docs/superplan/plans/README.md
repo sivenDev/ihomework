@@ -4,15 +4,16 @@
 
 ## Status
 
-| Type | Plans | Approved | Complete |
-| --- | --- | --- | --- |
-| `required` | 8 | 7 | 1 |
-| `future` | 2 | 2 | 0 |
+| Type | Plans | Draft | Approved | Complete |
+| --- | --- | --- | --- | --- |
+| `required` | 8 | 0 | 6 | 2 |
+| `future` | 2 | 0 | 2 | 0 |
+| `bugfix` | 1 | 1 | 0 | 0 |
 
 ## Execution Order
 
 1. `01` [应用骨架、本地数据层与儿童交互基础](01-app-shell-and-local-data.md) - `complete` (2026-10-19)
-2. `02` [课本字库、拓展字库、课本进度与家长字词管理](02-textbook-character-library.md) - `approved` (2026-10-19)
+2. `02` [课本字库、拓展字库、课本进度与家长字词管理](02-textbook-character-library.md) - `complete` (2026-10-19)
 3. `03` [现状评估中心与评估报告](03-assessment-center.md) - `approved` (2026-10-19)
 4. `04` [错字 Boss 间隔复习与描红默写](04-error-boss-and-handwriting.md) - `approved` (2026-10-19)
 5. `05` [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) - `approved` (2026-10-19)
@@ -29,7 +30,7 @@
 | ID | Plan | Status | Created |
 | --- | --- | --- | --- |
 | `01` | [应用骨架、本地数据层与儿童交互基础](01-app-shell-and-local-data.md) | `complete` | 2026-10-19 |
-| `02` | [课本字库、拓展字库、课本进度与家长字词管理](02-textbook-character-library.md) | `approved` | 2026-10-19 |
+| `02` | [课本字库、拓展字库、课本进度与家长字词管理](02-textbook-character-library.md) | `complete` | 2026-10-19 |
 | `03` | [现状评估中心与评估报告](03-assessment-center.md) | `approved` | 2026-10-19 |
 | `04` | [错字 Boss 间隔复习与描红默写](04-error-boss-and-handwriting.md) | `approved` | 2026-10-19 |
 | `05` | [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) | `approved` | 2026-10-19 |
@@ -43,3 +44,9 @@
 | --- | --- | --- | --- |
 | `09` | [P1 扩展玩法：字理故事、汉字积木、找不同、字谜、漫画分镜、我的词库](09-p1-games-and-word-bank.md) | `approved` | 2026-10-19 |
 | `10` | [安卓 APK 打包（Capacitor）](10-android-apk-packaging.md) | `approved` | 2026-10-19 |
+
+### Bugfix Plans
+
+| ID | Plan | Status | Created |
+| --- | --- | --- | --- |
+| `B001` | [点读改用应用自带的普通话音节录音](bugs/B001-offline-syllable-audio.md) | `draft` | 2026-10-19 |

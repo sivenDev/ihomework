@@ -1,0 +1,154 @@
+.progress-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+
+.progress-current {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.book-tabs {
+  margin-bottom: var(--space-4);
+}
+
+.unit-title {
+  font-size: 20px;
+  margin: var(--space-5) 0 var(--space-3);
+  color: var(--color-ink-muted);
+}
+
+.lesson-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.lesson-row {
+  padding: var(--space-3) var(--space-4);
+}
+
+.lesson-row[data-current='true'] {
+  outline: 3px solid var(--color-accent);
+}
+
+.lesson-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.lesson-label {
+  min-width: 64px;
+  color: var(--color-ink-muted);
+  font-size: var(--font-small);
+}
+
+.lesson-title {
+  font-weight: 700;
+  flex: 1 1 160px;
+}
+
+.lesson-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+.lesson-detail {
+  margin-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-3);
+}
+
+.lesson-detail h4 {
+  margin: var(--space-3) 0 var(--space-2);
+  font-size: var(--font-small);
+  color: var(--color-ink-muted);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.char-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 56px;
+  min-height: var(--touch-min);
+  padding: 4px 8px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.char-chip[data-verified='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.char-chip-py {
+  font-size: 14px;
+  color: var(--color-ink-muted);
+}
+
+.char-chip-char {
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+.add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  align-items: center;
+}
+
+.add-form input,
+.field input {
+  min-height: var(--touch-min);
+  padding: 0 var(--space-3);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  background: #fff;
+}
+
+.add-form input {
+  flex: 1 1 220px;
+}
+
+.char-editor {
+  margin-top: var(--space-4);
+  display: grid;
+  gap: var(--space-3);
+  border: 2px solid var(--color-accent);
+}
+
+.char-editor-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.char-editor-char {
+  font-size: 56px;
+  line-height: 1;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--font-small);
+}

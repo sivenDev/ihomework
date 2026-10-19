@@ -1,0 +1,298 @@
+# 二年级下册（统编版，根据 2022 年版课程标准修订）
+# 来源：官方电子教材页面图片人工转录；详见 SOURCES.md
+# 格式：shizi / duoyin 为“字:拼音”空格分隔，xiezi 为连续汉字；duoyin 是识字表中蓝色的多音字（不计入生字总数）
+id: g2b
+name: 二年级下册
+isbn: "9787107406027"
+printed:
+  shizi: 450
+  xiezi: 250
+lessons:
+  - id: g2b-k1
+    unit: 1
+    kind: 阅读
+    num: 1
+    title: "古诗二首"
+    shizi: "咏:yǒng 贺:hè 妆:zhuāng 丝:sī 裁:cái 剪:jiǎn 莺:yīng 拂:fú 堤:dī 醉:zuì 趁:chèn"
+    duoyin: ""
+    xiezi: "诗碧妆绿丝剪童归"
+  - id: g2b-k2
+    unit: 1
+    kind: 阅读
+    num: 2
+    title: "找春天"
+    shizi: "脱:tuō 袄:ǎo 遮:zhē 掩:yǎn 探:tàn 眉:méi 吐:tǔ 芽:yá 符:fú 解:jiě 触:chù 杜:dù 鹃:juān"
+    duoyin: ""
+    xiezi: "冲寻眉吐闻柳荡桃"
+  - id: g2b-k3
+    unit: 1
+    kind: 阅读
+    num: 3
+    title: "开满鲜花的小路"
+    shizi: "裹:guǒ 颈:jǐng 寄:jì 粒:lì 破:pò 漏:lòu 懊:ào 丧:sàng 巧:qiǎo 绚:xuàn 狐:hú 狸:lí 籽:zǐ 礼:lǐ"
+    duoyin: "啊:à"
+    xiezi: "鲜原叔通巧惊礼"
+  - id: g2b-k4
+    unit: 1
+    kind: 阅读
+    num: 4
+    title: "邓小平爷爷植树"
+    shizi: "邓:dèng 坛:tán 龄:líng 格:gé 致:zhì 勃:bó 挖:wā 额:é 汗:hàn 仍:réng 肯:kěn 茁:zhuó 移:yí 挥:huī 扶:fú"
+    duoyin: ""
+    xiezi: "邓植格引注满"
+  - id: g2b-g1
+    unit: 1
+    kind: 语文园地
+    num: 1
+    title: "语文园地一"
+    shizi: "亭:tíng 咨:zī 询:xún 剧:jù 塔:tǎ 餐:cān 厅:tīng 厕:cè"
+    duoyin: ""
+    xiezi: "剧场"
+  - id: g2b-k5
+    unit: 2
+    kind: 阅读
+    num: 5
+    title: "雷锋叔叔，你在哪里"
+    shizi: "迹:jì 曾:céng 冒:mào 蒙:méng 瞧:qiáo 泞:nìng 窝:wō 顺:shùn 荆:jīng 棘:jí 瓣:bàn 莹:yíng 觅:mì 需:xū 献:xiàn"
+    duoyin: ""
+    xiezi: "雷锋昨背洒汗温暖"
+  - id: g2b-k6
+    unit: 2
+    kind: 阅读
+    num: 6
+    title: "千人糕"
+    shizi: "糕:gāo 尝:cháng 嘛:ma 磨:mò 粉:fěn 糖:táng 料:liào 甘:gān 蔗:zhè 汁:zhī 熬:áo 销:xiāo 售:shòu 确:què 应:yīng"
+    duoyin: "的:dí"
+    xiezi: "桌尝买具甘汁甜菜劳应"
+  - id: g2b-k7
+    unit: 2
+    kind: 阅读
+    num: 7
+    title: "我不是最弱小的"
+    shizi: "弱:ruò 末:mò 亚:yà 簇:cù 拥:yōng 随:suí 芬:fēn 芳:fāng 突:tū 紧:jǐn 递:dì 摸:mō 显:xiǎn 娇:jiāo 掀:xiān"
+    duoyin: ""
+    xiezi: "弱周末母吸芬芳递勇敢"
+  - id: g2b-g2
+    unit: 2
+    kind: 语文园地
+    num: 2
+    title: "语文园地二"
+    shizi: "程:chéng 魔:mó 术:shù 建:jiàn 筑:zhù 演:yǎn 营:yíng 务:wù 判:pàn 饲:sì 养:yǎng"
+    duoyin: "发:fà"
+    xiezi: "程术服务"
+  - id: g2b-s1
+    unit: 3
+    kind: 识字
+    num: 1
+    title: "神州谣"
+    shizi: "州:zhōu 谣:yáo 华:huá 涌:yǒng 耸:sǒng 隔:gé 峡:xiá 与:yǔ 陆:lù 各:gè 谊:yì 浓:nóng 齐:qí 奋:fèn 繁:fán"
+    duoyin: ""
+    xiezi: "神州华各族情谊齐"
+  - id: g2b-s2
+    unit: 3
+    kind: 识字
+    num: 2
+    title: "传统节日"
+    shizi: "传:chuán 统:tǒng 贴:tiē 宵:xiāo 巷:xiàng 潮:cháo 祭:jì 扫:sǎo 艾:ài 堂:táng 乞:qǐ 郎:láng 饼:bǐng 赏:shǎng 菊:jú"
+    duoyin: ""
+    xiezi: "传统贴街扫龙艾全团真"
+  - id: g2b-s3
+    unit: 3
+    kind: 识字
+    num: 3
+    title: "“贝”的故事"
+    shizi: "甲:jiǎ 骨:gǔ 贵:guì 饰:shì 品:pǐn 携:xié 易:yì 损:sǔn 钱:qián 币:bì 财:cái 赚:zhuàn 赔:péi 购:gòu"
+    duoyin: "漂:piào"
+    xiezi: "甲骨觉品钱币与财"
+  - id: g2b-s4
+    unit: 3
+    kind: 识字
+    num: 4
+    title: "中国美食"
+    shizi: "拌:bàn 菠:bō 煎:jiān 腐:fǔ 茄:qié 烤:kǎo 葱:cōng 炖:dùn 蘑:mó 菇:gū 蒸:zhēng 饺:jiǎo 酱:jiàng 粥:zhōu 蛋:dàn"
+    duoyin: "炸:zhá"
+    xiezi: "食茄烤鸭煮鸡蛋饭"
+  - id: g2b-g3
+    unit: 3
+    kind: 语文园地
+    num: 3
+    title: "语文园地三"
+    shizi: "津:jīn 酸:suān 溜:liū 辣:là 乎:hū 喷:pēn 腻:nì 绵:mián 脆:cuì 邦:bāng"
+    duoyin: ""
+    xiezi: "辣乎"
+  - id: g2b-k8
+    unit: 4
+    kind: 阅读
+    num: 8
+    title: "彩色的梦"
+    shizi: "梦:mèng 躺:tǎng 聊:liáo 蹦:bèng 郁:yù 囱:cōng 般:bān 精:jīng 境:jìng 叮:dīng 咛:níng"
+    duoyin: ""
+    xiezi: "梦硬铅盒森结苹精灵流"
+  - id: g2b-k9
+    unit: 4
+    kind: 阅读
+    num: 9
+    title: "一匹出色的马"
+    shizi: "匹:pǐ 郊:jiāo 微:wēi 泛:fàn 波:bō 纹:wén 异:yì 恋:liàn 舍:shě 求:qiú 株:zhū 拾:shí 骑:qí 骄:jiāo 傲:ào"
+    duoyin: ""
+    xiezi: "匹妹波纹恋舍求奔"
+  - id: g2b-k10
+    unit: 4
+    kind: 阅读
+    num: 10
+    title: "枫树上的喜鹊"
+    shizi: "渡:dù 荫:yìn 蔽:bì 阿:ā 姨:yí 撑:chēng 便:biàn 冈:gāng 懂:dǒng 案:àn"
+    duoyin: ""
+    xiezi: "旁阿姨弟便教拼音"
+  - id: g2b-g4
+    unit: 4
+    kind: 语文园地
+    num: 4
+    title: "语文园地四"
+    shizi: "翁:wēng 橡:xiàng 枪:qiāng 控:kòng 坦:tǎn 克:kè 航:háng 模:mó 型:xíng"
+    duoyin: "倒:dǎo"
+    xiezi: "坦克"
+  - id: g2b-k11
+    unit: 5
+    kind: 阅读
+    num: 11
+    title: "寓言二则"
+    shizi: "寓:yù 则:zé 亡:wáng 补:bǔ 牢:láo 叼:diāo 修:xiū 堵:dǔ 悔:huǐ 实:shí 焦:jiāo 筋:jīn 喘:chuǎn 费:fèi 截:jié"
+    duoyin: "圈:juàn"
+    xiezi: "亡补牢劝丢助坏死"
+  - id: g2b-k12
+    unit: 5
+    kind: 阅读
+    num: 12
+    title: "画杨桃"
+    shizi: "室:shì 而:ér 幅:fú 哈:hā 审:shěn 肃:sù 晌:shǎng 嘻:xī 悦:yuè 诲:huì"
+    duoyin: ""
+    xiezi: "室排而实候班哈举"
+  - id: g2b-k13
+    unit: 5
+    kind: 阅读
+    num: 13
+    title: "小马过河"
+    shizi: "棚:péng 驮:tuó 坊:fāng 挡:dǎng 伯:bó 浅:qiǎn 刚:gāng 淹:yān 哩:li 叹:tàn 唉:ài 蹄:tí 既:jì"
+    duoyin: ""
+    xiezi: "愿意麦伯刻突然掉"
+  - id: g2b-g5
+    unit: 5
+    kind: 语文园地
+    num: 5
+    title: "语文园地五"
+    shizi: "厨:chú 柜:guì 厢:xiāng 商:shāng 厦:shà 洞:dòng 穴:xué 窟:kū 窿:lóng 窖:jiào 窄:zhǎi"
+    duoyin: ""
+    xiezi: "商厦洞穴"
+  - id: g2b-k14
+    unit: 6
+    kind: 阅读
+    num: 14
+    title: "古诗二首"
+    shizi: "甫:fǔ 鸣:míng 含:hán 岭:lǐng 泊:bó 晓:xiǎo 净:jìng 寺:sì 宋:sòng 毕:bì 竟:jìng"
+    duoyin: ""
+    xiezi: "窗含岭泊吴净莲映"
+  - id: g2b-k15
+    unit: 6
+    kind: 阅读
+    num: 15
+    title: "雷雨"
+    shizi: "压:yā 蝉:chán 蜘:zhī 蛛:zhū 响:xiǎng 哗:huā 渐:jiàn"
+    duoyin: ""
+    xiezi: "乌黑沉压响新迎扑"
+  - id: g2b-k16
+    unit: 6
+    kind: 阅读
+    num: 16
+    title: "要是你在野外迷了路"
+    shizi: "慌:huāng 针:zhēn 辨:biàn 忠:zhōng 导:dǎo 盏:zhǎn 永:yǒng 闯:chuǎng 碰:pèng 稠:chóu 稀:xī 渠:qú"
+    duoyin: ""
+    xiezi: "指南针帮忠导永夜特积"
+  - id: g2b-k17
+    unit: 6
+    kind: 阅读
+    num: 17
+    title: "太空生活趣事多"
+    shizi: "宇:yǔ 宙:zhòu 稳:wěn 必:bì 须:xū 固:gù 杯:bēi 态:tài 即:jí 使:shǐ 饮:yǐn 挤:jǐ 浴:yù 桶:tǒng 简:jiǎn"
+    duoyin: "重:zhòng"
+    xiezi: "航宇宙或浴桶"
+  - id: g2b-g6
+    unit: 6
+    kind: 语文园地
+    num: 6
+    title: "语文园地六"
+    shizi: "博:bó 馆:guǎn 览:lǎn 技:jì 育:yù 究:jiū 哨:shào 诊:zhěn 律:lǜ"
+    duoyin: ""
+    xiezi: "馆所"
+  - id: g2b-k18
+    unit: 7
+    kind: 阅读
+    num: 18
+    title: "大象的耳朵"
+    shizi: "耷:dā 遇:yù 咦:yí 竖:shù 竿:gān 舞:wǔ 痛:tòng 烦:fán"
+    duoyin: "扇:shān"
+    xiezi: "扇慢遇定病睡根痛"
+  - id: g2b-k19
+    unit: 7
+    kind: 阅读
+    num: 19
+    title: "蜘蛛开店"
+    shizi: "店:diàn 寂:jì 寞:mò 罩:zhào 牌:pái 编:biān 顾:gù 夫:fū 完:wán 脖:bó 趴:pā 袜:wà 匆:cōng 蜈:wú 蚣:gōng"
+    duoyin: ""
+    xiezi: "店决需付夫终期"
+  - id: g2b-k20
+    unit: 7
+    kind: 阅读
+    num: 20
+    title: "青蛙卖泥塘"
+    shizi: "烂:làn 换:huàn 搬:bān 坑:kēng 舒:shū 集:jí 播:bō 茵:yīn 砍:kǎn 灌:guàn 缺:quē 栽:zāi 泳:yǒng 愣:lèng"
+    duoyin: "喝:hè"
+    xiezi: "蛙卖搬倒泉砍破泳"
+  - id: g2b-k21
+    unit: 7
+    kind: 阅读
+    num: 21
+    title: "小毛虫"
+    shizi: "昆:kūn 怜:lián 另:lìng 仿:fǎng 佛:fú 并:bìng 任:rèn 何:hé 纺:fǎng 竭:jié 规:guī 待:dài 醒:xǐng 挣:zhèng 愉:yú"
+    duoyin: "量:liáng 尽:jǐn"
+    xiezi: "仿佛并任何纺织迟"
+  - id: g2b-g7
+    unit: 7
+    kind: 语文园地
+    num: 7
+    title: "语文园地七"
+    shizi: "帚:zhǒu 抹:mā 拖:tuō 簸:bò 箕:jī 玻:bō 璃:lí 垃:lā 圾:jī"
+    duoyin: "扫:sào"
+    xiezi: "校内"
+  - id: g2b-k22
+    unit: 8
+    kind: 阅读
+    num: 22
+    title: "羿射九日"
+    shizi: "射:shè 桑:sāng 值:zhí 熔:róng 类:lèi 箭:jiàn 翻:fān 跨:kuà 搭:dā 裂:liè 窜:cuàn 炎:yán 滋:zī 润:rùn 腾:téng"
+    duoyin: ""
+    xiezi: "射最始换值弓炎此"
+  - id: g2b-k23
+    unit: 8
+    kind: 阅读
+    num: 23
+    title: "黄帝的传说"
+    shizi: "帝:dì 创:chuàng 帽:mào 启:qǐ 召:zhào 按:àn 设:shè 材:cái 断:duàn 替:tì 其:qí 段:duàn 互:hù 供:gōng 善:shàn"
+    duoyin: "待:dāi"
+    xiezi: "忽件启召众完却供"
+  - id: g2b-k24
+    unit: 8
+    kind: 阅读
+    num: 24
+    title: "大禹治水"
+    shizi: "洪:hóng 滥:làn 毁:huǐ 毒:dú 伤:shāng 继:jì 续:xù 败:bài 训:xùn 疏:shū 努:nǔ 驱:qū 恢:huī 功:gōng 绩:jì"
+    duoyin: "难:nàn"
+    xiezi: "治洪姓带必须仍继续业"
+  - id: g2b-g8
+    unit: 8
+    kind: 语文园地
+    num: 8
+    title: "语文园地八"
+    shizi: "钩:gōu 铲:chǎn 橙:chéng 柿:shì 源:yuán 涨:zhǎng 炬:jù 灿:càn 垮:kuǎ 坟:fén"
+    duoyin: ""
+    xiezi: "灿烂"

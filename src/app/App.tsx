@@ -1,5 +1,6 @@
 import { HashRouter } from 'react-router-dom'
 import { SpeechNotice } from '../components/SpeechNotice'
+import { ReadingSync } from '../features/textbook/ReadingSync'
 import { ParentSessionProvider } from './ParentSession'
 import { AppRoutes } from './routes'
 import './App.css'
@@ -9,6 +10,7 @@ export function App() {
   return (
     <HashRouter>
       <ParentSessionProvider>
+        <ReadingSync />
         <SpeechNotice />
         <AppRoutes />
       </ParentSessionProvider>

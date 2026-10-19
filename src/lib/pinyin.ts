@@ -6,7 +6,14 @@ export function isHanzi(ch: string): boolean {
   return HAN.test(ch)
 }
 
-/** 单个汉字的带声调拼音。课本多音字读音由字库（计划 02）覆盖。 */
+let readings: Record<string, { py: string[] }> | undefined
+
+/** 字库加载后注册课本读音和家长修改的读音，点读时优先使用。 */
+export function setReadingSource(source: Record<string, { py: string[] }> | undefined) {
+  readings = source
+}
+
+/** 单个汉字的带声调拼音：优先用字库里的课本读音，没有时用拼音库。 */
 export function pinyinOf(ch: string): string {
-  return pinyin(ch, { toneType: 'symbol' })
+  return readings?.[ch]?.py[0] ?? pinyin(ch, { toneType: 'symbol' })
 }

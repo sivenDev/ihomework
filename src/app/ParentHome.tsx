@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { BackupError, exportBackup, importBackup, parseBackup } from '../db/backup'
 import { SESSION_LIMIT_OPTIONS, updateSettings } from '../db/settings'
 import { localDate } from '../lib/date'
@@ -59,6 +59,16 @@ export function ParentHome() {
       </div>
 
       <div className="parent-grid">
+        <section className="card" aria-labelledby="textbook-title">
+          <h2 id="textbook-title">课本与字库</h2>
+          <p className="muted">设置孩子学到第几课，核对和修改每课的生字。</p>
+          <div className="button-row">
+            <Link className="btn btn-primary" to="/parent/textbook">
+              打开课本与字库
+            </Link>
+          </div>
+        </section>
+
         <section className="card" aria-labelledby="limit-title">
           <h2 id="limit-title">每段使用时长</h2>
           <p className="muted">到时间后会提醒孩子休息。</p>

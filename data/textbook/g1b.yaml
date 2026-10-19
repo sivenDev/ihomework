@@ -1,0 +1,298 @@
+# 一年级下册（统编版，根据 2022 年版课程标准修订）
+# 来源：官方电子教材页面图片人工转录；详见 SOURCES.md
+# 格式：shizi / duoyin 为“字:拼音”空格分隔，xiezi 为连续汉字；duoyin 是识字表中蓝色的多音字（不计入生字总数）
+id: g1b
+name: 一年级下册
+isbn: "9787107383014"
+printed:
+  shizi: 410
+  xiezi: 200
+lessons:
+  - id: g1b-s1
+    unit: 1
+    kind: 识字
+    num: 1
+    title: "春夏秋冬"
+    shizi: "霜:shuāng 吹:chuī 落:luò 降:jiàng 飘:piāo 游:yóu 池:chí 入:rù"
+    duoyin: ""
+    xiezi: "春冬吹花飞入"
+  - id: g1b-s2
+    unit: 1
+    kind: 识字
+    num: 2
+    title: "姓氏歌"
+    shizi: "氏:shì 什:shén 李:lǐ 张:zhāng 弓:gōng 古:gǔ 胡:hú 吴:wú 言:yán 孙:sūn"
+    duoyin: ""
+    xiezi: "什么古胡双言"
+  - id: g1b-s3
+    unit: 1
+    kind: 识字
+    num: 3
+    title: "小青蛙"
+    shizi: "河:hé 晴:qíng 眼:yǎn 睛:jīng 保:bǎo 护:hù 苗:miáo 吃:chī 事:shì 情:qíng 请:qǐng 让:ràng"
+    duoyin: ""
+    xiezi: "青清晴苗请生"
+  - id: g1b-s4
+    unit: 1
+    kind: 识字
+    num: 4
+    title: "猜字谜"
+    shizi: "猜:cāi 边:biān 凉:liáng 喜:xǐ 欢:huān 时:shí 怕:pà 攻:gōng 令:lìng 感:gǎn 动:dòng 万:wàn 无:wú"
+    duoyin: ""
+    xiezi: "字红动万无明"
+  - id: g1b-g1
+    unit: 1
+    kind: 语文园地
+    num: 1
+    title: "语文园地一"
+    shizi: "识:shí 组:zǔ 计:jì 算:suàn 减:jiǎn 式:shì 图:tú 形:xíng 卡:kǎ 合:hé 唱:chàng 团:tuán"
+    duoyin: ""
+    xiezi: "文卡片合"
+  - id: g1b-k1
+    unit: 2
+    kind: 阅读
+    num: 1
+    title: "热爱中国共产党"
+    shizi: "热:rè 爱:ài 共:gòng 产:chǎn 党:dǎng 太:tài 阳:yáng 光:guāng 怀:huái 抱:bào 幸:xìng 福:fú 成:chéng"
+    duoyin: ""
+    xiezi: "共产党太阳光"
+  - id: g1b-k2
+    unit: 2
+    kind: 阅读
+    num: 2
+    title: "吃水不忘挖井人"
+    shizi: "井:jǐng 城:chéng 村:cūn 毛:máo 主:zhǔ 席:xí 住:zhù 乡:xiāng 亲:qīn 战:zhàn 士:shì 想:xiǎng 念:niàn"
+    duoyin: ""
+    xiezi: "井主江住方后"
+  - id: g1b-k3
+    unit: 2
+    kind: 阅读
+    num: 3
+    title: "我多想去看看"
+    shizi: "告:gào 诉:sù 走:zǒu 京:jīng 座:zuò 安:ān 广:guǎng 场:chǎng 非:fēi 宽:kuān 丽:lì 洁:jié"
+    duoyin: ""
+    xiezi: "告的会北京广"
+  - id: g1b-g2
+    unit: 2
+    kind: 语文园地
+    num: 2
+    title: "语文园地二"
+    shizi: "认:rèn 连:lián 选:xuǎn 圈:quān 涂:tú 填:tián 试:shì 练:liàn"
+    duoyin: ""
+    xiezi: "写认"
+  - id: g1b-k4
+    unit: 3
+    kind: 阅读
+    num: 4
+    title: "小公鸡和小鸭子"
+    shizi: "玩:wán 得:de 急:jí 直:zhí 哭:kū 跟:gēn 忽:hū 然:rán 听:tīng 喊:hǎn 快:kuài 己:jǐ 背:bèi"
+    duoyin: ""
+    xiezi: "走河说让自己"
+  - id: g1b-k5
+    unit: 3
+    kind: 阅读
+    num: 5
+    title: "树和喜鹊"
+    shizi: "很:hěn 孤:gū 单:dān 种:zhòng 每:měi 都:dōu 邻:lín 居:jū 叫:jiào 招:zhāo 呼:hū 乐:lè"
+    duoyin: "只:zhǐ"
+    xiezi: "从好们叫他回"
+  - id: g1b-k6
+    unit: 3
+    kind: 阅读
+    num: 6
+    title: "怎么都快乐"
+    shizi: "怎:zěn 独:dú 跳:tiào 绳:shéng 当:dāng 还:hái 羽:yǔ 球:qiú 劲:jìn 轮:lún 排:pái"
+    duoyin: "乐:yuè 得:děi"
+    xiezi: "快乐当书画毛"
+  - id: g1b-g3
+    unit: 3
+    kind: 语文园地
+    num: 3
+    title: "语文园地三"
+    shizi: "母:mǔ 页:yè 止:zhǐ 斤:jīn 寸:cùn 丁:dīng 千:qiān 全:quán 旦:dàn"
+    duoyin: ""
+    xiezi: "止斤寸丁千旦"
+  - id: g1b-k7
+    unit: 4
+    kind: 阅读
+    num: 7
+    title: "静夜思"
+    shizi: "静:jìng 思:sī 床:chuáng 疑:yí 举:jǔ 望:wàng 低:dī 故:gù"
+    duoyin: ""
+    xiezi: "思床前地故乡"
+  - id: g1b-k8
+    unit: 4
+    kind: 阅读
+    num: 8
+    title: "夜色"
+    shizi: "胆:dǎn 敢:gǎn 勇:yǒng 讲:jiǎng 窗:chuāng 乱:luàn 拉:lā 样:yàng 笑:xiào 再:zài 睡:shuì 觉:jiào"
+    duoyin: ""
+    xiezi: "色把讲样笑再"
+  - id: g1b-k9
+    unit: 4
+    kind: 阅读
+    num: 9
+    title: "端午粽"
+    shizi: "端:duān 粽:zòng 节:jié 总:zǒng 煮:zhǔ 盼:pàn 米:mǐ 枣:zǎo 甜:tián 分:fēn 鲜:xiān 肉:ròu"
+    duoyin: "了:liǎo"
+    xiezi: "节米间分吃肉"
+  - id: g1b-g4
+    unit: 4
+    kind: 语文园地
+    num: 4
+    title: "语文园地四"
+    shizi: "册:cè 支:zhī 台:tái 电:diàn 视:shì 部:bù 机:jī 衣:yī 裤:kù 被:bèi"
+    duoyin: ""
+    xiezi: "册支电衣"
+  - id: g1b-s5
+    unit: 5
+    kind: 识字
+    num: 5
+    title: "动物儿歌"
+    shizi: "物:wù 捉:zhuō 迷:mí 藏:cáng 造:zào 蚂:mǎ 蚁:yǐ 运:yùn 食:shí 粮:liáng 房:fáng 结:jié 网:wǎng"
+    duoyin: ""
+    xiezi: "物造运欢房网"
+  - id: g1b-s6
+    unit: 5
+    kind: 识字
+    num: 6
+    title: "古对今"
+    shizi: "圆:yuán 严:yán 寒:hán 酷:kù 暑:shǔ 暖:nuǎn 晨:chén 细:xì 朝:zhāo 霞:xiá 夕:xī 杨:yáng 香:xiāng"
+    duoyin: ""
+    xiezi: "对今雪细夕语"
+  - id: g1b-s7
+    unit: 5
+    kind: 识字
+    num: 7
+    title: "操场上"
+    shizi: "操:cāo 拔:bá 拍:pāi 跑:pǎo 踢:tī 铃:líng 真:zhēn 闹:nào 丢:diū 沙:shā 身:shēn 体:tǐ"
+    duoyin: ""
+    xiezi: "打皮跑足沙包"
+  - id: g1b-s8
+    unit: 5
+    kind: 识字
+    num: 8
+    title: "人之初"
+    shizi: "之:zhī 初:chū 相:xiāng 近:jìn 习:xí 远:yuǎn 教:jiào 道:dào 专:zhuān 幼:yòu 玉:yù 知:zhī 义:yì"
+    duoyin: ""
+    xiezi: "近习远学玉义"
+  - id: g1b-g5
+    unit: 5
+    kind: 语文园地
+    num: 5
+    title: "语文园地五"
+    shizi: "饭:fàn 饱:bǎo 茶:chá 泡:pào 轻:qīng 穿:chuān 袍:páo 鞭:biān 炮:pào"
+    duoyin: ""
+    xiezi: "饱抱"
+  - id: g1b-k10
+    unit: 6
+    kind: 阅读
+    num: 10
+    title: "古诗二首"
+    shizi: "诗:shī 首:shǒu 偷:tōu 浮:fú 萍:píng 泉:quán 惜:xī 照:zhào 柔:róu 荷:hé 露:lù 角:jiǎo"
+    duoyin: ""
+    xiezi: "首池采尖角早"
+  - id: g1b-k11
+    unit: 6
+    kind: 阅读
+    num: 11
+    title: "浪花"
+    shizi: "浪:làng 迈:mài 悄:qiāo 泪:lèi 次:cì 给:gěi 壳:ké 虾:xiā 装:zhuāng 像:xiàng 淘:táo 娃:wá"
+    duoyin: ""
+    xiezi: "眼泪它贝气娃"
+  - id: g1b-k12
+    unit: 6
+    kind: 阅读
+    num: 12
+    title: "荷叶圆圆"
+    shizi: "珠:zhū 摇:yáo 篮:lán 亮:liàng 晶:jīng 停:tíng 坪:píng 展:zhǎn 透:tòu 翅:chì 膀:bǎng 朵:duǒ"
+    duoyin: ""
+    xiezi: "机台唱伞朵美"
+  - id: g1b-k13
+    unit: 6
+    kind: 阅读
+    num: 13
+    title: "要下雨了"
+    shizi: "要:yào 腰:yāo 阴:yīn 沉:chén 呀:ya 忙:máng 呢:ne 吗:ma 面:miàn 闷:mēn 吧:ba 消:xiāo 息:xī"
+    duoyin: "空:kòng"
+    xiezi: "这看鱼面问加"
+  - id: g1b-g6
+    unit: 6
+    kind: 语文园地
+    num: 6
+    title: "语文园地六"
+    shizi: "棍:gùn 豆:dòu 汤:tāng 蚊:wén 扇:shàn 椅:yǐ 牵:qiān 织:zhī 斗:dǒu"
+    duoyin: ""
+    xiezi: "豆斗"
+  - id: g1b-k14
+    unit: 7
+    kind: 阅读
+    num: 14
+    title: "文具的家"
+    shizi: "具:jù 铅:qiān 新:xīn 平:píng 盒:hé 些:xiē 此:cǐ 仔:zǐ 检:jiǎn 查:chá 所:suǒ 伙:huǒ 伴:bàn"
+    duoyin: ""
+    xiezi: "笔知道放平安"
+  - id: g1b-k15
+    unit: 7
+    kind: 阅读
+    num: 15
+    title: "一分钟"
+    shizi: "钟:zhōng 迟:chí 灯:dēng 等:děng 啊:a 决:jué 定:dìng 已:yǐ 经:jīng 位:wèi 表:biǎo"
+    duoyin: "背:bēi"
+    xiezi: "元灯车站坐老师"
+  - id: g1b-k16
+    unit: 7
+    kind: 阅读
+    num: 16
+    title: "动物王国开大会"
+    shizi: "虎:hǔ 熊:xióng 通:tōng 注:zhù 意:yì 遍:biàn 百:bǎi 为:wèi 因:yīn 舌:shé 理:lǐ 忘:wàng 第:dì"
+    duoyin: "呀:yā"
+    xiezi: "国都百听时点林"
+  - id: g1b-k17
+    unit: 7
+    kind: 阅读
+    num: 17
+    title: "小猴子下山"
+    shizi: "猴:hóu 块:kuài 兴:xìng 掰:bāi 扛:káng 往:wǎng 棵:kē 满:mǎn 扔:rēng 摘:zhāi 捧:pěng 追:zhuī"
+    duoyin: "结:jiē"
+    xiezi: "高兴着往瓜兔进"
+  - id: g1b-g7
+    unit: 7
+    kind: 语文园地
+    num: 7
+    title: "语文园地七"
+    shizi: "刷:shuā 梳:shū 巾:jīn 皂:zào 洗:xǐ 澡:zǎo 脸:liǎn 盆:pén"
+    duoyin: ""
+    xiezi: "巾洗"
+  - id: g1b-k18
+    unit: 8
+    kind: 阅读
+    num: 18
+    title: "棉花姑娘"
+    shizi: "棉:mián 姑:gū 娘:niáng 病:bìng 她:tā 治:zhì 燕:yàn 帮:bāng 害:hài 别:bié 干:gàn 惊:jīng 奇:qí"
+    duoyin: ""
+    xiezi: "她空还干身星久"
+  - id: g1b-k19
+    unit: 8
+    kind: 阅读
+    num: 19
+    title: "咕咚"
+    shizi: "咕:gū 咚:dōng 熟:shú 掉:diào 湖:hú 吓:xià 啦:la 鹿:lù 象:xiàng 野:yě 拦:lán 哪:nǎ 那:nà 领:lǐng"
+    duoyin: ""
+    xiezi: "吓为怕家象没到"
+  - id: g1b-k20
+    unit: 8
+    kind: 阅读
+    num: 20
+    title: "小壁虎借尾巴"
+    shizi: "壁:bì 借:jiè 咬:yǎo 难:nán 爬:pá 您:nín 拨:bō 赶:gǎn 摆:bǎi 过:guò 孩:hái 转:zhuǎn"
+    duoyin: "哪:na"
+    xiezi: "向边行草赶过找"
+  - id: g1b-g8
+    unit: 8
+    kind: 语文园地
+    num: 8
+    title: "语文园地八"
+    shizi: "吵:chǎo 现:xiàn 顶:dǐng 胖:pàng 票:piào 户:hù 交:jiāo 父:fù"
+    duoyin: ""
+    xiezi: "页户交父"

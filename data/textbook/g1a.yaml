@@ -1,0 +1,330 @@
+# 一年级上册（统编版，根据 2022 年版课程标准修订）
+# 来源：官方电子教材 PDF 自动提取；详见 SOURCES.md
+# 格式：shizi / duoyin 为“字:拼音”空格分隔，xiezi 为连续汉字；duoyin 是识字表中蓝色的多音字（不计入生字总数）
+id: g1a
+name: 一年级上册
+isbn: "9787107383007"
+printed:
+  shizi: 280
+  xiezi: 100
+lessons:
+  - id: g1a-s1
+    unit: 1
+    kind: 识字
+    num: 1
+    title: "天地人"
+    shizi: "天:tiān 地:dì 人:rén 你:nǐ 我:wǒ 他:tā"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-s2
+    unit: 1
+    kind: 识字
+    num: 2
+    title: "金木水火土"
+    shizi: "一:yī 二:èr 三:sān 四:sì 五:wǔ 上:shàng 下:xià"
+    duoyin: ""
+    xiezi: "一二三上"
+  - id: g1a-s3
+    unit: 1
+    kind: 识字
+    num: 3
+    title: "口耳目手足"
+    shizi: "口:kǒu 耳:ěr 目:mù 手:shǒu 足:zú 站:zhàn 坐:zuò"
+    duoyin: ""
+    xiezi: "口耳目手"
+  - id: g1a-s4
+    unit: 1
+    kind: 识字
+    num: 4
+    title: "日月山川"
+    shizi: "日:rì 月:yuè 山:shān 川:chuān 水:shuǐ 火:huǒ 田:tián 禾:hé"
+    duoyin: ""
+    xiezi: "日火田禾"
+  - id: g1a-g1
+    unit: 1
+    kind: 语文园地
+    num: 1
+    title: "语文园地一"
+    shizi: "六:liù 七:qī 八:bā 九:jiǔ 十:shí"
+    duoyin: ""
+    xiezi: "六七八十"
+  - id: g1a-p1
+    unit: 2
+    kind: 汉语拼音
+    num: 1
+    title: "a o e"
+    shizi: ""
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p2
+    unit: 2
+    kind: 汉语拼音
+    num: 2
+    title: "i u ü"
+    shizi: ""
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p3
+    unit: 2
+    kind: 汉语拼音
+    num: 3
+    title: "b p m f"
+    shizi: "爸:bà 妈:mā"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p4
+    unit: 2
+    kind: 汉语拼音
+    num: 4
+    title: "d t n l"
+    shizi: "大:dà 马:mǎ 路:lù 土:tǔ"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-g2
+    unit: 2
+    kind: 语文园地
+    num: 2
+    title: "语文园地二"
+    shizi: "本:běn 学:xué 校:xiào 班:bān 级:jí 姓:xìng 名:míng 王:wáng"
+    duoyin: ""
+    xiezi: "九王"
+  - id: g1a-p5
+    unit: 3
+    kind: 汉语拼音
+    num: 5
+    title: "g  h"
+    shizi: "哥:gē 弟:dì 画:huà 花:huā"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p6
+    unit: 3
+    kind: 汉语拼音
+    num: 6
+    title: "j q x"
+    shizi: "打:dǎ 棋:qí 积:jī 木:mù"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p7
+    unit: 3
+    kind: 汉语拼音
+    num: 7
+    title: "z c s"
+    shizi: "字:zì 词:cí 句:jù 子:zǐ"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p8
+    unit: 3
+    kind: 汉语拼音
+    num: 8
+    title: "zh ch sh r"
+    shizi: "桌:zhuō 纸:zhǐ 读:dú 书:shū"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p9
+    unit: 3
+    kind: 汉语拼音
+    num: 9
+    title: "y w"
+    shizi: "鱼:yú 鸭:yā 乌:wū 鸦:yā"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-g3
+    unit: 3
+    kind: 语文园地
+    num: 3
+    title: "语文园地三"
+    shizi: "午:wǔ 星:xīng 期:qī 语:yǔ 文:wén 数:shù 写:xiě 会:huì"
+    duoyin: ""
+    xiezi: "午下"
+  - id: g1a-p10
+    unit: 4
+    kind: 汉语拼音
+    num: 10
+    title: "ai ei ui"
+    shizi: "白:bái 菜:cài 西:xī 瓜:guā 果:guǒ"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p11
+    unit: 4
+    kind: 汉语拼音
+    num: 11
+    title: "ao ou iu"
+    shizi: "小:xiǎo 桥:qiáo 流:liú 柳:liǔ"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p12
+    unit: 4
+    kind: 汉语拼音
+    num: 12
+    title: "ie üe er"
+    shizi: "开:kāi 雪:xuě 夜:yè 色:sè 美:měi"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p13
+    unit: 4
+    kind: 汉语拼音
+    num: 13
+    title: "an en in un ün"
+    shizi: "蓝:lán 云:yún 草:cǎo 原:yuán"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-p14
+    unit: 4
+    kind: 汉语拼音
+    num: 14
+    title: "ang eng ing ong"
+    shizi: "冰:bīng 自:zì 行:xíng 车:chē"
+    duoyin: ""
+    xiezi: ""
+  - id: g1a-g4
+    unit: 4
+    kind: 语文园地
+    num: 4
+    title: "语文园地四"
+    shizi: "晚:wǎn 昨:zuó 今:jīn 明:míng 个:gè 这:zhè 去:qù 年:nián"
+    duoyin: ""
+    xiezi: "去年"
+  - id: g1a-k1
+    unit: 5
+    kind: 阅读
+    num: 1
+    title: "秋天"
+    shizi: "秋:qiū 气:qì 了:le 树:shù 叶:yè 黄:huáng 片:piàn 从:cóng 来:lái 飞:fēi"
+    duoyin: ""
+    xiezi: "了子大人"
+  - id: g1a-k2
+    unit: 5
+    kind: 阅读
+    num: 2
+    title: "江南"
+    shizi: "江:jiāng 南:nán 可:kě 采:cǎi 莲:lián 戏:xì 间:jiān 东:dōng 北:běi"
+    duoyin: ""
+    xiezi: "可叶东西"
+  - id: g1a-k3
+    unit: 5
+    kind: 阅读
+    num: 3
+    title: "雪地里的小画家"
+    shizi: "的:de 家:jiā 鸡:jī 竹:zhú 牙:yá 用:yòng 几:jǐ 步:bù 没:méi 参:cān 加:jiā"
+    duoyin: ""
+    xiezi: "竹马牙用几"
+  - id: g1a-k4
+    unit: 5
+    kind: 阅读
+    num: 4
+    title: "四季"
+    shizi: "鸟:niǎo 说:shuō 是:shì 春:chūn 青:qīng 蛙:wā 夏:xià 着:zhe 皮:pí 就:jiù 冬:dōng"
+    duoyin: "地:de"
+    xiezi: "四小鸟是天"
+  - id: g1a-g5
+    unit: 5
+    kind: 语文园地
+    num: 5
+    title: "语文园地五"
+    shizi: "男:nán 女:nǚ 关:guān 正:zhèng 反:fǎn 先:xiān 后:hòu 内:nèi 外:wài"
+    duoyin: ""
+    xiezi: "女开关先"
+  - id: g1a-s5
+    unit: 6
+    kind: 识字
+    num: 5
+    title: "对韵歌"
+    shizi: "对:duì 歌:gē 雨:yǔ 风:fēng 虫:chóng 清:qīng 绿:lǜ 桃:táo 红:hóng"
+    duoyin: ""
+    xiezi: "云雨虫山水"
+  - id: g1a-s6
+    unit: 6
+    kind: 识字
+    num: 6
+    title: "日月明"
+    shizi: "力:lì 尖:jiān 尘:chén 众:zhòng 双:shuāng 林:lín 森:sēn 不:bù 条:tiáo 心:xīn 金:jīn"
+    duoyin: ""
+    xiezi: "力男土木心"
+  - id: g1a-s7
+    unit: 6
+    kind: 识字
+    num: 7
+    title: "小书包"
+    shizi: "包:bāo 尺:chǐ 作:zuò 业:yè 笔:bǐ 刀:dāo 宝:bǎo 贝:bèi 少:shǎo 课:kè 早:zǎo"
+    duoyin: ""
+    xiezi: "尺本刀不少"
+  - id: g1a-s8
+    unit: 6
+    kind: 识字
+    num: 8
+    title: "升国旗"
+    shizi: "升:shēng 国:guó 旗:qí 中:zhōng 们:men 声:shēng 起:qǐ 多:duō 么:me 向:xiàng 立:lì"
+    duoyin: ""
+    xiezi: "中五风立正"
+  - id: g1a-g6
+    unit: 6
+    kind: 语文园地
+    num: 6
+    title: "语文园地六"
+    shizi: "老:lǎo 师:shī 工:gōng 厂:chǎng 医:yī 院:yuàn 生:shēng 门:mén 卫:wèi"
+    duoyin: ""
+    xiezi: "工厂门卫"
+  - id: g1a-k5
+    unit: 7
+    kind: 阅读
+    num: 5
+    title: "小小的船"
+    shizi: "船:chuán 弯:wān 儿:ér 两:liǎng 头:tóu 在:zài 里:lǐ 看:kàn 见:jiàn 闪:shǎn"
+    duoyin: ""
+    xiezi: "月儿头里见"
+  - id: g1a-k6
+    unit: 7
+    kind: 阅读
+    num: 6
+    title: "影子"
+    shizi: "影:yǐng 前:qián 常:cháng 黑:hēi 狗:gǒu 左:zuǒ 右:yòu 它:tā 好:hǎo 朋:péng 友:yǒu"
+    duoyin: ""
+    xiezi: "在我左右"
+  - id: g1a-k7
+    unit: 7
+    kind: 阅读
+    num: 7
+    title: "两件宝"
+    shizi: "件:jiàn 有:yǒu 和:hé 做:zuò 也:yě 办:bàn 到:dào 又:yòu 才:cái 能:néng"
+    duoyin: ""
+    xiezi: "和也又才"
+  - id: g1a-g7
+    unit: 7
+    kind: 语文园地
+    num: 7
+    title: "语文园地七"
+    shizi: "爷:yé 奶:nǎi 叔:shū 姐:jiě 妹:mèi"
+    duoyin: ""
+    xiezi: "爸妈"
+  - id: g1a-k8
+    unit: 8
+    kind: 阅读
+    num: 8
+    title: "比尾巴"
+    shizi: "比:bǐ 尾:wěi 巴:bā 谁:shuí 长:cháng 短:duǎn 把:bǎ 伞:sǎn 兔:tù 最:zuì 公:gōng"
+    duoyin: ""
+    xiezi: "比巴长公"
+  - id: g1a-k9
+    unit: 8
+    kind: 阅读
+    num: 9
+    title: "乌鸦喝水"
+    shizi: "喝:hē 只:zhī 处:chù 找:zhǎo 许:xǔ 石:shí 出:chū 法:fǎ 放:fàng 进:jìn 高:gāo"
+    duoyin: "着:zháo"
+    xiezi: "只个多石出"
+  - id: g1a-k10
+    unit: 8
+    kind: 阅读
+    num: 10
+    title: "雨点儿"
+    shizi: "点:diǎn 彩:cǎi 半:bàn 空:kōng 问:wèn 回:huí 答:dá 方:fāng 久:jiǔ 更:gèng"
+    duoyin: "数:shǔ 长:zhǎng"
+    xiezi: "来半你有"
+  - id: g1a-g8
+    unit: 8
+    kind: 语文园地
+    num: 8
+    title: "语文园地八"
+    shizi: "牛:niú 羊:yáng 爪:zhuǎ 旦:dàn 拼:pīn 音:yīn"
+    duoyin: ""
+    xiezi: "牛羊果白"
