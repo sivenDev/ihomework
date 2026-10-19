@@ -134,11 +134,14 @@ test('words, reading and writing parts can be completed', async ({ page }) => {
   await page.getByRole('link', { name: '开始朗读计时' }).tap()
   await page.getByLabel('朗读短文').fill('天上有一个太阳，地上有一棵大树。')
   await expect(page.getByText('共 14 个汉字')).toBeVisible()
+  // 暂停时钟、手动拨动 30 秒，计时结果与机器快慢无关
+  await page.clock.pauseAt(Date.now() + 60_000)
   await page.getByRole('button', { name: '开始计时' }).tap()
   await page.clock.runFor(30_000)
   await page.getByRole('button', { name: /卡顿 \+1/ }).tap()
   await page.getByRole('button', { name: '读完了，停止计时' }).tap()
   await expect(page.getByRole('status').filter({ hasText: '用时' })).toHaveText('用时 30 秒，卡顿 1 次，每分钟约 28 字。')
+  await page.clock.resume()
   await page.getByRole('link', { name: '返回' }).tap()
 
   await page.getByRole('link', { name: '开始看图写作' }).tap()

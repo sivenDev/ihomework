@@ -113,20 +113,26 @@ test('flash recall: timed round, rush reminder, honest review, personal best and
   await expect(page.getByTestId('flash-info')).toContainText('90 秒')
   await page.getByRole('button', { name: '开始' }).tap()
 
-  // 连续 4 个字一能点就点 → 提醒大声读出来，提醒期间倒计时暂停
+  // 连续 4 个字一能点就点 → 提醒大声读出来，提醒期间倒计时暂停。
+  // 暂停模拟时钟、手动拨动时间：每个字精确停留 0.65 秒，结果与机器快慢无关。
+  // 暂停时时间先快进，第一个字已停留很久不算快，所以连点 5 次（最近 4 次都快）
+  await page.clock.pauseAt(new Date('2026-10-19T10:01:00'))
   const seen: string[] = []
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 5; i++) {
     seen.push((await page.getByTestId('kai-char').getAttribute('aria-label'))!)
+    await page.clock.runFor(650)
     await page.getByRole('button', { name: '认识' }).tap()
   }
   const reminder = page.getByRole('dialog', { name: '专注提醒' })
   await expect(reminder).toBeVisible()
   const timerBefore = await page.getByTestId('flash-timer').textContent()
   await expect(reminder.getByRole('button', { name: /准备中/ })).toBeDisabled()
-  await page.clock.runFor(5_500)
+  // 提醒的倒计时每秒接力一次，逐秒拨动时钟
+  for (let i = 0; i < 6; i++) await page.clock.runFor(1_000)
   await expect(page.getByTestId('flash-timer')).toHaveText(timerBefore!)
   await reminder.getByRole('button', { name: '我准备好了' }).tap()
   await expect(reminder).toBeHidden()
+  await page.clock.resume()
 
   // 之后放慢：每个字停留 1.2 秒再点
   for (let i = 0; i < 2; i++) {
@@ -137,18 +143,18 @@ test('flash recall: timed round, rush reminder, honest review, personal best and
   await page.clock.runFor(91_000)
   await expect(page.getByRole('heading', { name: /时间到！看看拼音，刚才读错的字点一下/ })).toBeVisible()
   const items = page.locator('.review-item')
-  await expect(items).toHaveCount(5)
+  await expect(items).toHaveCount(6)
   await items.first().tap()
   await expect(items.first()).toHaveAttribute('aria-pressed', 'true')
   await page.getByRole('button', { name: '完成，看成绩' }).tap()
-  await expect(page.getByTestId('round-score')).toHaveText('4 个字')
+  await expect(page.getByTestId('round-score')).toHaveText('5 个字')
   await expect(page.getByTestId('new-best')).toBeVisible()
-  // 4/6 ≈ 67%：难度不变
+  // 5/7 ≈ 71%：难度不变
   await expect(page.getByTestId('level-change')).toHaveAttribute('data-text', '下一关还是难度 1：当前课')
 
-  // 读错（第 1 个）和跳过（第 6 个）的字中，已学的第二天出现在错字 Boss；下一课预习的字不算
+  // 读错（第 1 个）和跳过（第 7 个）的字中，已学的第二天出现在错字 Boss；下一课预习的字不算
   const learned = learnedUpTo('g2a-k12')
-  const expected = [seen[0], seen[5]].filter((c) => learned.has(c)).length
+  const expected = [seen[0], seen[6]].filter((c) => learned.has(c)).length
   await page.clock.setSystemTime(new Date('2026-10-20T10:00:00'))
   await page.goto('/#/boss')
   await page.reload()
