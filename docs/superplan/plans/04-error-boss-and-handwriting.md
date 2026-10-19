@@ -24,7 +24,7 @@ parent: ""
 - **Boss 战界面**：显示 Boss 血条（今日剩余待复习数）；每张卡先认读（家长或孩子自判），写字表中的字再进入默写。
 - **描红**：田字格内显示浅色字形，先播放笔顺动画，孩子逐笔描写，写错即时提示并可重写。
 - **默写**：不显示字形，只播放读音、显示拼音和组词，孩子按笔顺逐笔书写；连续错 3 笔后给出下一笔提示；结果记为“正确 / 有提示 / 错误”，后两种进入错字 Boss。
-- 笔顺数据随应用打包，四册所有写字表的字离线可用。
+- 笔顺数据随应用打包，课本字和拓展字（一级字表全部 3500 字）都可以离线描红和默写。
 
 **Non-Goals:**
 - 不做任意手写识别（只按标准笔顺比对）。
@@ -33,7 +33,7 @@ parent: ""
 
 **Architecture:**
 - 调度器是纯函数：输入卡片状态、作答结果和日期，输出新状态；日期由调用方传入，便于测试。按“本地自然日”计算间隔，避免时区和夜里跨天问题。
-- 笔顺书写使用 Hanzi Writer 的 quiz 模式，笔顺数据来自 `hanzi-writer-data` npm 包，构建时只复制四册用到的字（约 1600 个），遵守其许可并写入 `THIRD_PARTY_NOTICES.md`。
+- 笔顺书写使用 Hanzi Writer 的 quiz 模式，笔顺数据来自 `hanzi-writer-data` npm 包，构建时只复制一级字表的 3500 字，遵守其许可并写入 `THIRD_PARTY_NOTICES.md`；构建脚本输出数据总体积，供计划 08 评估离线缓存。
 - 提供 `addMistake(char, source)` 接口给其他模块调用；接入计划 03 中暂存的待处理错字。
 
 **Exit Criteria:**
@@ -57,7 +57,7 @@ parent: ""
 
 ## Task 2: 描红与默写组件、离线笔顺数据
 
-**Outcome:** 任意写字表中的字都能离线描红和默写，结果可回传。
+**Outcome:** 课本字和拓展字都能离线描红和默写，结果可回传。
 
 **Files:**
 - Create: `src/features/handwriting/TraceBoard.tsx`, `src/features/handwriting/DictationBoard.tsx`, `scripts/build-data/strokes.ts`, `public/strokes/`
@@ -68,7 +68,7 @@ parent: ""
 - `npm run data:build`
 - `npm run test:e2e`
 
-- [ ] 描红、默写在平板视口可完成；四册写字表的字都有笔顺数据（构建脚本校验）
+- [ ] 描红、默写在平板视口可完成；一级字表 3500 字都有笔顺数据（构建脚本校验）
 
 ## Task 3: Boss 战界面与错字接入
 
