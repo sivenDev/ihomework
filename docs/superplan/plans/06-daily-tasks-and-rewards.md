@@ -2,7 +2,7 @@
 id: "06"
 title: "学习路线、三级练习量、每日任务与激励系统"
 type: "required"
-status: "draft"
+status: "approved"
 summary: "按课本进度、补漏/同步/拓展三条学习路线和轻松/标准/加强三个练习级别自动生成每日任务、周 Boss 战和单元挑战，并实现只加不扣的经验值、等级和家长确认的奖励兑换。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"

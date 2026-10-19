@@ -1,0 +1,37 @@
+:root {
+  /* 颜色：宣纸底色、朱红主色、青绿辅色 */
+  --color-bg: #f7f3ea;
+  --color-surface: #fffdf8;
+  --color-surface-muted: #efe8da;
+  --color-ink: #2b2622;
+  --color-ink-muted: #6b6259;
+  --color-primary: #c8553d;
+  --color-primary-ink: #ffffff;
+  --color-accent: #2a8c80;
+  --color-accent-soft: #d8efe9;
+  --color-warning-bg: #fff3d6;
+  --color-warning-ink: #7a5300;
+  --color-danger: #b3261e;
+  --color-border: #e2d8c6;
+
+  /* 尺寸：触控目标不小于 48px */
+  --touch-min: 48px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* 字号：孩子界面偏大 */
+  --font-body: 20px;
+  --font-small: 16px;
+  --font-title: 32px;
+  --font-hanzi: 36px;
+  --font-family: system-ui, -apple-system, 'Noto Sans CJK SC', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  --shadow-card: 0 2px 0 rgba(43, 38, 34, 0.06), 0 6px 18px rgba(43, 38, 34, 0.06);
+}

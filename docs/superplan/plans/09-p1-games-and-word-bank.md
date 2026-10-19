@@ -2,7 +2,7 @@
 id: "09"
 title: "P1 扩展玩法：字理故事、汉字积木、找不同、字谜、漫画分镜、我的词库"
 type: "future"
-status: "draft"
+status: "approved"
 summary: "在 MVP 之后增加四个汉字闯关玩法、漫画分镜写作和分类词库。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"

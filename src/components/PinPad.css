@@ -1,0 +1,35 @@
+.pinpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.pinpad-dots {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.pinpad-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-ink-muted);
+}
+
+.pinpad-dot[data-filled='true'] {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+}
+
+.pinpad-keys {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: var(--space-3);
+}
+
+.pinpad-keys .btn {
+  height: 64px;
+  font-size: 28px;
+  padding: 0;
+}

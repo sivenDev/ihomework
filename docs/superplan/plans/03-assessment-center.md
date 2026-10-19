@@ -2,7 +2,7 @@
 id: "03"
 title: "现状评估中心与评估报告"
 type: "required"
-status: "draft"
+status: "approved"
 summary: "提供课内与拓展认读抽测、听写、组词、朗读计时和看图写作评分，生成课内外识字量、待攻克清单、写作等级、建议学习路线和练习级别，并保存历史供复评对比。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"

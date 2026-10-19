@@ -2,7 +2,7 @@
 id: "02"
 title: "课本字库、拓展字库、课本进度与家长字词管理"
 type: "required"
-status: "draft"
+status: "approved"
 summary: "整理部编版一上至二下的识字表与写字表，以及《通用规范汉字表》一级字中的课外拓展字，补全拼音、部首、构字、组词数据，支持家长设置课本进度、超前学习和修改字词。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"

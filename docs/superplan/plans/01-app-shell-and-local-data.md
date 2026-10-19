@@ -2,7 +2,7 @@
 id: "01"
 title: "应用骨架、本地数据层与儿童交互基础"
 type: "required"
-status: "draft"
+status: "in_progress"
 summary: "搭建可在安卓平板运行的 React PWA 骨架，包含孩子/家长双模式、IndexedDB 数据层、JSON 导入导出、汉字点读与统一验证命令。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"

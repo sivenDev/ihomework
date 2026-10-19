@@ -2,7 +2,7 @@
 id: "04"
 title: "错字 Boss 间隔复习与描红默写"
 type: "required"
-status: "draft"
+status: "approved"
 summary: "实现按第 1、2、4、7、15 天间隔复习的错字 Boss，以及基于标准笔顺逐笔判断的描红和默写，默写出错自动进入错字 Boss。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"

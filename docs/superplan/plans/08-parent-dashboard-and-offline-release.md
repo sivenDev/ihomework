@@ -2,7 +2,7 @@
 id: "08"
 title: "家长看板、PWA 离线与 MVP 验收"
 type: "required"
-status: "draft"
+status: "approved"
 summary: "提供识字量曲线、学习路线进度、写作等级、错字清单、打卡和用时的家长看板，实现 PWA 离线安装，并在安卓平板上完成 PRD 全部 MVP 验收。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"

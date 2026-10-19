@@ -2,7 +2,7 @@
 id: "10"
 title: "安卓 APK 打包（Capacitor）"
 type: "future"
-status: "draft"
+status: "approved"
 summary: "在需要时把同一套 Web 代码用 Capacitor 打包成可直接安装的安卓 APK。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"

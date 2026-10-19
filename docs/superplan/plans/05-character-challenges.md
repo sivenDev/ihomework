@@ -2,7 +2,7 @@
 id: "05"
 title: "汉字闯关：部首侦探、字族网络、生字闪认"
 type: "required"
-status: "draft"
+status: "approved"
 summary: "实现三个 P0 闯关玩法，难度随正确率自动调整，每关不超过 5 分钟，出错的字进入错字 Boss。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"

@@ -2,7 +2,7 @@
 id: "07"
 title: "侦探看图写作、写作等级与阅读打卡"
 type: "required"
-status: "draft"
+status: "approved"
 summary: "实现“找线索 → 推理 → 写报告 → 句子升级 → 家长评分”的看图写作引导流程和 5 级写作等级阶梯，以及阅读打卡和分难度推荐书单。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"
