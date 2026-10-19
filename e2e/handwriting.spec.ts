@@ -20,7 +20,7 @@ test('trace then write a character from the current lesson', async ({ page }) =>
   await drawChar(page, '上')
   await expect(page.getByText('第 2 步：默写')).toBeVisible()
   await drawChar(page, '上')
-  await expect(page.getByRole('status')).toContainText('写对了！')
+  await expect(page.getByRole('status').filter({ hasText: '写对了！' })).toBeVisible()
   await expect(page.getByRole('button', { name: '练习“上”，写对了！' })).toBeVisible()
 })
 
@@ -32,7 +32,7 @@ test('a character the child cannot write goes to the error boss', async ({ page 
   await drawChar(page, '二')
   await expect(page.getByTestId('hanzi-board')).toHaveAttribute('data-state', 'quiz', { timeout: 20_000 })
   await page.getByRole('button', { name: '写不出，看答案' }).tap()
-  await expect(page.getByRole('status')).toContainText('先记住笔顺，明天再写')
+  await expect(page.getByRole('status').filter({ hasText: '先记住笔顺，明天再写' })).toBeVisible()
 
   await page.getByRole('link', { name: '回首页' }).tap()
   await page.getByRole('link', { name: /错字 Boss/ }).tap()
@@ -63,5 +63,5 @@ test('random scribbles are not accepted as a character', async ({ page }) => {
   await expect(board).toHaveAttribute('data-state', 'quiz')
   await expect(board).toHaveAttribute('data-result', '')
   await page.getByRole('button', { name: '写不出，看答案' }).tap()
-  await expect(page.getByRole('status')).toContainText('先记住笔顺，明天再写')
+  await expect(page.getByRole('status').filter({ hasText: '先记住笔顺，明天再写' })).toBeVisible()
 })
