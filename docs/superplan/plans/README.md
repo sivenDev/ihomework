@@ -4,11 +4,11 @@
 
 ## Status
 
-| Type | Plans | Draft | Approved | Complete |
-| --- | --- | --- | --- | --- |
-| `required` | 8 | 0 | 6 | 2 |
-| `future` | 2 | 0 | 2 | 0 |
-| `bugfix` | 1 | 1 | 0 | 0 |
+| Type | Plans | Approved | Complete |
+| --- | --- | --- | --- |
+| `required` | 8 | 6 | 2 |
+| `future` | 2 | 2 | 0 |
+| `bugfix` | 1 | 0 | 1 |
 
 ## Execution Order
 
@@ -49,4 +49,4 @@
 
 | ID | Plan | Status | Created |
 | --- | --- | --- | --- |
-| `B001` | [点读改用应用自带的普通话音节录音](bugs/B001-offline-syllable-audio.md) | `draft` | 2026-10-19 |
+| `B001` | [不支持朗读的浏览器给出明确提示并引导用 Chrome 打开](bugs/B001-unsupported-browser-notice.md) | `complete` | 2026-10-19 |

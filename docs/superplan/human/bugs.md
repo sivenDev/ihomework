@@ -20,7 +20,7 @@
 
 ## B001: 安卓平板 Chrome 上点读汉字听不到声音
 
-- status: accepted
+- status: done
 - created: 2026-10-19
 
 复现步骤：

@@ -1,6 +1,10 @@
 // 汉字朗读：使用浏览器自带的中文语音（Web Speech API），不联网。
 
-export type SpeechStatus = 'checking' | 'available' | 'unavailable'
+/**
+ * unsupported：浏览器没有网页朗读功能（如基于安卓 WebView 的手机自带浏览器）
+ * unavailable：支持朗读，但设备上没有中文语音
+ */
+export type SpeechStatus = 'checking' | 'available' | 'unavailable' | 'unsupported'
 
 export interface Speaker {
   status(): SpeechStatus
@@ -18,7 +22,7 @@ export function createWebSpeaker(): Speaker {
   const synth = typeof window !== 'undefined' ? window.speechSynthesis : undefined
   const listeners = new Set<() => void>()
   let voice: SpeechSynthesisVoice | undefined
-  let status: SpeechStatus = synth ? 'checking' : 'unavailable'
+  let status: SpeechStatus = synth ? 'checking' : 'unsupported'
 
   const notify = () => listeners.forEach((l) => l())
   const pickVoice = () => {
