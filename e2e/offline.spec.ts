@@ -32,6 +32,10 @@ test('installable PWA: precaches everything, then a Boss battle, a dictation and
   // 第一次打开：显示下载进度，下载完提示可以离线使用
   await expect(page.getByTestId('pwa-ready')).toBeVisible({ timeout: 90_000 })
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true)
+  await page.getByTestId('pwa-ready').getByRole('button', { name: '知道了' }).tap()
+  // 没有中文语音的机器（如 CI）上，每次整页加载约 1 秒后页面顶部会插入语音提示，把书写板往下推，正在写的笔画就落空了。
+  // 这里不测语音，先记下“已经关掉过这条提示”（和孩子点“知道了”的效果相同）。
+  await page.evaluate(() => localStorage.setItem('ihomework.speechNoticeDismissed', 'unavailable'))
 
   // Chrome 的可安装性检查（应用清单、图标、Service Worker）
   const cdp = await context.newCDPSession(page)

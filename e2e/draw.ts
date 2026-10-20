@@ -9,6 +9,8 @@ export async function drawChar(page: Page, char: string) {
   await expect(board).toHaveAttribute('data-state', 'quiz', { timeout: 20_000 })
   // 直接读构建时复制出来的笔顺文件（不经过网络，断网测试和子路径部署下也能用）
   const data = JSON.parse(readFileSync(`public/strokes/${char}.json`, 'utf8')) as { medians: number[][][] }
+  // 页面顶部有提示条时书写板会被推到屏幕下方（只露出一部分），先滚到屏幕中间再写
+  await board.evaluate((el) => el.scrollIntoView({ block: 'center' }))
   const box = (await board.boundingBox())!
   // Hanzi Writer 的坐标：字在 1024 × 1024 的空间里，y 轴向上，下边界为 -124
   const scale = (box.width - 2 * PADDING) / 1024
