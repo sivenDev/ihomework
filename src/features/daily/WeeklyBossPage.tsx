@@ -74,6 +74,8 @@ function ExamRunner({ exam, previous, title }: { exam: ExamRow; previous: ExamRo
   const [index, setIndex] = useState(0)
   const [step, setStep] = useState<Step>('read')
   const [results, setResults] = useState<Record<string, boolean>>({})
+  const [reads, setReads] = useState<Record<string, boolean>>({})
+  const [writes, setWrites] = useState<Record<string, boolean>>({})
 
   if (!ds) return <div className="page muted">正在加载…</div>
 
@@ -124,9 +126,14 @@ function ExamRunner({ exam, previous, title }: { exam: ExamRow; previous: ExamRo
   const info = ds.chars[char]
   const word = info?.words.find((w) => w.length === 2) ?? char
 
-  const record = async (correct: boolean) => {
-    const all = { ...results, [char]: correct }
+  /** 记下这个字的结果。read：读对没有；written：默写对没有（没有默写时不填）。 */
+  const record = async (read: boolean, written?: boolean) => {
+    const all = { ...results, [char]: read && written !== false }
+    const allReads = { ...reads, [char]: read }
+    const allWrites = written === undefined ? writes : { ...writes, [char]: written }
     setResults(all)
+    setReads(allReads)
+    setWrites(allWrites)
     if (index + 1 < exam.chars.length) {
       setIndex(index + 1)
       setStep('read')
@@ -138,7 +145,7 @@ function ExamRunner({ exam, previous, title }: { exam: ExamRow; previous: ExamRo
         .map(([c]) => c),
       exam.kind,
     )
-    await finishExam(exam.id!, all)
+    await finishExam(exam.id!, all, undefined, { readResults: allReads, writeResults: allWrites })
   }
 
   return (
@@ -209,7 +216,7 @@ function ExamRunner({ exam, previous, title }: { exam: ExamRow; previous: ExamRo
                 🔊
               </button>
             </p>
-            <HanziBoard key={`${char}-exam`} char={char} mode="dictation" size={300} onDone={(r) => void record(r === 'correct')} />
+            <HanziBoard key={`${char}-exam`} char={char} mode="dictation" size={300} onDone={(r) => void record(true, r === 'correct')} />
           </>
         )}
       </section>

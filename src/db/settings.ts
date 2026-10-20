@@ -35,6 +35,8 @@ export interface AppSettings {
   customBooks: BookEntry[]
   /** 家长从内置书单中删掉的书（id） */
   hiddenBooks: string[]
+  /** 家长在看板上忽略某类级别建议的日期（7 天内不再显示）（计划 08） */
+  adviceDismissed: Partial<Record<'down' | 'up-or-fewer', string>>
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -54,6 +56,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   writingLevel: null,
   customBooks: [],
   hiddenBooks: [],
+  adviceDismissed: {},
 }
 
 export async function getSettings(): Promise<AppSettings> {

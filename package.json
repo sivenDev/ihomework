@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "npm run data:strokes && vite build",
+    "build": "npm run data:strokes && vite build && tsx scripts/pwa/build-sw.ts dist",
     "preview": "vite preview --host",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
@@ -13,7 +13,8 @@
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build",
     "test:e2e": "playwright test",
     "data:build": "tsx scripts/build-data/index.ts",
-    "data:strokes": "tsx scripts/build-data/strokes.ts"
+    "data:strokes": "tsx scripts/build-data/strokes.ts",
+    "build:e2e": "npm run data:strokes && VITE_BASE=/ihomework/ vite build --outDir dist-e2e && tsx scripts/pwa/build-sw.ts dist-e2e"
   },
   "dependencies": {
     "dexie": "^4.4.6",

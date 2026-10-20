@@ -2,7 +2,7 @@
 id: "08"
 title: "家长看板、PWA 离线与 MVP 验收"
 type: "required"
-status: "approved"
+status: "in_progress"
 summary: "提供识字量曲线、学习路线进度、写作等级、错字清单、打卡和用时的家长看板，实现 PWA 离线安装，并在安卓平板上完成 PRD 全部 MVP 验收。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"
@@ -58,7 +58,7 @@ parent: ""
 - `npm run verify`
 - `npm run test:e2e`
 
-- [ ] 指标计算和看板展示通过测试
+- [x] 指标计算和看板展示通过测试
 
 ## Task 2: PWA 离线与无外部请求检查
 
@@ -72,7 +72,7 @@ parent: ""
 - `npm run build && npm run test:e2e`
 - Lighthouse 可安装性检查
 
-- [ ] 离线使用与无外部请求测试通过
+- [x] 离线使用与无外部请求测试通过
 
 ## Task 3: 安卓平板 MVP 验收
 
@@ -85,6 +85,53 @@ parent: ""
 - 在安卓平板 Chrome 上按 PRD 第 8 节逐条人工验收
 
 - [ ] 11 条验收全部通过并记录
+
+## Delivery Notes
+
+- 看板放在家长模式首页（`/parent`）上方，下面是“设置与管理”：课本进度与字词、现状评估、级别与路线（含超前学习开关、每段时长上限）、奖励清单、看图写作评分、推荐书单、家长 PIN（新增修改功能）、数据备份。
+- 识字量曲线的口径：
+  - 评估点：课内认读用报告估算；课内会写 = 听写正确率 × 已学写字表字数；课外识字用拓展认读估算。
+  - 周 Boss 点：课内认读 = 认读正确率 × 已学生字数；课内会写 = 默写正确率 × 已学写字表字数；课外 = 最近一次课外估算 + 之后新字任务学过的课外字。
+  - 某项没有新数据时沿用上一次的值。周 Boss 从本计划起分开记录认读、默写结果和出题时的课本进度；更早的记录用总结果代替认读结果。
+- 每日用时：数据库 v6 新增 `usage` 表，只记孩子模式下页面可见的时间，规则和休息提醒的计时相同，每 15 秒写一次。
+- 级别建议在看板上可以“采纳”（改为建议的级别）或“忽略”（7 天内不再显示）。
+- **实现与原定架构不同（机制调整，范围不变）**：
+  - 没有用 vite-plugin-pwa / Workbox，改为自己写的 Service Worker（`scripts/pwa/sw.template.js`），构建后由 `scripts/pwa/build-sw.ts` 生成预缓存清单（约 3660 个文件、约 11.4 MB）。原因：
+    - Workbox 安装时不报告进度，无法实现“首次安装显示下载进度”。
+    - 自己写的版本只重新下载内容有变化的文件，不引入新依赖，约 100 行。
+  - Lighthouse 12 起已删除 PWA 类别，改用 Chrome 的 `Page.getInstallabilityErrors` 检查可安装性，结果必须为空，写在 `e2e/offline.spec.ts` 里。
+- 新版本下载完后进入等待，页面左下角提示“有新版本了”，点“更新”才切换并刷新。
+- 页面按路由懒加载：首屏包从 873 kB 降到 546 kB。仍超过 500 kB 的只有拼音词典和字库数据两块，所以把提醒阈值设为 800 kB，并在 `vite.config.ts` 中写明原因。
+- 离线测试使用单独的 Playwright 项目 `offline`：用 `/ihomework/` 子路径构建到 `dist-e2e/`，再用 `vite preview` 运行，和线上一致，也不影响要部署的 `dist/`。
+- 使用说明：`docs/USAGE.md`。应用图标由 `scripts/build-icons.ts` 生成。
+
+## Verification Evidence
+
+- `npm run verify`：lint、typecheck、Vitest 35 个文件 209 个测试（新增 `metrics.test.ts` 7 个）、build 全部通过，没有大文件警告。
+- `npm run test:e2e`：43 个通过，其中新增：
+  - `e2e/dashboard.spec.ts` 2 个：看板数据与预置记录一致，包括采纳和忽略建议；修改 PIN。
+  - `e2e/offline.spec.ts` 2 个：
+    - 预缓存完成后可安装性检查无错误；断网后完成 Boss 战（认读 + 默写）和写字练习（描红 + 默写），各页面都能打开；全程没有发往其他域名的请求。
+    - 新版本只有点了“更新”才刷新。
+- 在 1280×800 视口截图检查了家长看板，调大了用时柱状图的文字。
+
+## MVP 验收记录（Task 3）
+
+自动化证据已列出；“平板人工验收”一列等家长在安卓平板 Chrome 上确认后填写。
+
+| # | PRD 第 8 节条目 | 自动化证据 | 平板人工验收 |
+|---|---|---|---|
+| 1 | 4 册课本字库 + 拓展字库；进度可设到任意一课；可改字词；出题范围与进度一致 | `scripts/build-data/validate.test.ts`、`scope.test.ts`、`e2e/textbook.spec.ts` | 待确认 |
+| 2 | 评估报告（识字量、待攻克、写作等级、路线和级别建议）；认读 ≥ 90% 加测拓展；报告存入历史 | `report.test.ts`、`e2e/assessment.spec.ts` | 待确认 |
+| 3 | 三个玩法可玩，每关 ≤ 5 分钟，难度升降，最高难度含拓展字，错字进入 Boss | `difficulty.test.ts`、`generators.test.ts`、`e2e/challenges.spec.ts` | 待确认 |
+| 4 | Boss 按 1、2、4、7、15 天间隔复习，连续 3 次答对打败，答错重置，有自动化测试 | `scheduler.test.ts`、`e2e/boss.spec.ts` | 待确认 |
+| 5 | 每日任务按进度、路线和级别生成；加强分两段并休息；新字进入 Boss；Boss 积压时减少新字；路线自动切换并提示；周末周 Boss | `planner.test.ts`、`routes.test.ts`、`daily/store.test.ts`、`e2e/daily.spec.ts` | 待确认 |
+| 6 | 看图写作全流程；写作等级按规则提升 | `writing/logic/*.test.ts`、`e2e/writing.spec.ts` | 待确认 |
+| 7 | 经验值和等级按规则累计，不扣分 | `xp.test.ts`、`e2e/daily.spec.ts`、`e2e/reading.spec.ts` | 待确认 |
+| 8 | 看板显示识字量曲线、路线进度、写作等级、错字清单、打卡天数；JSON 导出和导入 | `metrics.test.ts`、`e2e/dashboard.spec.ts`、`backup.test.ts`、`e2e/shell.spec.ts` | 待确认 |
+| 9 | 用手指描红和默写，逐笔判断；默写错的字进 Boss；课本字和拓展字都支持 | `judge.test.ts`、`e2e/handwriting.spec.ts` | 待确认 |
+| 10 | 安卓平板和桌面 Chrome 可用；断网后所有功能可用；孩子模式汉字可点读 | `e2e/offline.spec.ts`、`e2e/speech.spec.ts` | 待确认 |
+| 11 | 数据只存本机，没有上传请求 | `e2e/offline.spec.ts`（无其他域名请求） | 待确认 |
 
 ## References
 - `docs/superplan/human/prd.md`（第 4.9、5、8 节）

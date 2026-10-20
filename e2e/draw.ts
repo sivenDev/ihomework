@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { expect, type Page } from '@playwright/test'
 
 const PADDING = 20 // 与 HanziBoard 的 BOARD_PADDING 一致
@@ -6,7 +7,8 @@ const PADDING = 20 // 与 HanziBoard 的 BOARD_PADDING 一致
 export async function drawChar(page: Page, char: string) {
   const board = page.getByTestId('hanzi-board')
   await expect(board).toHaveAttribute('data-state', 'quiz', { timeout: 20_000 })
-  const data = (await (await page.request.get(`/strokes/${encodeURIComponent(char)}.json`)).json()) as { medians: number[][][] }
+  // 直接读构建时复制出来的笔顺文件（不经过网络，断网测试和子路径部署下也能用）
+  const data = JSON.parse(readFileSync(`public/strokes/${char}.json`, 'utf8')) as { medians: number[][][] }
   const box = (await board.boundingBox())!
   // Hanzi Writer 的坐标：字在 1024 × 1024 的空间里，y 轴向上，下边界为 -124
   const scale = (box.width - 2 * PADDING) / 1024

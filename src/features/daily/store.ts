@@ -9,7 +9,7 @@ import { dueCards, enroll } from '../boss/logic/scheduler'
 import { dailyXpEvents } from '../rewards/logic/xp'
 import { awardXp } from '../rewards/store'
 import { learnedLessons, nextLesson, type Progress } from '../textbook/logic/scope'
-import type { DayRecord } from './logic/advisor'
+import { backlogProgress, extensionProgress, levelAdvice, type DayRecord } from './logic/advisor'
 import { effectiveLevel, isWeekend, levelConfig, REST_MINUTES, type LevelConfig } from './logic/levels'
 import { backlogList, pickNewChars, type CharHistory, type NewCharPick } from './logic/newChars'
 import { dayComplete, overload, planTasks, requiredSegments, segmentDone, type TaskId } from './logic/planner'
@@ -87,6 +87,35 @@ export async function loadDailyState(ds: Dataset, today = localDate()): Promise<
   }
 }
 
+/**
+ * 家长看的级别与路线概况：家长选定的级别（没选时为评估建议或“标准”）及其配额、级别建议、
+ * 补漏进度、拓展进度、最近的周 Boss。练习级别页和家长看板共用。
+ */
+export function practiceOverview(state: DailyState) {
+  const { settings, today } = state
+  const base: PracticeLevel = settings.practiceLevel ?? state.suggested ?? '标准'
+  const cfg = levelConfig(base, settings.levelTweaks[base])
+  const advice = levelAdvice({
+    level: base,
+    levelSince: settings.levelSince ?? state.plans[0]?.date ?? today,
+    today,
+    days: state.days,
+    weeklyAccuracies: state.weeklyAccuracies,
+  })
+  const extensionLearned = state.plans.flatMap((p) =>
+    p.done.newChars ? (p.tasks.find((t) => t.id === 'newChars')?.picks ?? []).filter((x) => x.source === 'extension').map((x) => ({ char: x.char, date: p.date })) : [],
+  )
+  const backlog = backlogProgress({
+    conquered: state.backlog.conquered.length,
+    remaining: state.backlog.remaining.length,
+    dailyNew: cfg.newChars,
+    days: state.days,
+    today,
+  })
+  const weekly = state.exams.filter((e) => e.kind === 'weekly' && e.status === 'done').sort((a, b) => b.key.localeCompare(a.key))
+  return { base, cfg, advice, backlog, extensionLearned, extension: extensionProgress(extensionLearned, today), weekly }
+}
+
 /** 任务清单的格式版本：升级后当天的清单重新生成（计划 07 开放了阅读打卡） */
 const PLAN_VERSION = 2
 
@@ -139,6 +168,7 @@ async function checkUnitChallenge(ds: Dataset, settings: AppSettings, today: str
     chars,
     write: chars.filter((c) => xiezi.has(c)),
     status: 'pending',
+    progressLessonId: ended.at(-1)!.id,
   })
 }
 
@@ -268,14 +298,22 @@ export async function ensureWeeklyExam(ds: Dataset, today = localDate()): Promis
     chars,
     write: chars.filter((c) => needsWriting(ds, xiezi, c, sources.get(c) ?? [], settings.extensionWriting)),
     status: 'pending',
+    progressLessonId: settings.progressLessonId ?? undefined,
   })) as number
 }
 
-export async function finishExam(id: number, results: Record<string, boolean>, today = localDate()): Promise<void> {
+/** 记下周 Boss / 单元挑战的结果：results 是每个字的总结果，detail 分开记认读和默写。 */
+export async function finishExam(
+  id: number,
+  results: Record<string, boolean>,
+  today = localDate(),
+  detail: Pick<ExamRow, 'readResults' | 'writeResults'> = {},
+): Promise<void> {
   const values = Object.values(results)
   await db.exams.update(id, {
     status: 'done',
     results,
+    ...detail,
     accuracy: values.length ? values.filter(Boolean).length / values.length : 0,
     doneOn: today,
   })

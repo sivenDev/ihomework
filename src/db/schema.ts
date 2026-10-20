@@ -127,6 +127,12 @@ export interface ExamRow {
   write: string[]
   status: 'pending' | 'done'
   results?: Record<string, boolean>
+  /** 每个字是否读对（计划 08，用于识字量曲线） */
+  readResults?: Record<string, boolean>
+  /** 要默写的字是否写对 */
+  writeResults?: Record<string, boolean>
+  /** 出题时的课本进度 */
+  progressLessonId?: string
   accuracy?: number
   doneOn?: string
 }
@@ -150,6 +156,12 @@ export interface RedemptionRow {
   decidedAt?: number
 }
 
+/** 孩子模式每天的使用时长（计划 08，家长看板“每日用时”） */
+export interface UsageRow {
+  date: string
+  seconds: number
+}
+
 export const DB_NAME = 'ihomework'
 
 export class AppDatabase extends Dexie {
@@ -170,6 +182,7 @@ export class AppDatabase extends Dexie {
   exams!: EntityTable<ExamRow, 'id'>
   rewards!: EntityTable<RewardRow, 'id'>
   redemptions!: EntityTable<RedemptionRow, 'id'>
+  usage!: EntityTable<UsageRow, 'date'>
 
   constructor(name = DB_NAME) {
     super(name)
@@ -203,6 +216,10 @@ export class AppDatabase extends Dexie {
       exams: '++id, kind, key',
       rewards: 'id',
       redemptions: 'id, status',
+    })
+    // 计划 08：每日使用时长
+    this.version(6).stores({
+      usage: 'date',
     })
   }
 }

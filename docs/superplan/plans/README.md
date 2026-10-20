@@ -4,12 +4,12 @@
 
 ## Status
 
-| Type | Plans | Approved | Complete |
-| --- | --- | --- | --- |
-| `required` | 8 | 1 | 7 |
-| `future` | 2 | 2 | 0 |
-| `feature` | 6 | 0 | 6 |
-| `bugfix` | 1 | 0 | 1 |
+| Type | Plans | Approved | In Progress | Complete |
+| --- | --- | --- | --- | --- |
+| `required` | 8 | 0 | 1 | 7 |
+| `future` | 2 | 2 | 0 | 0 |
+| `feature` | 6 | 0 | 0 | 6 |
+| `bugfix` | 1 | 0 | 0 | 1 |
 
 ## Execution Order
 
@@ -20,7 +20,7 @@
 5. `05` [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) - `complete` (2026-10-19)
 6. `06` [学习路线、三级练习量、每日任务与激励系统](06-daily-tasks-and-rewards.md) - `complete` (2026-10-19)
 7. `07` [侦探看图写作、写作等级与阅读打卡](07-picture-writing-and-reading.md) - `complete` (2026-10-19)
-8. `08` [家长看板、PWA 离线与 MVP 验收](08-parent-dashboard-and-offline-release.md) - `approved` (2026-10-19)
+8. `08` [家长看板、PWA 离线与 MVP 验收](08-parent-dashboard-and-offline-release.md) - `in_progress` (2026-10-19)
 9. `09` [P1 扩展玩法：字理故事、汉字积木、找不同、字谜、漫画分镜、我的词库](09-p1-games-and-word-bank.md) - `approved` (2026-10-19)
 10. `10` [安卓 APK 打包（Capacitor）](10-android-apk-packaging.md) - `approved` (2026-10-19)
 
@@ -37,7 +37,7 @@
 | `05` | [汉字闯关：部首侦探、字族网络、生字闪认](05-character-challenges.md) | `complete` | 2026-10-19 |
 | `06` | [学习路线、三级练习量、每日任务与激励系统](06-daily-tasks-and-rewards.md) | `complete` | 2026-10-19 |
 | `07` | [侦探看图写作、写作等级与阅读打卡](07-picture-writing-and-reading.md) | `complete` | 2026-10-19 |
-| `08` | [家长看板、PWA 离线与 MVP 验收](08-parent-dashboard-and-offline-release.md) | `approved` | 2026-10-19 |
+| `08` | [家长看板、PWA 离线与 MVP 验收](08-parent-dashboard-and-offline-release.md) | `in_progress` | 2026-10-19 |
 
 ### Future Plans
 

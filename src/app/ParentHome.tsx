@@ -1,7 +1,11 @@
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { PinPad } from '../components/PinPad'
 import { BackupError, exportBackup, importBackup, parseBackup } from '../db/backup'
+import { updateSettings } from '../db/settings'
+import { DashboardPage } from '../features/dashboard/DashboardPage'
 import { localDate } from '../lib/date'
+import { hashPin, makeSalt } from '../lib/pin'
 import { useParentSession } from './ParentSession'
 
 function download(filename: string, text: string) {
@@ -11,6 +15,65 @@ function download(filename: string, text: string) {
   a.download = filename
   a.click()
   setTimeout(() => URL.revokeObjectURL(url), 1_000)
+}
+
+/** 修改家长 PIN：输入两次新 PIN。 */
+function ChangePin() {
+  const [step, setStep] = useState<'idle' | 'first' | 'confirm'>('idle')
+  const [first, setFirst] = useState('')
+  const [message, setMessage] = useState<{ text: string; error?: boolean } | null>(null)
+
+  return (
+    <section className="card" aria-labelledby="pin-title">
+      <h2 id="pin-title">家长 PIN</h2>
+      <p className="muted">进入家长模式时输入的 4 位数字。</p>
+      {step === 'idle' ? (
+        <div className="button-row">
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
+              setStep('first')
+              setMessage(null)
+            }}
+          >
+            修改 PIN
+          </button>
+        </div>
+      ) : (
+        <>
+          <p>{step === 'first' ? '输入新的 PIN' : '再输入一次新的 PIN'}</p>
+          <PinPad
+            key={step}
+            onComplete={async (pin) => {
+              if (step === 'first') {
+                setFirst(pin)
+                setStep('confirm')
+                return
+              }
+              if (pin !== first) {
+                setStep('first')
+                setMessage({ text: '两次输入不一致，请重新输入。', error: true })
+                return
+              }
+              const salt = makeSalt()
+              await updateSettings({ pinSalt: salt, pinHash: hashPin(pin, salt) })
+              setStep('idle')
+              setMessage({ text: 'PIN 已修改。' })
+            }}
+          />
+          <button type="button" className="btn btn-quiet" onClick={() => setStep('idle')}>
+            取消
+          </button>
+        </>
+      )}
+      {message && (
+        <p role="status" className={message.error ? 'error' : 'muted'}>
+          {message.text}
+        </p>
+      )}
+    </section>
+  )
 }
 
 export function ParentHome() {
@@ -55,10 +118,13 @@ export function ParentHome() {
         </button>
       </div>
 
+      <DashboardPage />
+
+      <h2 className="settings-title">设置与管理</h2>
       <div className="parent-grid">
         <section className="card" aria-labelledby="textbook-title">
           <h2 id="textbook-title">课本与字库</h2>
-          <p className="muted">设置孩子学到第几课，核对和修改每课的生字。</p>
+          <p className="muted">设置孩子学到第几课（课本进度），核对和修改每课的生字与组词。</p>
           <div className="button-row">
             <Link className="btn btn-primary" to="/parent/textbook">
               打开课本与字库
@@ -78,7 +144,7 @@ export function ParentHome() {
 
         <section className="card" aria-labelledby="practice-title">
           <h2 id="practice-title">练习级别与路线</h2>
-          <p className="muted">轻松 / 标准 / 加强决定每天练多少，补漏 / 同步 / 拓展决定练什么；每段时长、系统建议和路线进度也在这里。</p>
+          <p className="muted">轻松 / 标准 / 加强决定每天练多少，补漏 / 同步 / 拓展决定练什么；超前学习开关、每段时长上限也在这里。</p>
           <div className="button-row">
             <Link className="btn btn-primary" to="/parent/practice">
               打开练习级别与路线
@@ -115,6 +181,8 @@ export function ParentHome() {
             </Link>
           </div>
         </section>
+
+        <ChangePin />
 
         <section className="card" aria-labelledby="backup-title">
           <h2 id="backup-title">数据备份</h2>

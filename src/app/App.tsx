@@ -1,4 +1,5 @@
 import { HashRouter } from 'react-router-dom'
+import { PwaStatus } from '../components/PwaStatus'
 import { SpeechNotice } from '../components/SpeechNotice'
 import { ReadingSync } from '../features/textbook/ReadingSync'
 import { BossSync } from '../features/boss/BossSync'
@@ -15,6 +16,7 @@ export function App() {
         <BossSync />
         <SpeechNotice />
         <AppRoutes />
+        <PwaStatus />
       </ParentSessionProvider>
     </HashRouter>
   )

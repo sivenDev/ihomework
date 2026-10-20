@@ -5,9 +5,8 @@ import { updateSettings, type AppSettings } from '../../db/settings'
 import { localDate } from '../../lib/date'
 import type { PracticeLevel, Route } from '../assessment/logic/types'
 import { useDataset } from '../textbook/useDataset'
-import { backlogProgress, extensionProgress, levelAdvice } from './logic/advisor'
-import { LEVEL_ORDER, LEVELS, levelConfig, SEGMENT_MINUTE_OPTIONS, TWEAK_LIMITS, type LevelTweak } from './logic/levels'
-import { loadDailyState } from './store'
+import { LEVEL_ORDER, LEVELS, SEGMENT_MINUTE_OPTIONS, TWEAK_LIMITS, type LevelTweak } from './logic/levels'
+import { loadDailyState, practiceOverview } from './store'
 import './daily.css'
 
 const ROUTES: Route[] = ['补漏', '同步', '拓展']
@@ -46,32 +45,11 @@ export function ParentPracticePage() {
   if (!ds || !settings || !state) return <div className="page muted">正在加载…</div>
 
   // 微调的是家长选定的级别（还没选时是评估建议或默认的“标准”）
-  const base: PracticeLevel = settings.practiceLevel ?? state.suggested ?? '标准'
+  const { base, cfg, advice, backlog, extension, weekly } = practiceOverview(state)
   const tweak = settings.levelTweaks[base] ?? {}
-  const cfg = levelConfig(base, tweak)
   const setTweak = (patch: LevelTweak) => updateSettings({ levelTweaks: { ...settings.levelTweaks, [base]: { ...tweak, ...patch } } })
   const chooseLevel = (level: PracticeLevel) => updateSettings({ practiceLevel: level, levelSince: today })
   const toggle = (key: keyof Pick<AppSettings, 'allowAhead' | 'extensionWriting'>) => updateSettings({ [key]: !settings[key] })
-
-  const advice = levelAdvice({
-    level: base,
-    levelSince: settings.levelSince ?? state.plans[0]?.date ?? today,
-    today,
-    days: state.days,
-    weeklyAccuracies: state.weeklyAccuracies,
-  })
-  const extensionLearned = state.plans.flatMap((p) =>
-    p.done.newChars ? (p.tasks.find((t) => t.id === 'newChars')?.picks ?? []).filter((x) => x.source === 'extension').map((x) => ({ char: x.char, date: p.date })) : [],
-  )
-  const backlog = backlogProgress({
-    conquered: state.backlog.conquered.length,
-    remaining: state.backlog.remaining.length,
-    dailyNew: cfg.newChars,
-    days: state.days,
-    today,
-  })
-  const extension = extensionProgress(extensionLearned, today)
-  const weekly = state.exams.filter((e) => e.kind === 'weekly' && e.status === 'done').sort((a, b) => b.key.localeCompare(a.key))
 
   return (
     <div className="page">
