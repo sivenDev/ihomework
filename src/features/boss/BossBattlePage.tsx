@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSettings } from '../../app/useSettings'
 import { PinyinText } from '../../components/PinyinText'
@@ -6,19 +6,23 @@ import { localDate } from '../../lib/date'
 import { getSpeaker } from '../../lib/speech'
 import { HanziBoard } from '../handwriting/HanziBoard'
 import { KaiChar } from '../handwriting/KaiChar'
+import { completeTask, needsWriting, useTodayPlan } from '../daily/store'
+import { useTodayLevel } from '../daily/useDaily'
 import { learnedXiezi } from '../textbook/logic/scope'
 import { useDataset } from '../textbook/useDataset'
 import { addMistakes, answerCard, useBossCards } from './api'
-import { dueCards, isCheck, isMastered } from './logic/scheduler'
+import { isCheck, isMastered, todaysRoster } from './logic/scheduler'
 import './boss.css'
 
 type Step = 'read' | 'check' | 'write' | 'result'
 
-/** 错字 Boss 战：今天到期的错字，先认读，需要会写的字再默写。 */
+/** 错字 Boss 战：今天到期的错字（每天不超过当前级别的上限，其余顺延），先认读，需要会写的字再默写。 */
 export function BossBattlePage() {
   const cards = useBossCards()
   const ds = useDataset()
   const settings = useSettings()
+  const level = useTodayLevel()
+  const plan = useTodayPlan()
   const today = localDate()
   // 进入页面时确定今天的 Boss 名单，答完一个减一格血
   const [roster, setRoster] = useState<string[] | null>(null)
@@ -26,14 +30,21 @@ export function BossBattlePage() {
   const [step, setStep] = useState<Step>('read')
   const [won, setWon] = useState<boolean | null>(null)
 
-  const writeSet = useMemo(() => {
+  const xiezi = useMemo(() => {
     if (!ds || !settings) return new Set<string>()
     const progress = settings.progressLessonId ? { lessonId: settings.progressLessonId } : null
     return new Set(learnedXiezi(ds.books, progress))
   }, [ds, settings])
 
-  if (!cards || !ds || !settings) return <div className="page muted">正在加载…</div>
-  const list = roster ?? dueCards(cards, today).map((c) => c.char)
+  const list = roster ?? (cards && level ? todaysRoster(cards, today, level.cfg.bossCap).map((c) => c.char) : [])
+  const finished = !!cards && !!level && (list.length === 0 || index >= list.length)
+  // 今天的 Boss 打完了（或没有要打的），今日任务里的 Boss 战就算完成
+  const bossPending = !!plan && plan.tasks.some((t) => t.id === 'boss') && !plan.done.boss
+  useEffect(() => {
+    if (finished && bossPending) void completeTask('boss', today)
+  }, [finished, bossPending, today])
+
+  if (!cards || !ds || !settings || !level) return <div className="page muted">正在加载…</div>
   if (!roster && list.length) setRoster(list)
 
   const mastered = cards.filter(isMastered).map((c) => c.char)
@@ -69,7 +80,7 @@ export function BossBattlePage() {
         </Link>
       </div>
 
-      {list.length === 0 || index >= list.length ? (
+      {finished ? (
         <section className="card boss-done">
           <div className="boss-emoji" aria-hidden="true">
             {list.length ? '🏆' : '😴'}
@@ -144,7 +155,9 @@ export function BossBattlePage() {
                   <button
                     type="button"
                     className="btn btn-primary big-btn"
-                    onClick={() => (writeSet.has(char) ? setStep('write') : void settle(true))}
+                    onClick={() =>
+                    needsWriting(ds, xiezi, char, card?.sources ?? [], settings.extensionWriting) ? setStep('write') : void settle(true)
+                  }
                   >
                     <PinyinText text="读对了" />
                   </button>

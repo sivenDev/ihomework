@@ -21,6 +21,8 @@ export interface BossCard {
   /** 来源：assessment、flash、dictation、backlog、parent… */
   sources: string[]
   updatedAt: number
+  /** 最近一次复习的日期，用于每天的 Boss 上限（计划 06）。旧数据可能没有这个字段 */
+  answeredOn?: string
 }
 
 export function addDays(date: string, days: number): string {
@@ -43,6 +45,12 @@ export function addMistake(existing: BossCard | undefined, char: string, source:
   }
 }
 
+/** 新字任务学过的字进入错字 Boss：没有卡就新建；已有正在复习的卡只记上来源，不打乱它的进度。 */
+export function enroll(existing: BossCard | undefined, char: string, source: string, today: string, now = Date.now()): BossCard {
+  if (existing?.status === 'active') return { ...existing, sources: [...new Set([...existing.sources, source])], updatedAt: now }
+  return addMistake(existing, char, source, today, now)
+}
+
 /** 两次复查都通过，彻底记住，不再出现。 */
 export function isMastered(card: BossCard): boolean {
   return card.status === 'defeated' && (card.checks ?? 0) >= CHECK_DAYS.length
@@ -53,6 +61,10 @@ export function isMastered(card: BossCard): boolean {
  * 击败后第 7 天、第 15 天各复查一次：复查答对继续，两次都对彻底记住；复查答错回到第 1 档。
  */
 export function answer(card: BossCard, correct: boolean, today: string, now = Date.now()): BossCard {
+  return { ...schedule(card, correct, today, now), answeredOn: today }
+}
+
+function schedule(card: BossCard, correct: boolean, today: string, now: number): BossCard {
   if (!correct)
     return { ...card, stage: 0, streak: 0, checks: 0, due: addDays(today, INTERVALS[0]), status: 'active', updatedAt: now }
   if (card.status === 'defeated') {
@@ -79,4 +91,10 @@ export function isCheck(card: BossCard): boolean {
 
 export function dueCards(cards: BossCard[], today: string): BossCard[] {
   return cards.filter((c) => isDue(c, today)).sort((a, b) => a.due.localeCompare(b.due) || a.updatedAt - b.updatedAt)
+}
+
+/** 今天还要打的卡：到期的卡按先后排队，每天最多打 cap 张（今天已经打过的也算），其余顺延到第二天。 */
+export function todaysRoster(cards: BossCard[], today: string, cap: number): BossCard[] {
+  const answered = cards.filter((c) => c.answeredOn === today).length
+  return dueCards(cards, today).slice(0, Math.max(0, cap - answered))
 }

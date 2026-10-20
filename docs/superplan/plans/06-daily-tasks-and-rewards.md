@@ -2,7 +2,7 @@
 id: "06"
 title: "学习路线、三级练习量、每日任务与激励系统"
 type: "required"
-status: "approved"
+status: "complete"
 summary: "按课本进度、补漏/同步/拓展三条学习路线和轻松/标准/加强三个练习级别自动生成每日任务、周 Boss 战和单元挑战，并实现只加不扣的经验值、等级和家长确认的奖励兑换。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"
@@ -78,7 +78,7 @@ parent: ""
 **Verification:**
 - `npx vitest run src/features/daily src/features/rewards`
 
-- [ ] 规则测试全部通过
+- [x] 规则测试全部通过
 
 ## Task 2: 每日任务首页、路线与级别设置、周 Boss 与奖励界面
 
@@ -93,7 +93,22 @@ parent: ""
 - `npm run verify`
 - `npm run test:e2e`
 
-- [ ] 两种组合的每日任务、分段休息、路线与级别设置、周 Boss、兑换流程在平板视口可完成
+- [x] 两种组合的每日任务、分段休息、路线与级别设置、周 Boss、兑换流程在平板视口可完成
+
+## Delivery Notes
+
+- 规则口径：“以前学过但从未答对的字”= 当前课之前学过、有作答记录但从没答对的字（没有作答记录不算证据）；“已攻克”= 错字卡被打败。补漏或拓展的字不够配额时，用本课和下一课的字补足。
+- 两段的分配：第一段学新（侦察、新字），休息后第二段回忆（当天复习、Boss）；某一段没有任务时当天只有一段。每段按“Boss → 复习 → 新字 → 预习”在时长内保留必做任务，优先级最高的任务始终保留。
+- 第一段的任务做完或第一段时间到了，都进入 5 分钟休息倒计时。经验值按段发放（每段 +10，事件 id `daily:日期:段`），所以加强两段共 +20；攻克字 +1（`defeat:字`）。
+- 侦察任务和新字任务共用学字页：形声字用部首侦探的线索推理，其他字先猜再看答案；新字中要会写的字描红。新字进入错字 Boss 时不打乱已在复习中的卡。
+- 周末特训（加强）、阅读打卡（占位）、周 Boss 战、单元挑战都是可选项，不影响当天完成和连续打卡。
+- 级别微调中的“每段时长”取代了原来家长首页的“每段使用时长”设置。
+- 额外文件：`src/features/daily/logic/weekly.ts`（周 Boss 与单元挑战规则）、`src/features/daily/store.ts`、`LearnPage.tsx`、`SegmentRest.tsx`、`src/features/rewards/store.ts`、`RewardShopPage.tsx`。
+
+## Verification Evidence
+
+- `npm run verify`：lint、typecheck、Vitest 31 个文件 184 个测试、build 全部通过（构建的大文件警告此前已存在：780 kB → 827 kB）。
+- `npm run test:e2e`：35 个通过；新增 `e2e/daily.spec.ts` 4 个用例（加强 + 补漏、标准 + 拓展、家长设置与奖励兑换、周 Boss），连同更新的 `e2e/shell.spec.ts` 重复 3 次均通过。
 
 ## References
 - `docs/superplan/human/prd.md`（第 3A、4.5、4.8 节）

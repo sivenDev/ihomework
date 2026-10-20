@@ -1,0 +1,144 @@
+.today {
+  margin-bottom: var(--space-6);
+}
+
+.today-level {
+  font-weight: 400;
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-3);
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 96px;
+  color: inherit;
+  text-decoration: none;
+  border: 3px solid var(--color-accent-soft);
+}
+
+.task-card[data-state='done'] {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.task-card[data-state='locked'] {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.task-card[data-state='optional'] {
+  border-style: dashed;
+}
+
+a.task-card:active {
+  transform: scale(0.98);
+}
+
+.task-icon {
+  font-size: 40px;
+}
+
+.task-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.task-name {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.task-status {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.task-segment + .task-segment {
+  margin-top: var(--space-3);
+}
+
+.segment-title {
+  font-size: 20px;
+  margin-bottom: var(--space-2);
+}
+
+.segment-break {
+  text-align: center;
+  margin: var(--space-3) 0 0;
+}
+
+.challenge-list {
+  margin-top: var(--space-4);
+}
+
+.today-complete {
+  margin: 0 0 var(--space-3);
+  background: var(--color-accent-soft);
+  font-weight: 700;
+}
+
+.rest-countdown {
+  font-size: 56px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 新字任务、侦察任务 */
+.learn-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+}
+
+.learn-words {
+  font-size: 24px;
+}
+
+.exam-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.exam-accuracy {
+  font-size: 56px;
+  font-weight: 700;
+}
+
+/* 家长：练习级别与路线 */
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.stepper-value {
+  min-width: 2.5em;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.setting-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+}

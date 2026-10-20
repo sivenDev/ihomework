@@ -36,8 +36,10 @@ test('tapping a hanzi shows its pinyin', async ({ page }) => {
 test('backup export, clear and import restores settings and PIN', async ({ page }) => {
   await page.goto('/')
   await setupPin(page, '2468')
-  await page.getByRole('button', { name: '15 分钟' }).tap()
-  await expect(page.getByRole('button', { name: '15 分钟' })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('link', { name: '打开练习级别与路线' }).tap()
+  await page.getByRole('button', { name: '加强（特训营）' }).tap()
+  await expect(page.getByRole('button', { name: '加强（特训营）' })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('link', { name: '返回家长模式' }).tap()
 
   const downloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: '导出备份' }).tap()
@@ -56,7 +58,6 @@ test('backup export, clear and import restores settings and PIN', async ({ page 
   )
   await page.goto('/')
   await setupPin(page, '9999')
-  await expect(page.getByRole('button', { name: '20 分钟' })).toHaveAttribute('aria-pressed', 'true')
 
   page.once('dialog', (dialog) => dialog.accept())
   await page.getByLabel('选择备份文件').setInputFiles({
@@ -65,7 +66,9 @@ test('backup export, clear and import restores settings and PIN', async ({ page 
     buffer: Buffer.from(backupText),
   })
   await expect(page.getByRole('status').filter({ hasText: '已从备份恢复。' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '15 分钟' })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('link', { name: '打开练习级别与路线' }).tap()
+  await expect(page.getByRole('button', { name: '加强（特训营）' })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('link', { name: '返回家长模式' }).tap()
 
   await page.getByRole('button', { name: '返回孩子模式' }).tap()
   await page.getByRole('link', { name: '家长' }).tap()
@@ -84,11 +87,15 @@ test('importing an invalid file shows an error', async ({ page }) => {
   await expect(page.getByRole('status').filter({ hasText: '文件不是汉字闯关的备份文件' })).toBeVisible()
 })
 
-test('rest reminder appears after the session limit', async ({ page }) => {
+test('rest reminder appears after the segment time of the practice level', async ({ page }) => {
   await page.clock.install()
   await page.goto('/')
   await setupPin(page)
+  // 默认“标准”级别一段 20 分钟，家长微调为 10 分钟
+  await page.getByRole('link', { name: '打开练习级别与路线' }).tap()
   await page.getByRole('button', { name: '10 分钟' }).tap()
+  await expect(page.getByRole('button', { name: '10 分钟' })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('link', { name: '返回家长模式' }).tap()
   await page.getByRole('button', { name: '返回孩子模式' }).tap()
 
   await page.clock.runFor(9 * 60_000)

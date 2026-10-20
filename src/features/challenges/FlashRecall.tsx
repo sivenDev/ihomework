@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { PinyinText } from '../../components/PinyinText'
 import { getSpeaker } from '../../lib/speech'
 import { sample } from '../assessment/logic/sampling'
+import { completeTask, useTodayPlan } from '../daily/store'
+import { useTaskParam } from '../daily/useDaily'
 import { KaiChar } from '../handwriting/KaiChar'
 import { loadStrokes } from '../handwriting/strokes'
 import { MicUnavailableError, startMic, type MicSession } from './audio/mic'
@@ -58,6 +60,10 @@ const wait = (ms: number) => new Promise((r) => window.setTimeout(r, ms))
 export function FlashRecall() {
   const ctx = useChallenge()
   const stat = useChallengeStat('flash')
+  // 从今日任务进入“当天复习”时，只考本课生字
+  const task = useTaskParam()
+  const plan = useTodayPlan()
+  const reviewChars = task === 'review' ? plan?.tasks.find((t) => t.id === 'review')?.chars : undefined
   const [phase, setPhase] = useState<Phase>('intro')
   const [mode, setMode] = useState<Mode>('voice')
   const [micNotice, setMicNotice] = useState<string | null>(null)
@@ -181,8 +187,8 @@ export function FlashRecall() {
 
   const start = async (wanted: Mode) => {
     const lv = stat.level
-    let pool = poolForLevel(ds, progress, lv)
-    if (pool.length < 10) pool = poolForLevel(ds, progress, Math.min(5, lv + 2))
+    let pool = reviewChars ?? poolForLevel(ds, progress, lv)
+    if (!reviewChars && pool.length < 10) pool = poolForLevel(ds, progress, Math.min(5, lv + 2))
     let actual: Mode = wanted
     setMicNotice(null)
     clipUrls.current.forEach((url) => URL.revokeObjectURL(url))
@@ -314,6 +320,7 @@ export function FlashRecall() {
     setNeedPractice([...misread, ...unknown])
     setOutcome(await recordRound({ activity: 'flash', level, score, answers }))
     setPhase('done')
+    if (reviewChars) void completeTask('review')
   }
 
   const finishVoice = async () => {
@@ -321,6 +328,7 @@ export function FlashRecall() {
     setNeedPractice(result.needPractice)
     setOutcome(await recordRound({ activity: 'flash', level, score: result.score, answers: result.answers }))
     setPhase('done')
+    if (reviewChars) void completeTask('review')
   }
 
   const header = (
@@ -357,6 +365,13 @@ export function FlashRecall() {
                 </div>
               </section>
             )}
+            {reviewChars && (
+              <div className="option-row">
+                <Link className="btn btn-primary big-btn" to="/">
+                  <PinyinText text="回到今日任务" />
+                </Link>
+              </div>
+            )}
           </>
         ) : (
           <section className="card game-intro">
@@ -366,6 +381,11 @@ export function FlashRecall() {
                 speak
               />
             </p>
+            {reviewChars && (
+              <p className="notice" data-testid="flash-task">
+                <PinyinText text={`今日任务：复习本课的 ${reviewChars.length} 个字`} />
+              </p>
+            )}
             <p className="muted" data-testid="flash-info">
               难度 {stat.level}：{LEVEL_NAMES[stat.level]} · {FLASH_SECONDS[stat.level]} 秒 · 最好成绩 {stat.best[stat.level] ?? 0} 个
             </p>

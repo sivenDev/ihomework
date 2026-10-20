@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { HanziSpeak } from '../components/HanziSpeak'
 import { PinyinText } from '../components/PinyinText'
+import { TodayPage } from '../features/daily/TodayPage'
 
 const ISLANDS: { name: string; icon: string; note: string; to?: string }[] = [
   { name: '错字 Boss', icon: '🐉', note: '打败没记住的字', to: '/boss' },
@@ -23,6 +24,8 @@ export function ChildHome() {
       <section className="card welcome">
         <HanziSpeak text="今天也来闯关吧！点一点汉字，听听它怎么读。" />
       </section>
+
+      <TodayPage />
 
       <section aria-labelledby="map-title">
         <h2 id="map-title" className="section-title">

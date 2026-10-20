@@ -6,7 +6,7 @@ import { db } from './schema'
 import { getSettings, updateSettings } from './settings'
 
 async function seed() {
-  await updateSettings({ sessionLimitMinutes: 15, pinHash: 'h', pinSalt: 's' })
+  await updateSettings({ practiceLevel: '加强', pinHash: 'h', pinSalt: 's' })
   await db.attempts.add({ char: '青', activity: 'flash', result: 'correct', date: '2026-10-19', ts: 1 })
   await db.bossCards.put({ char: '晴', stage: 1, due: '2026-10-20', streak: 0, status: 'active', sources: ['flash'], updatedAt: 1 })
   await db.blobs.put({ id: 'img1', createdAt: 2, blob: new Blob([new Uint8Array([1, 2, 3, 250])], { type: 'image/png' }) })
@@ -24,7 +24,7 @@ describe('backup', () => {
 
     await importBackup(file)
 
-    expect(await getSettings()).toMatchObject({ sessionLimitMinutes: 15, pinHash: 'h', pinSalt: 's' })
+    expect(await getSettings()).toMatchObject({ practiceLevel: '加强', pinHash: 'h', pinSalt: 's' })
     expect(await db.attempts.toArray()).toEqual([
       { id: 1, char: '青', activity: 'flash', result: 'correct', date: '2026-10-19', ts: 1 },
     ])
@@ -50,13 +50,13 @@ describe('backup', () => {
         format: BACKUP_FORMAT,
         version: 1,
         exportedAt: '',
-        tables: { settings: [{ key: 'sessionLimitMinutes', value: 30 }], attempts: [{ id: 1 }, { id: 1 }] },
+        tables: { settings: [{ key: 'practiceLevel', value: '轻松' }], attempts: [{ id: 1 }, { id: 1 }] },
       }),
     )
 
     await expect(importBackup(broken)).rejects.toThrow(BackupError)
 
-    expect((await getSettings()).sessionLimitMinutes).toBe(15)
+    expect((await getSettings()).practiceLevel).toBe('加强')
     expect(await db.attempts.count()).toBe(1)
     expect(await db.blobs.count()).toBe(1)
   })

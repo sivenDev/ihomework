@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PinyinText } from '../../components/PinyinText'
 import { getSpeaker } from '../../lib/speech'
+import { completeTask } from '../daily/store'
+import { useTaskParam } from '../daily/useDaily'
 import { KaiChar } from '../handwriting/KaiChar'
 import { FocusBreak } from './FocusBreak'
 import { LEVEL_NAMES } from './logic/difficulty'
@@ -35,6 +37,7 @@ function ThinkBar({ ready }: { ready: boolean }) {
 export function RadicalDetective() {
   const ctx = useChallenge()
   const stat = useChallengeStat('detective')
+  const task = useTaskParam()
   const [round, setRound] = useState<{ level: number; questions: DetectiveQuestion[] } | null>(null)
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>('reading')
@@ -138,6 +141,8 @@ export function RadicalDetective() {
       return
     }
     setOutcome(await recordRound({ activity: 'detective', level: round.level, score: all.filter((a) => a.correct).length, answers: all }))
+    // 周末特训从今日任务进入，闯完一关算完成
+    if (task === 'bonus') void completeTask('bonus')
   }
 
   const optionState = (option: string, answer: string, chosen?: string) =>

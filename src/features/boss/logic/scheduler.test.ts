@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addDays, addMistake, answer, dueCards, INTERVALS, isDue, isMastered, type BossCard } from './scheduler'
+import { addDays, addMistake, answer, dueCards, enroll, INTERVALS, isDue, isMastered, todaysRoster, type BossCard } from './scheduler'
 
 const TODAY = '2026-10-19'
 
@@ -131,5 +131,31 @@ describe('post-defeat checks (第 7、15 天复查)', () => {
     expect(isDue(legacy, TODAY)).toBe(false)
     expect(isDue(legacy, '2026-10-26')).toBe(true)
     expect(answer(legacy, true, '2026-10-30')).toMatchObject({ checks: 1, due: '2026-11-07' })
+  })
+})
+
+describe('enroll (new-character tasks)', () => {
+  it('creates a card due the next day', () => {
+    expect(enroll(undefined, '晴', 'sync', TODAY)).toMatchObject({ stage: 0, due: '2026-10-20', status: 'active', sources: ['sync'] })
+  })
+
+  it('keeps the progress of a card already being reviewed', () => {
+    const card = answer(addMistake(undefined, '晴', 'assessment', TODAY), true, '2026-10-20')
+    expect(enroll(card, '晴', 'backlog', '2026-10-21')).toMatchObject({ stage: 1, streak: 1, due: card.due, sources: ['assessment', 'backlog'] })
+  })
+})
+
+describe('todaysRoster (daily cap)', () => {
+  const cards = ['甲', '乙', '丙', '丁'].map((c, i) => ({ ...addMistake(undefined, c, 'flash', TODAY, i), due: '2026-10-20' }))
+
+  it('takes at most the cap and postpones the rest to tomorrow', () => {
+    expect(todaysRoster(cards, '2026-10-20', 3).map((c) => c.char)).toEqual(['甲', '乙', '丙'])
+    // 第二天顺延的卡排在前面
+    expect(todaysRoster(cards, '2026-10-21', 3).map((c) => c.char)).toEqual(['甲', '乙', '丙'])
+  })
+
+  it('counts cards already answered today against the cap', () => {
+    const done = [answer(cards[0], true, '2026-10-20'), answer(cards[1], false, '2026-10-20'), cards[2], cards[3]]
+    expect(todaysRoster(done, '2026-10-20', 3).map((c) => c.char)).toEqual(['丙'])
   })
 })

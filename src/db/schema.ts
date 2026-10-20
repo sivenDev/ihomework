@@ -1,4 +1,7 @@
 import Dexie, { type EntityTable } from 'dexie'
+import type { PracticeLevel, Route } from '../features/assessment/logic/types'
+import type { DailyTask, TaskId } from '../features/daily/logic/planner'
+import type { RedemptionStatus } from '../features/rewards/logic/xp'
 import type { CharEdit, LessonEdit } from '../features/textbook/logic/merge'
 
 // 本地数据库。后续计划只追加表或字段：新增 this.version(n).stores({...})，不修改已发布的版本。
@@ -29,6 +32,8 @@ export interface BossCardRow {
   checks?: number
   sources: string[]
   updatedAt: number
+  /** 最近一次复习的日期（计划 06） */
+  answeredOn?: string
 }
 
 export interface AssessmentRow {
@@ -91,6 +96,60 @@ export interface FamilyCollectionRow {
   date: string
 }
 
+/** 某一天的任务清单（计划 06）。当天第一次打开时生成；家长改了级别、路线等设置时重新生成，已完成的任务保留。 */
+export interface DailyPlanRow {
+  date: string
+  /** 生成时依据的设置，变化时重新生成 */
+  key: string
+  level: PracticeLevel
+  route: Route
+  tasks: DailyTask[]
+  done: Partial<Record<TaskId, boolean>>
+  /** 正在进行的段（加强级别有两段） */
+  segment: 1 | 2
+  /** 两段之间休息到什么时候（毫秒时间戳） */
+  restUntil?: number
+  /** 必做任务全部完成 */
+  complete: boolean
+  createdAt: number
+}
+
+/** 周 Boss 战、单元挑战（计划 06） */
+export interface ExamRow {
+  id?: number
+  kind: 'weekly' | 'unit'
+  /** 周 Boss：那一周的周一；单元挑战：册-单元 */
+  key: string
+  title: string
+  date: string
+  chars: string[]
+  /** 需要默写的字 */
+  write: string[]
+  status: 'pending' | 'done'
+  results?: Record<string, boolean>
+  accuracy?: number
+  doneOn?: string
+}
+
+/** 家长设置的奖励 */
+export interface RewardRow {
+  id: string
+  name: string
+  cost: number
+  createdAt: number
+}
+
+/** 孩子的兑换申请：家长确认后才扣除可用经验值 */
+export interface RedemptionRow {
+  id: string
+  rewardId: string
+  name: string
+  cost: number
+  status: RedemptionStatus
+  requestedAt: number
+  decidedAt?: number
+}
+
 export const DB_NAME = 'ihomework'
 
 export class AppDatabase extends Dexie {
@@ -107,6 +166,10 @@ export class AppDatabase extends Dexie {
   pendingMistakes!: EntityTable<PendingMistakeRow, 'char'>
   challengeStats!: EntityTable<ChallengeStatRow, 'activity'>
   familyCollection!: EntityTable<FamilyCollectionRow, 'phonetic'>
+  dailyPlans!: EntityTable<DailyPlanRow, 'date'>
+  exams!: EntityTable<ExamRow, 'id'>
+  rewards!: EntityTable<RewardRow, 'id'>
+  redemptions!: EntityTable<RedemptionRow, 'id'>
 
   constructor(name = DB_NAME) {
     super(name)
@@ -133,6 +196,13 @@ export class AppDatabase extends Dexie {
     this.version(4).stores({
       challengeStats: 'activity',
       familyCollection: 'phonetic',
+    })
+    // 计划 06：每日任务、周 Boss 与单元挑战、奖励兑换
+    this.version(5).stores({
+      dailyPlans: 'date',
+      exams: '++id, kind, key',
+      rewards: 'id',
+      redemptions: 'id, status',
     })
   }
 }

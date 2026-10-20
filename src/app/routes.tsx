@@ -9,6 +9,11 @@ import { WritePracticePage } from '../features/handwriting/WritePracticePage'
 import { CharacterFamily } from '../features/challenges/CharacterFamily'
 import { FlashRecall } from '../features/challenges/FlashRecall'
 import { RadicalDetective } from '../features/challenges/RadicalDetective'
+import { LearnPage } from '../features/daily/LearnPage'
+import { ParentPracticePage } from '../features/daily/ParentPracticePage'
+import { UnitChallengePage, WeeklyBossPage } from '../features/daily/WeeklyBossPage'
+import { ParentRewardsPage } from '../features/rewards/ParentRewardsPage'
+import { RewardShopPage } from '../features/rewards/RewardShopPage'
 import { AssessmentHome } from '../features/assessment/AssessmentHome'
 import { DictationPage } from '../features/assessment/DictationPage'
 import { ReadingPage } from '../features/assessment/ReadingPage'
@@ -27,10 +32,16 @@ export function AppRoutes() {
         <Route path="detective" element={<RadicalDetective />} />
         <Route path="family" element={<CharacterFamily />} />
         <Route path="flash" element={<FlashRecall />} />
+        <Route path="learn" element={<LearnPage />} />
+        <Route path="exam/weekly" element={<WeeklyBossPage />} />
+        <Route path="exam/unit/:id" element={<UnitChallengePage />} />
+        <Route path="rewards" element={<RewardShopPage />} />
       </Route>
       <Route path="parent" element={<ParentGate />}>
         <Route index element={<ParentHome />} />
         <Route path="textbook" element={<ParentTextbookPage />} />
+        <Route path="practice" element={<ParentPracticePage />} />
+        <Route path="rewards" element={<ParentRewardsPage />} />
         <Route path="assessment" element={<AssessmentHome />} />
         <Route path="assessment/recognition" element={<RecognitionPage key="recognition" mode="recognition" />} />
         <Route path="assessment/extension" element={<RecognitionPage key="extension" mode="extension" />} />

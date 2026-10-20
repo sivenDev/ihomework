@@ -1,10 +1,8 @@
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BackupError, exportBackup, importBackup, parseBackup } from '../db/backup'
-import { SESSION_LIMIT_OPTIONS, updateSettings } from '../db/settings'
 import { localDate } from '../lib/date'
 import { useParentSession } from './ParentSession'
-import { useSettings } from './useSettings'
 
 function download(filename: string, text: string) {
   const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }))
@@ -16,7 +14,6 @@ function download(filename: string, text: string) {
 }
 
 export function ParentHome() {
-  const settings = useSettings()
   const { lock } = useParentSession()
   const navigate = useNavigate()
   const fileInput = useRef<HTMLInputElement>(null)
@@ -79,21 +76,23 @@ export function ParentHome() {
           </div>
         </section>
 
-        <section className="card" aria-labelledby="limit-title">
-          <h2 id="limit-title">每段使用时长</h2>
-          <p className="muted">到时间后会提醒孩子休息。</p>
-          <div className="segmented" role="group" aria-labelledby="limit-title">
-            {SESSION_LIMIT_OPTIONS.map((minutes) => (
-              <button
-                type="button"
-                key={minutes}
-                className="btn"
-                aria-pressed={settings?.sessionLimitMinutes === minutes}
-                onClick={() => updateSettings({ sessionLimitMinutes: minutes })}
-              >
-                {minutes} 分钟
-              </button>
-            ))}
+        <section className="card" aria-labelledby="practice-title">
+          <h2 id="practice-title">练习级别与路线</h2>
+          <p className="muted">轻松 / 标准 / 加强决定每天练多少，补漏 / 同步 / 拓展决定练什么；每段时长、系统建议和路线进度也在这里。</p>
+          <div className="button-row">
+            <Link className="btn btn-primary" to="/parent/practice">
+              打开练习级别与路线
+            </Link>
+          </div>
+        </section>
+
+        <section className="card" aria-labelledby="rewards-title">
+          <h2 id="rewards-title">奖励清单</h2>
+          <p className="muted">设置可以用经验值兑换的奖励，确认孩子的兑换申请。</p>
+          <div className="button-row">
+            <Link className="btn btn-primary" to="/parent/rewards">
+              打开奖励清单
+            </Link>
           </div>
         </section>
 
