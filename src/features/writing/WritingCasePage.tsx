@@ -81,7 +81,7 @@ export function WritingCasePage() {
     <div className="page">
       <Header />
       {submitted && (
-        <p className="card today-complete" role="status">
+        <p className="card today-complete" role="status" data-testid="writing-submitted">
           🎉 <PinyinText text="报告已经交给家长评分啦！" />
         </p>
       )}

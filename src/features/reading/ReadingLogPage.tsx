@@ -83,7 +83,7 @@ export function ReadingLogPage() {
           <PinyinText text="打卡" />
         </button>
         {message && (
-          <p role="status" className="reading-message">
+          <p role="status" className="reading-message" data-testid="reading-message">
             🎉 <PinyinText text={message} />
           </p>
         )}

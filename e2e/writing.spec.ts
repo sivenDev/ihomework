@@ -44,7 +44,7 @@ async function finishCase(page: Page, fromClue = 0) {
   await page.getByRole('button', { name: '1 级', exact: true }).tap()
   await page.getByRole('textbox', { name: '改写后的句子' }).fill('一只小白狗摇着尾巴跑过来了。')
   await page.getByRole('button', { name: '交给家长评分' }).tap()
-  await expect(page.getByRole('status')).toContainText('报告已经交给家长评分啦')
+  await expect(page.getByTestId('writing-submitted')).toContainText('报告已经交给家长评分啦')
 }
 
 /** 家长给最新交上来的作文打分并勾选“达到等级目标”。 */
@@ -129,7 +129,7 @@ test('picture writing: reaching the level goal twice lets the parent level up, w
   await setupPin(page)
   await scoreLatest(page, 1)
   await expect(page.getByTestId('writing-history')).toHaveCount(2)
-  await expect(page.getByRole('status')).toContainText('可以升到 2 级')
+  await expect(page.getByTestId('writing-level-up')).toContainText('可以升到 2 级')
   await page.getByRole('button', { name: '升到 2 级' }).tap()
   await expect(page.getByTestId('parent-writing-level')).toContainText('当前 2 级')
   await expect(page.getByRole('button', { name: /升到/ })).toHaveCount(0)

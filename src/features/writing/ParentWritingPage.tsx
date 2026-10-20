@@ -43,7 +43,7 @@ export function ParentWritingPage() {
             </p>
           )}
           {status.canLevelUp && (
-            <div className="notice" role="status">
+            <div className="notice" role="status" data-testid="writing-level-up">
               <p>
                 已经达标 {status.hits} 次，可以升到 {next} 级（{WRITING_LADDER[next].goal}）。升级时孩子得到 5 经验值。
               </p>

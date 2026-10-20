@@ -17,7 +17,7 @@ test('reading check-in completes the daily reading task; finishing a book gives 
   await page.getByRole('combobox', { name: '书名' }).fill('父与子')
   await page.getByRole('button', { name: '20 分钟' }).tap()
   await page.getByRole('button', { name: '打卡', exact: true }).tap()
-  await expect(page.getByRole('status')).toContainText('打卡成功！')
+  await expect(page.getByTestId('reading-message')).toContainText('打卡成功！')
   await expect(page.getByTestId('reading-stats')).toContainText('今天读了 20 分钟')
 
   await page.getByRole('link', { name: '回到今日任务' }).tap()
@@ -30,7 +30,7 @@ test('reading check-in completes the daily reading task; finishing a book gives 
   await expect(page.getByRole('combobox', { name: '书名' })).toHaveValue('屁屁侦探')
   await page.getByRole('button', { name: /这本书读完啦/ }).tap()
   await page.getByRole('button', { name: '打卡', exact: true }).tap()
-  await expect(page.getByRole('status')).toContainText('经验值 +20')
+  await expect(page.getByTestId('reading-message')).toContainText('经验值 +20')
   await expect(page.getByTestId('reading-stats')).toContainText('一共读完 1 本书')
   await expect(page.getByTestId('reading-log')).toHaveCount(2)
 
@@ -39,8 +39,8 @@ test('reading check-in completes the daily reading task; finishing a book gives 
   await page.getByRole('button', { name: /这本书读完啦/ }).tap()
   await page.getByRole('button', { name: '打卡', exact: true }).tap()
   await expect(page.getByTestId('reading-log')).toHaveCount(3)
-  await expect(page.getByRole('status')).toContainText('打卡成功！')
-  await expect(page.getByRole('status')).not.toContainText('经验值')
+  await expect(page.getByTestId('reading-message')).toContainText('打卡成功！')
+  await expect(page.getByTestId('reading-message')).not.toContainText('经验值')
   await page.getByRole('link', { name: '回首页' }).tap()
   await expect(page.getByTestId('xp-total')).toContainText('经验值 20')
 })
