@@ -29,6 +29,16 @@ export function defeatXpEvent(char: string, ts: number): XpEvent {
   return { id: `defeat:${char}`, kind: 'defeat', amount: XP_RULES.defeat, ts }
 }
 
+/** 写作升到某一级（每一级只奖励一次） */
+export function writingLevelXpEvent(level: number, ts: number): XpEvent {
+  return { id: `writing:${level}`, kind: 'writingLevel', amount: XP_RULES.writingLevel, ts }
+}
+
+/** 读完一本书（同一本书只奖励一次） */
+export function bookXpEvent(key: string, ts: number): XpEvent {
+  return { id: `book:${key}`, kind: 'bookFinished', amount: XP_RULES.bookFinished, ts }
+}
+
 /** 去掉已经记过的事件（包括同一批里重复的）。 */
 export function freshEvents(existingIds: Iterable<string>, events: XpEvent[]): XpEvent[] {
   const seen = new Set(existingIds)

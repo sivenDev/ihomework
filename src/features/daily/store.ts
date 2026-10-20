@@ -87,10 +87,13 @@ export async function loadDailyState(ds: Dataset, today = localDate()): Promise<
   }
 }
 
+/** 任务清单的格式版本：升级后当天的清单重新生成（计划 07 开放了阅读打卡） */
+const PLAN_VERSION = 2
+
 /** 生成任务时依据的设置：变化时当天的任务重新生成。 */
 function planKey(state: DailyState): string {
   const { settings, level, cfg } = state
-  return JSON.stringify([level, cfg, settings.routeLock, settings.progressLessonId, settings.allowAhead])
+  return JSON.stringify([PLAN_VERSION, level, cfg, settings.routeLock, settings.progressLessonId, settings.allowAhead])
 }
 
 /** 当天复习用的课：当前课；当前课没有生字（拼音课）时往前找最近一课。 */
@@ -150,6 +153,8 @@ export async function ensureTodayPlan(ds: Dataset, today = localDate()): Promise
 
   const tasks = buildTasks(ds, state)
   const done: DailyPlanRow['done'] = {}
+  // 任务清单生成之前就打过卡的阅读也算完成
+  if (await db.readingLogs.where('date').equals(today).count()) done.reading = true
   for (const t of tasks) {
     const old = existing?.tasks.find((o) => o.id === t.id)
     if (old && existing?.done[t.id]) {

@@ -17,8 +17,6 @@ export interface DailyTask {
   picks?: NewCharPick[]
   /** 今天要打的 Boss 张数（超出上限的顺延到第二天） */
   count?: number
-  /** 入口还没开放（阅读打卡由计划 07 提供） */
-  placeholder?: boolean
 }
 
 export interface PlanInput {
@@ -83,7 +81,7 @@ export function planTasks(input: PlanInput): DailyTask[] {
   tasks.sort((a, b) => a.segment - b.segment || order.indexOf(a.id) - order.indexOf(b.id))
 
   const last = tasks.at(-1)?.segment ?? 1
-  tasks.push({ id: 'reading', minutes: ESTIMATE.reading(), required: false, segment: last, placeholder: true })
+  tasks.push({ id: 'reading', minutes: ESTIMATE.reading(), required: false, segment: last })
   if (input.weekend && cfg.weekendBonusMinutes > 0) tasks.push({ id: 'bonus', minutes: cfg.weekendBonusMinutes, required: false, segment: last })
   return tasks
 }

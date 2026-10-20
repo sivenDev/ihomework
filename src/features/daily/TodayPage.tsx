@@ -31,7 +31,7 @@ function taskInfo(task: DailyTask, route: Route): { name: string; icon: string; 
     review: { name: '当天复习', icon: '⚡', note: '本课生字闪认', to: '/flash?task=review' },
     newChars: { name: '新字任务', icon: '🌱', note: `${NEW_CHAR_NOTES[route]}：${task.picks?.length ?? 0} 个`, to: '/learn?task=newChars' },
     boss: { name: '错字 Boss 战', icon: '🐉', note: `今天打 ${task.count ?? 0} 个`, to: '/boss?task=boss' },
-    reading: { name: '阅读打卡', icon: '📖', note: '即将开放' },
+    reading: { name: '阅读打卡', icon: '📖', note: '读一会儿书，记下来', to: '/reading?task=reading' },
     bonus: { name: '周末特训', icon: '🏋️', note: '部首侦探特训闯关', to: '/detective?task=bonus' },
   }
   return info[task.id]
@@ -41,7 +41,7 @@ function TaskCard({ task, plan }: { task: DailyTask; plan: DailyPlanRow }) {
   const info = taskInfo(task, plan.route)
   const done = !!plan.done[task.id]
   const locked = task.segment === 2 && plan.segment === 1
-  const status = done ? '✓ 完成' : task.placeholder ? '即将开放' : locked ? '🔒 休息后开始' : task.required ? `约 ${task.minutes} 分钟` : `可选 · 约 ${task.minutes} 分钟`
+  const status = done ? '✓ 完成' : locked ? '🔒 休息后开始' : task.required ? `约 ${task.minutes} 分钟` : `可选 · 约 ${task.minutes} 分钟`
   const body = (
     <>
       <span className="task-icon" aria-hidden="true">
@@ -58,10 +58,10 @@ function TaskCard({ task, plan }: { task: DailyTask; plan: DailyPlanRow }) {
       <span className="task-status muted">{status}</span>
     </>
   )
-  const state = done ? 'done' : locked || task.placeholder ? 'locked' : task.required ? 'todo' : 'optional'
+  const state = done ? 'done' : locked ? 'locked' : task.required ? 'todo' : 'optional'
   return (
     <li data-testid={`task-${task.id}`} data-state={state}>
-      {info.to && !locked && !task.placeholder ? (
+      {info.to && !locked ? (
         <Link className="card task-card" to={info.to} data-state={state} aria-label={`${info.name}，${status}`}>
           {body}
         </Link>

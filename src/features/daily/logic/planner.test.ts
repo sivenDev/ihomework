@@ -101,9 +101,9 @@ describe('planTasks', () => {
     expect(requiredSegments(tasks)).toEqual([1])
   })
 
-  it('shows reading check-in as a placeholder that does not count', () => {
+  it('adds reading check-in as an optional task that does not count', () => {
     const reading = planTasks(input('标准')).find((t) => t.id === 'reading')
-    expect(reading).toMatchObject({ required: false, placeholder: true })
+    expect(reading).toMatchObject({ required: false, minutes: 10 })
   })
 })
 
@@ -115,7 +115,7 @@ describe('completion', () => {
     expect(segmentDone(tasks, { preview: true, newChars: true }, 1)).toBe(true)
   })
 
-  it('the day is complete without optional tasks or placeholders', () => {
+  it('the day is complete without optional tasks', () => {
     expect(dayComplete(tasks, { preview: true, newChars: true, review: true })).toBe(false)
     expect(dayComplete(tasks, { preview: true, newChars: true, review: true, boss: true })).toBe(true)
   })

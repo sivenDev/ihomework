@@ -2,7 +2,7 @@
 id: "07"
 title: "侦探看图写作、写作等级与阅读打卡"
 type: "required"
-status: "approved"
+status: "complete"
 summary: "实现“找线索 → 推理 → 写报告 → 句子升级 → 家长评分”的看图写作引导流程和 5 级写作等级阶梯，以及阅读打卡和分难度推荐书单。"
 source: "docs/superplan/human/prd.md"
 created: "2026-10-19"
@@ -58,7 +58,7 @@ parent: ""
 - `npm run verify`
 - `npm run test:e2e`
 
-- [ ] 写作全流程可完成，可中断续写，等级按规则提升
+- [x] 写作全流程可完成，可中断续写，等级按规则提升
 
 ## Task 2: 阅读打卡与推荐书单
 
@@ -73,7 +73,23 @@ parent: ""
 - `npm run verify`
 - `npm run test:e2e`
 
-- [ ] 打卡、读完奖励、每日任务联动通过
+- [x] 打卡、读完奖励、每日任务联动通过
+
+## Delivery Notes
+
+- 升级规则：家长评分时勾选“达到等级目标 / 达到挑战目标 / 还没达到”。在当前等级写、达到目标（含挑战目标）的作文累计 2 次后，家长页提示升级，家长点“升到 N 级”才升，同时发 5 经验值（事件 id `writing:等级`，每级只发一次）。升级后旧等级的达标不再计入，所以一次只升一级，5 级封顶。家长也可以手动调整等级（不发经验值）。
+- 起始等级：家长确认过的等级 → 最近一次评估的写作等级 → 1 级。拓展路线的挑战目标在开始写作时定下（实际等级 + 1，最高 5 级），只影响本篇显示的目标和评分选项。
+- 写作流程：看图（家长拍照或从相册选图，可多幅）→ 找线索（时间、地点、人物、事件依次问，可朗读）→ 推理（一幅图用“因为/所以/结果”，多幅图每图一句）→ 写报告（屏幕输入或拍纸上的作文）→ 句子升级（1～4 级示例、选句、自评、改写）→ 交给家长。每次输入都存进 `writings` 表，同一时间只有一篇草稿，离开后从停下的那一步继续。
+- 评分表组件 `src/components/WritingRubric.tsx` 由评估中心和看图写作共用，样式随组件移到 `WritingRubric.css`。
+- 阅读打卡接入每日任务的阅读项（仍为可选，不影响当天完成）。任务清单格式升到 v2，当天已生成的清单会重新生成并保留完成状态；任务清单生成前打过的卡也算完成。读完一本书 +20 经验值，同一本书（去掉书名号和空格后相同）只奖励一次。
+- 推荐书单内置入门 5 本、进阶 4 本（只有书名和简介）。家长添加的书存在设置 `customBooks`，删掉的内置书记在 `hiddenBooks`，可以恢复。
+- 额外文件：`src/features/writing/store.ts`、`WritingCasePage.tsx`、`ParentWritingPage.tsx`；`src/features/reading/store.ts`、`ParentBooksPage.tsx`。没有新增数据库版本，沿用计划 01 预留的 `writings`、`readingLogs` 表。
+
+## Verification Evidence
+
+- `npm run verify`：lint、typecheck、Vitest 34 个文件 202 个测试、build 全部通过（构建的大文件警告此前已存在：827 kB → 858 kB，计划 08 处理）。
+- `npm run test:e2e`：39 个通过；新增 `e2e/writing.spec.ts` 2 个用例（完整流程 + 中途退出续写 + 评分进历史；第二次达标后家长升级、经验值 +5）和 `e2e/reading.spec.ts` 2 个用例（打卡完成每日阅读项、读完奖励只发一次；家长增删书单），新用例重复 2 次均通过。
+- 在 1280×800 视口截图检查了找线索、句子升级和阅读打卡页面，修正了书单按钮被挤成竖排的问题。
 
 ## References
 - `docs/superplan/human/prd.md`（第 4.6、4.7 节）

@@ -1,4 +1,5 @@
 import { RUBRIC_ITEMS, WRITING_LEVELS, type RubricKey, type RubricScores } from '../features/assessment/logic/types'
+import './WritingRubric.css'
 
 /** 看图写作评分表：5 项，每项 1～3 分（评估中心与侦探看图写作共用）。 */
 export function WritingRubric({

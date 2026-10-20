@@ -1,5 +1,7 @@
 import type { PracticeLevel, Route } from '../features/assessment/logic/types'
 import type { LevelTweak } from '../features/daily/logic/levels'
+import type { BookEntry } from '../features/reading/booklist'
+import type { WritingLevel } from '../features/writing/logic/levels'
 import { db } from './schema'
 
 export interface AppSettings {
@@ -27,6 +29,12 @@ export interface AppSettings {
   lastSeenRank: number | null
   /** 上次生成任务时的课本进度，用于发现“进入新单元” */
   lastProgressLessonId: string | null
+  /** 当前写作等级；null 表示还没定（用评估结果，没有评估时为 1 级）（计划 07） */
+  writingLevel: WritingLevel | null
+  /** 家长添加的书 */
+  customBooks: BookEntry[]
+  /** 家长从内置书单中删掉的书（id） */
+  hiddenBooks: string[]
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -43,6 +51,9 @@ export const DEFAULT_SETTINGS: AppSettings = {
   routeNotice: null,
   lastSeenRank: null,
   lastProgressLessonId: null,
+  writingLevel: null,
+  customBooks: [],
+  hiddenBooks: [],
 }
 
 export async function getSettings(): Promise<AppSettings> {

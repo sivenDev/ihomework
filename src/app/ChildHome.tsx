@@ -9,6 +9,8 @@ const ISLANDS: { name: string; icon: string; note: string; to?: string }[] = [
   { name: '部首侦探', icon: '🔍', note: '推理汉字的读音和意思', to: '/detective' },
   { name: '字族网络', icon: '🕸️', note: '一个声旁，带出一串字', to: '/family' },
   { name: '生字闪认', icon: '⚡', note: '挑战你的最快纪录', to: '/flash' },
+  { name: '侦探看图写作', icon: '🕵️', note: '找线索、推理，写出破案报告', to: '/writing' },
+  { name: '阅读打卡', icon: '📖', note: '读一本好书，记下来', to: '/reading' },
 ]
 
 export function ChildHome() {

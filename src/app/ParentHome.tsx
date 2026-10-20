@@ -96,6 +96,26 @@ export function ParentHome() {
           </div>
         </section>
 
+        <section className="card" aria-labelledby="writing-title">
+          <h2 id="writing-title">看图写作评分</h2>
+          <p className="muted">给孩子交上来的看图写作打分，查看写作等级和写作历史；达标 2 次后可以升级。</p>
+          <div className="button-row">
+            <Link className="btn btn-primary" to="/parent/writing">
+              打开看图写作评分
+            </Link>
+          </div>
+        </section>
+
+        <section className="card" aria-labelledby="books-title">
+          <h2 id="books-title">推荐书单</h2>
+          <p className="muted">按入门、进阶分级的书单，孩子打卡时可以直接选。可以增删书目。</p>
+          <div className="button-row">
+            <Link className="btn btn-primary" to="/parent/books">
+              打开推荐书单
+            </Link>
+          </div>
+        </section>
+
         <section className="card" aria-labelledby="backup-title">
           <h2 id="backup-title">数据备份</h2>
           <p className="muted">学习数据只保存在这台设备上。建议定期导出备份，换设备时用备份恢复。</p>
